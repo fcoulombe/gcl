@@ -48,7 +48,6 @@ if not os.path.exists(default_env.Dir("#GCLBuildScript").abspath):
     
     gitClone("git@github.com:fcoulombe/GCLBuildScript.git")
     os.symlink("GCLBuildScript/site_scons", "site_scons")
-    sys.exit()
     
 
 
