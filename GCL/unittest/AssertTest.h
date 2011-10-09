@@ -19,40 +19,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <iostream>
+#pragma once
 
-#include <GCL/Assert.h>
-#include <GCL/Circle.h>
-#include <GCL/Complex.h>
-#include <GCL/Exception.h>
-#include <GCL/FixedPoint.h>
-#include <GCL/Macro.h>
-#include <GCL/Math.h>
-#include <GCL/Matrix33.h>
-#include <GCL/Matrix43.h>
-#include <GCL/Matrix44.h>
-#include <GCL/Point2.h>
-#include <GCL/Point3.h>
-#include <GCL/Point4.h>
-#include <GCL/Quaternion.h>
-#include <GCL/Sphere.h>
-#include <GCL/TypeData.h>
 #include <GCL/UnitTest.h>
-#include <GCL/WorldUnit.h>
+#include <GCL/Assert.h>
 
-
-#include "AssertTest.h"
-#include "ExceptionTest.h"
-#include "Matrix44Test.h"
-#include "Point3Test.h"
-
-int main()
+using namespace GCL;
+namespace AssertTest
 {
-  ExceptionTest::Test();
-  AssertTest::Test();
+  TEST_START
 
-  Matrix44Test::Test();
-  Point3Test::Test();
+  void ExceptionTestFunction2()
+  {
+    GCLAssert(false);
+  }
 
-  return 0;
+  void ExceptionTestFunction1()
+  {
+    ExceptionTestFunction2();
+  }
+  void Test()
+  {
+    try
+    {
+        ExceptionTestFunction1();
+
+    }
+    catch (GCLException &e)
+    {
+        //std::cout <<e.what();
+        Assert_Test(strncmp("false",e.what(), strlen("false"))==0);
+    }
+    try
+    {
+        GCLAssert(false && "Assert Message");
+
+    }
+    catch (GCLException &e)
+    {
+        //std::cout <<e.what();
+        Assert_Test(strncmp("false && \"Assert Message\"",e.what(), strlen("false"))==0);
+    }
+
+  }
 }

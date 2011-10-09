@@ -24,44 +24,46 @@
 
 namespace GCL
 {
-class TestCounter
-{
-public:
-	struct Failure
-	{
-		Failure(const char *message, const char *file, size_t line, const char *function)
-		{
-			mMessage = message;
-			mFile = file;
-			mLine = line;
-			mFunction = function;
-		}
-		const char *mMessage;
-		const char *mFile;
-		size_t mLine;
-		const char *mFunction;
-	};
-	TestCounter()
-	{
-		std::cout.precision(10);
-	}
+  class TestCounter
+  {
+  public:
+    struct Failure
+    {
+      Failure(const char *message, const char *file, size_t line, const char *function)
+      {
+        mMessage = message;
+        mFile = file;
+        mLine = line;
+        mFunction = function;
+      }
+      const char *mMessage;
+      const char *mFile;
+      size_t mLine;
+      const char *mFunction;
+    };
+    TestCounter(const char *file)
+    {
+      mFileName = file;
+      std::cout.precision(10);
+    }
 
-	~TestCounter()
-	{
-		if (failedTest.size()) {
-			for (size_t i=0; i<failedTest.size(); ++i) {
-				std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Has Failed for "<< failedTest[i].mMessage <<  std::endl;
-			}
-		}
-		else {
-			std::cerr << "PASSED" << std::endl;
-		}
-	}
-	std::vector<Failure> failedTest;
-};
+    ~TestCounter()
+    {
+      if (failedTest.size()) {
+          for (size_t i=0; i<failedTest.size(); ++i) {
+              std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Has Failed for "<< failedTest[i].mMessage <<  std::endl;
+          }
+      }
+      else {
+          std::cout << "[PASSED] " << mFileName  << std::endl;
+      }
+    }
+    std::string mFileName;
+    std::vector<Failure> failedTest;
+  };
 
 
-/*
+  /*
 GCLINLINE void iAssert_Test(TestCounter testCounter, bool hasFailed, const char *message, const char *file, size_t line, const char *fucntion)
 {
 	if (hasFailed)
@@ -70,5 +72,5 @@ GCLINLINE void iAssert_Test(TestCounter testCounter, bool hasFailed, const char 
 
 }
 
-#define TEST_START static TestCounter testCounter;
+#define TEST_START static TestCounter testCounter(__FILE__);
 #define Assert_Test(x) if (!(x)) { testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__)); }

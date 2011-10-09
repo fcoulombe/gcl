@@ -21,5 +21,8 @@
  */
 #pragma once
 #include <cassert>
+#include <GCL/Exception.h>
 
-#define GCLAssert(x) assert(x)
+//#define GCLAssert(x) assert(x)
+#define GCLAssert(x) do { if (!(x)) throw GCL::GCLException(#x); }while(false);
+

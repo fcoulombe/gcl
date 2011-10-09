@@ -19,40 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include <iostream>
+//============================================================================
 
-#include <GCL/Assert.h>
-#include <GCL/Circle.h>
-#include <GCL/Complex.h>
-#include <GCL/Exception.h>
-#include <GCL/FixedPoint.h>
-#include <GCL/Macro.h>
-#include <GCL/Math.h>
-#include <GCL/Matrix33.h>
-#include <GCL/Matrix43.h>
-#include <GCL/Matrix44.h>
-#include <GCL/Point2.h>
-#include <GCL/Point3.h>
-#include <GCL/Point4.h>
-#include <GCL/Quaternion.h>
-#include <GCL/Sphere.h>
-#include <GCL/TypeData.h>
-#include <GCL/UnitTest.h>
-#include <GCL/WorldUnit.h>
+#pragma once
 
+#include <exception>
+#include <string>
+//============================================================================
 
-#include "AssertTest.h"
-#include "ExceptionTest.h"
-#include "Matrix44Test.h"
-#include "Point3Test.h"
-
-int main()
+namespace GCL
 {
-  ExceptionTest::Test();
-  AssertTest::Test();
+  //============================================================================
 
-  Matrix44Test::Test();
-  Point3Test::Test();
+  class GCLException : public std::exception
+  {
+  public:
+    GCLException(const std::string &message) { Initialize(message.c_str()); }
+    GCLException(const char *message=NULL) { Initialize(message); }
 
-  return 0;
-}
+    virtual ~GCLException() throw() {}
+    virtual const char *what() { return mStackTrace.c_str(); }
+
+  private:
+    void Initialize(const char *message);
+    std::string mStackTrace;
+    char **strings;
+    size_t i;
+    void *array[10];
+    size_t size;
+
+
+  };
+
+  //============================================================================
+} // namespace GCL
+//============================================================================
