@@ -22,65 +22,25 @@
 #pragma once
 
 #include <GCL/UnitTest.h>
-#include <GCL/Assert.h>
+#include <GCL/Hash.h>
 
 using namespace GCL;
-namespace AssertTest
+namespace HashTest
 {
   TEST_START
 
-  void ExceptionTestFunction2()
-  {
-    GCLAssert(false);
-  }
-
-  void ExceptionTestFunction1()
-  {
-    ExceptionTestFunction2();
-  }
   void Test()
   {
-    try
-    {
-        ExceptionTestFunction1();
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
+    uint32_t djbhash1 = Hash::DJB("Some Value");
+    Assert_Test(djbhash1==1321329526);
+    uint32_t djbhash2 = Hash::DJB("Some Value", 4);
+    Assert_Test(djbhash2==2089580953);
 
-    try
-    {
-        GCLAssert(false && "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false && \"Assert Message\"";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
-
-    try
-    {
-        GCLAssertMsg(false, "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false Assert Message";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
-
+    Hash::MD5Hash md5hash1 = Hash::MD5("Some Value");
+    const uint8_t md5TestHash1[] = {84,219,41,105,93,58,89,248,121,162,29,220,11,160,99,73};
+    Assert_Test(memcmp(md5hash1.digest, md5TestHash1, 16)==0);
+    Hash::MD5Hash md5hash2 = Hash::MD5("Some Value", 4);
+    const uint8_t md5TestHash2[] = {105,92,106,228,19,192,4,70,115,61,146,108,202,222,253,139};
+    Assert_Test(memcmp(md5hash2.digest, md5TestHash2, 16)==0);
   }
 }

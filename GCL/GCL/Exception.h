@@ -25,6 +25,7 @@
 
 #include <exception>
 #include <string>
+
 //============================================================================
 
 namespace GCL
@@ -34,21 +35,25 @@ namespace GCL
   class GCLException : public std::exception
   {
   public:
-    GCLException(const std::string &message) { Initialize(message.c_str()); }
-    GCLException(const char *message=NULL) { Initialize(message); }
+    /*GCLException(const std::string &message = "no reason")
+    { Initialize(message, "undefined", 0); }*/
+
+
+    GCLException(const std::string &message=  "no reason", const std::string &file = std::string(), int line = 0)
+    { Initialize(message, file, line); }
 
     virtual ~GCLException() throw() {}
-    virtual const char *what() { return mStackTrace.c_str(); }
+    virtual const char *what() { return (mFileInfo+mMessage+mStackTrace).c_str(); }
+
+    const char *message() { return mMessage.c_str(); }
+    const char *stacktrace() { return mStackTrace.c_str(); }
 
   private:
-    void Initialize(const char *message);
+    //copy string argument to ensure the string data to be cleared by the stack unwinding
+    void Initialize(const std::string &message, const std::string &file, int line);
+    std::string mFileInfo;
+    std::string mMessage;
     std::string mStackTrace;
-    char **strings;
-    size_t i;
-    void *array[10];
-    size_t size;
-
-
   };
 
   //============================================================================

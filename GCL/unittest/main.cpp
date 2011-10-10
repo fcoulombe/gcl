@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 #include <iostream>
+#include <sstream>
 
 #include <GCL/Assert.h>
 #include <GCL/Circle.h>
@@ -43,16 +44,38 @@
 
 #include "AssertTest.h"
 #include "ExceptionTest.h"
+#include "HashTest.h"
 #include "Matrix44Test.h"
 #include "Point3Test.h"
+#include "SafeCastTest.h"
 
 int main()
 {
-  ExceptionTest::Test();
-  AssertTest::Test();
+  try
+  {
+      ExceptionTest::Test();
+      AssertTest::Test();
+      SafeCastTest::Test();
+      HashTest::Test();
 
-  Matrix44Test::Test();
-  Point3Test::Test();
+      Matrix44Test::Test();
+      Point3Test::Test();
+  }
+  catch (GCLException & e)
+  {
+      //std::cerr << "EXCEPT START" << std::endl;
+      std::stringstream str;
+      str << e.what();
+      str << "FAILED: ";
+      str << std::endl;
+      std::cerr << str.str();
+      //GLRendererTest::Assert_Test(false && str.str().c_str());
+      return -1;
+  }
+  catch (...)
+  {
+      std::cerr << "something went wrong" << std::endl;
+  }
 
   return 0;
 }

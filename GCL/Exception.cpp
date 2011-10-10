@@ -24,30 +24,52 @@
 
 #include "GCL/Exception.h"
 #include <execinfo.h>
+#include <sstream>
 
 //============================================================================
 
 using namespace GCL;
-
+//#include <iostream>
 //============================================================================
-void GCLException::Initialize(const char *message)
+void GCLException::Initialize(const std::string &message, const std::string &file, int line )
 {
-  size = backtrace (array, 10);
+  char **strings;
+  size_t i;
+  static const size_t STACK_SIZE = 100;
+  void *array[STACK_SIZE];
+  size_t size;
+
+  size = backtrace (array, STACK_SIZE);
   strings = backtrace_symbols (array, size);
 
-  //printf ("Obtained %zd stack frames.\n", size);
-  if (message)
+
+  if (file.length())
     {
-      mStackTrace +=  message;
-      mStackTrace +=  "\n";
+      std::stringstream trace;
+      //std::cout << std::endl << "file: " << file << ":" << line << std::endl;
+      trace << file;
+      trace << ":";
+      trace << line << ": ";
+      mFileInfo = trace.str();
     }
+  std::stringstream messageStream;
+
+  //printf ("Obtained %zd stack frames.\n", size);
+  if (message.length())
+    {
+      messageStream << message;
+    }
+
+  mMessage = messageStream.str();
+
+  std::stringstream stackStream;
+  stackStream << std::endl;
   for (i = 0; i < size; i++)
     {
-      //printf(strings[i]);
-      //printf("\n");
-      mStackTrace += strings[i];
-      mStackTrace += "\n";
+      stackStream << strings[i];
+      stackStream << std::endl;
     }
+  mStackTrace = stackStream.str();
   free (strings);
 }
 

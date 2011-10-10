@@ -29,40 +29,44 @@ namespace ExceptionTest
 {
   TEST_START
 
-  void ExceptionTestFunction3()
-  {
-    throw GCLException("Message Exception");
-  }
   void ExceptionTestFunction2()
   {
     throw GCLException();
   }
-
   void ExceptionTestFunction1()
   {
     ExceptionTestFunction2();
   }
+  void ExceptionTestFunction3()
+  {
+    throw GCLException("Message Exception");
+  }
+
   void Test()
   {
     try
     {
         ExceptionTestFunction1();
-        Assert_Test(false);
+        Assert_Test(false); //should never hit this
     }
     catch (GCLException &e)
     {
-        Assert_Test(strncmp("0   GCL_test",e.what(), strlen("0   GCL_test"))==0);
-        //std::cout << e.what() << std::endl;
+        Assert_Test(strncmp("",e.message(), strlen(""))==0);
+        Assert_Test(strncmp("\n0   GCL_test",e.stacktrace(), strlen("\n0   GCL_test"))==0);
     }
     try
     {
         ExceptionTestFunction3();
-        Assert_Test(false);
     }
     catch (GCLException &e)
     {
-        Assert_Test(strncmp("Message Exception",e.what(), strlen("Message Exception"))==0);
-        //std::cout << e.what() << std::endl;
+        const char *testString = "Message Exception";
+        Assert_Test(strncmp(testString,e.message(), strlen(testString))==0);
+    }
+    catch (...)
+    {
+        Assert_Test(false);
+        std::cerr << "an exception went in" << std::endl;
     }
   }
 }

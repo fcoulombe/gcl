@@ -22,65 +22,50 @@
 #pragma once
 
 #include <GCL/UnitTest.h>
-#include <GCL/Assert.h>
+#include <GCL/SafeCast.h>
 
 using namespace GCL;
-namespace AssertTest
+namespace SafeCastTest
 {
   TEST_START
 
-  void ExceptionTestFunction2()
+  class A
   {
-    GCLAssert(false);
-  }
+  public:
+    virtual ~A() {}
+    int bleh;
 
-  void ExceptionTestFunction1()
+  };
+
+  class B : public A
   {
-    ExceptionTestFunction2();
-  }
+
+  };
+
+  class C : public A
+  {
+
+  };
+
   void Test()
   {
+    {
+      A* a = new B();
+      B *b= safe_cast<B*>(a);
+      (void)b;
+    }
     try
     {
-        ExceptionTestFunction1();
+      A* a = new C();
+      B *b= safe_cast<B*>(a);
+      (void)b;
     }
-    catch (GCLException &e)
+    catch (GCLException& e)
     {
-        const char *stringTest = "false";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
+        const char *testString = "t you are trying to up cast in the wrong type. this is very dangerous";
+        Assert_Test(strncmp(e.message(), testString, strlen(testString)) == 0 );
     }
 
-    try
-    {
-        GCLAssert(false && "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false && \"Assert Message\"";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
-
-    try
-    {
-        GCLAssertMsg(false, "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false Assert Message";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
 
   }
 }

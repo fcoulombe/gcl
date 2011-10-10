@@ -24,7 +24,7 @@ Import('env')
 name = "GCL_test"
 dependencies = ["GCL"]
 src_files = env.Glob("*.cpp")
-
-prog = env.UnitTest(name,  src_files, dependencies)
+data = []
+prog = env.UnitTest(name,  src_files, dependencies, data)
 
 
