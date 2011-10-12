@@ -22,6 +22,7 @@
 #include <iostream>
 #include <sstream>
 
+
 #include <GCL/Assert.h>
 #include <GCL/Circle.h>
 #include <GCL/Complex.h>
@@ -40,7 +41,6 @@
 #include <GCL/TypeData.h>
 #include <GCL/UnitTest.h>
 #include <GCL/WorldUnit.h>
-
 
 #include "AssertTest.h"
 #include "ExceptionTest.h"

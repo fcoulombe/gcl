@@ -29,19 +29,20 @@ namespace GCL
   public:
     struct Failure
     {
-      Failure(const char *cond, const char *file, size_t line, const char *function, const char *msg=NULL)
+      Failure(const char *cond, const char *file, size_t line, const char *function, const char *msg)
+
       {
         mCond = cond;
         mFile = file;
         mLine = line;
         mFunction = function;
-        mMsg = msg;
+        mMsg = (msg);
       }
       const char *mCond;
       const char *mFile;
       size_t mLine;
       const char *mFunction;
-      const char *mMsg;
+      std::string mMsg;
     private:
 
     };
@@ -56,7 +57,7 @@ namespace GCL
       if (failedTest.size()) {
           for (size_t i=0; i<failedTest.size(); ++i) {
               std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Has Failed for "<< failedTest[i].mCond;
-              if (failedTest[i].mMsg)
+              if (failedTest[i].mMsg.length())
                 std::cerr << " Msg: " << failedTest[i].mMsg;
               std::cerr << std::endl;
           }
@@ -64,6 +65,9 @@ namespace GCL
       else {
           std::cout << "[PASSED] " << mFileName  << std::endl;
       }
+      std::cout.flush();
+      std::cerr.flush();
+      failedTest.clear();
     }
     std::string mFileName;
     std::vector<Failure> failedTest;
@@ -80,5 +84,5 @@ GCLINLINE void iAssert_Test(TestCounter testCounter, bool hasFailed, const char 
 }
 
 #define TEST_START static TestCounter testCounter(__FILE__);
-#define Assert_Test(x) if (!(x)) {   testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__)); }
+#define Assert_Test(x) if (!(x)) {   testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, "")); }
 #define AssertMsg_Test(x, msg) if (!(x)) { testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, msg)); }

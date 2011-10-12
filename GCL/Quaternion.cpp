@@ -22,7 +22,9 @@
  */
 //============================================================================
 
+
 #include "GCL/Quaternion.h"
+#include "GCL/Assert.h"
 
 //============================================================================
 
@@ -36,8 +38,10 @@ const Quaternion Quaternion::IDENTITY(1, 0, 0, 0);
 
 Quaternion Quaternion::operator*(const Quaternion& a) const throw()
 {
-	// TODO
-	return Quaternion(1, 0, 0, 0);
+  GCLAssert(false && "TBD");
+
+  // TODO
+  return Quaternion(a);
 }
 
 //============================================================================

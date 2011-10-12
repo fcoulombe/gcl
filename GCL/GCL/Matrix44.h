@@ -58,6 +58,8 @@ namespace GCL
 		void SetRotationY(double rotation);
 		void SetRotationZ(double rotation);
 
+		void SetPosition(const WorldPoint3 &position) { m3 = position; }
+
 		GCLINLINE const Matrix44& operator+() const throw()			{ return *this;		}
 		GCLEXPORT Matrix44  operator-() const throw();
 
