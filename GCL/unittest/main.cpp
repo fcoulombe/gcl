@@ -48,11 +48,13 @@
 #include "Matrix44Test.h"
 #include "Point3Test.h"
 #include "SafeCastTest.h"
+#include "WarningTest.h"
 
 int main()
 {
   try
   {
+	  WarningTest::Test();
       ExceptionTest::Test();
       AssertTest::Test();
       SafeCastTest::Test();

@@ -284,7 +284,7 @@ namespace GCL
 	};
 
 //---------------------------------------------------------------------------
-
+#include "GCL/PushWarnings.h"
 	template<> class TypeData<signed long long>
 	{
 	public:
@@ -324,7 +324,7 @@ namespace GCL
 		typedef double MathematicalFloatUpcast;
 		typedef unsigned long long ParameterType;
 	};
-
+#include "GCL/PopWarnings.h"
 //---------------------------------------------------------------------------
 
 	template<> class TypeData<float>

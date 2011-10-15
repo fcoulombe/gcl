@@ -76,9 +76,6 @@ namespace GCL
 		// Dot Product
 		GCLINLINE typename TypeData<T>::MathematicalUpcast operator%(const Point3& a) const { return this->x*a.x + this->y*a.y + this->z*a.z; }
 
-		GCLINLINE friend typename TypeData<T>::MathematicalUpcast Length(const Point3& a) throw()				{ return sqrt(a%a); }
-		GCLINLINE friend typename TypeData<T>::MathematicalUpcast LengthSquared(const Point3& a) throw()		{ return a%a; }
-		GCLINLINE friend Point3 Normalize(const Point3& a) throw()	{ return a / Length(a); }
 		
 		// Cross Product
 		GCLINLINE Point3 operator^(const Point3& a) throw()			{ return Point3(this->y*a.z - this->z*a.y, this->z*a.x-this->x*a.z, this->x*a.y-this->y*a.x); }
@@ -116,6 +113,14 @@ namespace GCL
 		static const Point3 Y_AXIS;
 		static const Point3 Z_AXIS;
 	};
+
+	template<typename T>
+	GCLINLINE static typename TypeData<T>::MathematicalUpcast Length(const Point3<T>& a) throw()				{ return sqrt(a%a); }
+	template<typename T>
+	GCLINLINE static typename TypeData<T>::MathematicalUpcast LengthSquared(const Point3<T>& a) throw()		{ return a%a; }
+
+	template<typename T>
+	GCLINLINE static Point3<T> Normalize(const Point3<T>& a) throw()	{ return a / Length(a); }
 
 	// Read input Vector3 format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
 	GCLINLINE std::istream& operator>>( std::istream& input, Point3<double>& P) {

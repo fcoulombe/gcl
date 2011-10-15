@@ -43,7 +43,7 @@ namespace GCL
     { Initialize(message, file, line); }
 
     virtual ~GCLException() throw() {}
-    virtual const char *what() { return (mFileInfo+mMessage+mStackTrace).c_str(); }
+    virtual const char *what() const throw() { return (mFileInfo+mMessage+mStackTrace).c_str(); }
 
     const char *message() { return mMessage.c_str(); }
     const char *stacktrace() { return mStackTrace.c_str(); }

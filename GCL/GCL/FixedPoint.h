@@ -67,7 +67,7 @@ namespace GCL
 			class _AssignHelper<true, b, f, T2, S2>
 		{
 		public:
-			static GCLINLINE void Assign(FixedPoint& a, const FixedPoint<f, T2, S2>& b) throw()	{ a.rawValue = b.rawValue;	}
+			static GCLINLINE void Assign(FixedPoint& lhs, const FixedPoint<f, T2, S2>& rhs) throw()	{ lhs.rawValue = rhs.rawValue;	}
 		};
 
 		template<int f, typename T2, typename S2> 
