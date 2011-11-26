@@ -32,14 +32,11 @@ using namespace GCL;
 
 namespace WarningTest
 {
-  TEST_START
-
-
-
-  void Test()
-  {
-	  int bleh=0;
-	  bleh++;
-  }
+void Test()
+{
+	TEST_START
+	int bleh=0;
+	bleh++;
+}
 }
 

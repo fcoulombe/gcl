@@ -27,10 +27,11 @@
 using namespace GCL;
 namespace Point3Test
 {
-TEST_START
 
 void Test()
 {
+	TEST_START
+
 	double arr[] = {1.0,1.0,1.0};
 	WorldPoint3 t1(arr);
 	WorldPoint3 t2(1.0,1.0,1.0);

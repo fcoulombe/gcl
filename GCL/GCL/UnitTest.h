@@ -56,7 +56,7 @@ namespace GCL
     {
       if (failedTest.size()) {
           for (size_t i=0; i<failedTest.size(); ++i) {
-              std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Has Failed for "<< failedTest[i].mCond;
+              std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Test Has Failed for "<< failedTest[i].mCond;
               if (failedTest[i].mMsg.length())
                 std::cerr << " Msg: " << failedTest[i].mMsg;
               std::cerr << std::endl;
@@ -83,6 +83,6 @@ GCLINLINE void iAssert_Test(TestCounter testCounter, bool hasFailed, const char 
 
 }
 
-#define TEST_START static TestCounter testCounter(__FILE__);
+#define TEST_START TestCounter testCounter(__FILE__);
 #define Assert_Test(x) if (!(x)) {   testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, "")); }
 #define AssertMsg_Test(x, msg) if (!(x)) { testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, msg)); }

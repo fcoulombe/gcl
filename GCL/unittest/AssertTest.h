@@ -27,60 +27,61 @@
 using namespace GCL;
 namespace AssertTest
 {
-  TEST_START
 
-  void ExceptionTestFunction2()
-  {
-    GCLAssert(false);
-  }
 
-  void ExceptionTestFunction1()
-  {
-    ExceptionTestFunction2();
-  }
-  void Test()
-  {
-    try
-    {
-        ExceptionTestFunction1();
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
+void ExceptionTestFunction2()
+{
+	GCLAssert(false);
+}
 
-    try
-    {
-        GCLAssert(false && "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false && \"Assert Message\"";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
+void ExceptionTestFunction1()
+{
+	ExceptionTestFunction2();
+}
+void Test()
+{
+	TEST_START
+	try
+	{
+		ExceptionTestFunction1();
+	}
+	catch (GCLException &e)
+	{
+		const char *stringTest = "false";
+		AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
+	}
+	catch (...)
+	{
+		std::cerr << "an exception went in" << std::endl;
+	}
 
-    try
-    {
-        GCLAssertMsg(false, "Assert Message");
-    }
-    catch (GCLException &e)
-    {
-        const char *stringTest = "false Assert Message";
-        AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
-    }
-    catch (...)
-    {
-        std::cerr << "an exception went in" << std::endl;
-    }
+	try
+	{
+		GCLAssert(false && "Assert Message");
+	}
+	catch (GCLException &e)
+	{
+		const char *stringTest = "false && \"Assert Message\"";
+		AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
+	}
+	catch (...)
+	{
+		std::cerr << "an exception went in" << std::endl;
+	}
 
-  }
+	try
+	{
+		GCLAssertMsg(false, "Assert Message");
+	}
+	catch (GCLException &e)
+	{
+		const char *stringTest = "false Assert Message";
+		AssertMsg_Test(strncmp(stringTest,e.message(), strlen(stringTest))==0, e.what());
+	}
+	catch (...)
+	{
+		std::cerr << "an exception went in" << std::endl;
+	}
+
+}
 }

@@ -46,12 +46,16 @@
 #include "ExceptionTest.h"
 #include "HashTest.h"
 #include "Matrix44Test.h"
+#include "Point2Test.h"
 #include "Point3Test.h"
+#include "Point4Test.h"
 #include "SafeCastTest.h"
 #include "WarningTest.h"
 
-int main()
+using namespace GCL;
+int main(int /*argc*/, char **argv)
 {
+#if 1
   try
   {
 	  WarningTest::Test();
@@ -60,24 +64,29 @@ int main()
       SafeCastTest::Test();
       HashTest::Test();
 
-      Matrix44Test::Test();
+      Point2Test::Test();
       Point3Test::Test();
+      Point4Test::Test();
+      Matrix44Test::Test();
+
   }
   catch (GCLException & e)
   {
-      //std::cerr << "EXCEPT START" << std::endl;
       std::stringstream str;
+      str << "[FAILED] " << argv[0] << std::endl;
       str << e.what();
-      str << "FAILED: ";
-      str << std::endl;
       std::cerr << str.str();
       //GLRendererTest::Assert_Test(false && str.str().c_str());
       return -1;
   }
   catch (...)
   {
+      std::cerr << "[FAILED] " << argv[0] << std::endl;
       std::cerr << "something went wrong" << std::endl;
   }
+#else
+  (void)argv;
+#endif
 
   return 0;
 }

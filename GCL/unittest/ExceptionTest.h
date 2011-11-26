@@ -27,46 +27,47 @@
 using namespace GCL;
 namespace ExceptionTest
 {
-  TEST_START
 
-  void ExceptionTestFunction2()
-  {
-    throw GCLException();
-  }
-  void ExceptionTestFunction1()
-  {
-    ExceptionTestFunction2();
-  }
-  void ExceptionTestFunction3()
-  {
-    throw GCLException("Message Exception");
-  }
 
-  void Test()
-  {
-    try
-    {
-        ExceptionTestFunction1();
-        Assert_Test(false); //should never hit this
-    }
-    catch (GCLException &e)
-    {
-        Assert_Test(strncmp("",e.message(), strlen(""))==0);
-        Assert_Test(strncmp("\n0   GCL_test",e.stacktrace(), strlen("\n0   GCL_test"))==0);
-    }
-    try
-    {
-        ExceptionTestFunction3();
-    }
-    catch (GCLException &e)
-    {
-        const char *testString = "Message Exception";
-        Assert_Test(strncmp(testString,e.message(), strlen(testString))==0);
-    }
-    catch (...)
-    {
-        Assert_Test(false);
-        std::cerr << "an exception went in" << std::endl;
-    }
-  }
+void ExceptionTestFunction2()
+{
+	throw GCLException();
+}
+void ExceptionTestFunction1()
+{
+	ExceptionTestFunction2();
+}
+void ExceptionTestFunction3()
+{
+	throw GCLException("Message Exception");
+}
+
+void Test()
+{
+	TEST_START
+	try
+	{
+		ExceptionTestFunction1();
+		Assert_Test(false); //should never hit this
+	}
+	catch (GCLException &e)
+	{
+		Assert_Test(strncmp("",e.message(), strlen(""))==0);
+		Assert_Test(strncmp("\n0   GCL_test",e.stacktrace(), strlen("\n0   GCL_test"))==0);
+	}
+	try
+	{
+		ExceptionTestFunction3();
+	}
+	catch (GCLException &e)
+	{
+		const char *testString = "Message Exception";
+		Assert_Test(strncmp(testString,e.message(), strlen(testString))==0);
+	}
+	catch (...)
+	{
+		Assert_Test(false);
+		std::cerr << "an exception went in" << std::endl;
+	}
+}
 }

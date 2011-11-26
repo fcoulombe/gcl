@@ -27,7 +27,7 @@
 using namespace GCL;
 namespace SafeCastTest
 {
-  TEST_START
+
 
   class A
   {
@@ -49,6 +49,7 @@ namespace SafeCastTest
 
   void Test()
   {
+	  TEST_START
     {
       A* a = new B();
       B *b= safe_cast<B*>(a);

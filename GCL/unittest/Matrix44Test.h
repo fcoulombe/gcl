@@ -30,12 +30,21 @@
 using namespace GCL;
 namespace Matrix44Test
 {
-TEST_START
+
 void Test()
 {
-
+	TEST_START
 	Matrix44 myMat;
 	WorldPoint3 myVec;
+
+	//equal test
+	myMat = Matrix44::IDENTITY;
+	const WorldUnit testIdentityMatrix[] =  {
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1};
+	Assert_Test(myMat == Matrix44(testIdentityMatrix));
 
 	//rot x test
 	myMat.SetRotationX(DegreeToRadian(90.0));
@@ -58,8 +67,32 @@ void Test()
 	out = myVec * myMat;
 	Assert_Test(out == WorldPoint3(0,-1,0));
 
+	//inverse tests
+	Matrix44 tempMatrix;
+	//asserting that inverse throws an exception when diving by zero
+	memset(&tempMatrix, 0, sizeof(Matrix44));
+	bool exceptZero = false;
+	try
+	{
+	tempMatrix = Inverse(tempMatrix);
+	}
+	catch (GCLException &e)
+	{
+		exceptZero = true;
+	}
+	Assert_Test(exceptZero);
 
+	//proper inverse
+	tempMatrix = Inverse(myMat);
+	const WorldUnit testMatrix[] =  {
+			1.794896737e-09, 1, 0, 0,
+			-1, 1.794896737e-09, 0, 0,
+			0, -0, 1, 0,
+			0, 0, 0, 1};
 
+	std::stringstream s;
+	s << tempMatrix << std::endl << "==" << std::endl << Matrix44(testMatrix);
+	AssertMsg_Test(tempMatrix==Matrix44(testMatrix), s.str().c_str());
 
 }
 
