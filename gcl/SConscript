@@ -22,7 +22,7 @@
  
 Import('env')
 
-name = "GCL"
+name = "gcl"
 incPath = [env.Dir(".").srcnode()]
 dependencies = []
 

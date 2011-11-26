@@ -22,7 +22,7 @@
  */
 //============================================================================
 
-#include "GCL/Exception.h"
+#include "gcl/Exception.h"
 #include <execinfo.h>
 #include <sstream>
 

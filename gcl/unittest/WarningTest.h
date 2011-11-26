@@ -21,11 +21,11 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
+#include <gcl/UnitTest.h>
 
-#include <GCL/PushWarnings.h>
+#include <gcl/PushWarnings.h>
 #include <cv.h>
-#include <GCL/PopWarnings.h>
+#include <gcl/PopWarnings.h>
 
 using namespace GCL;
 

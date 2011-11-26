@@ -23,24 +23,24 @@
 #include <sstream>
 
 
-#include <GCL/Assert.h>
-#include <GCL/Circle.h>
-#include <GCL/Complex.h>
-#include <GCL/Exception.h>
-#include <GCL/FixedPoint.h>
-#include <GCL/Macro.h>
-#include <GCL/Math.h>
-#include <GCL/Matrix33.h>
-#include <GCL/Matrix43.h>
-#include <GCL/Matrix44.h>
-#include <GCL/Point2.h>
-#include <GCL/Point3.h>
-#include <GCL/Point4.h>
-#include <GCL/Quaternion.h>
-#include <GCL/Sphere.h>
-#include <GCL/TypeData.h>
-#include <GCL/UnitTest.h>
-#include <GCL/WorldUnit.h>
+#include <gcl/Assert.h>
+#include <gcl/Circle.h>
+#include <gcl/Complex.h>
+#include <gcl/Exception.h>
+#include <gcl/FixedPoint.h>
+#include <gcl/Macro.h>
+#include <gcl/Math.h>
+#include <gcl/Matrix33.h>
+#include <gcl/Matrix43.h>
+#include <gcl/Matrix44.h>
+#include <gcl/Point2.h>
+#include <gcl/Point3.h>
+#include <gcl/Point4.h>
+#include <gcl/Quaternion.h>
+#include <gcl/Sphere.h>
+#include <gcl/TypeData.h>
+#include <gcl/UnitTest.h>
+#include <gcl/WorldUnit.h>
 
 #include "AssertTest.h"
 #include "ExceptionTest.h"

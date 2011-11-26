@@ -22,10 +22,10 @@
 #pragma once
 
 
-#include <GCL/Matrix44.h>
-#include <GCL/Math.h>
+#include <gcl/Matrix44.h>
+#include <gcl/Math.h>
 
-#include <GCL/UnitTest.h>
+#include <gcl/UnitTest.h>
 
 using namespace GCL;
 namespace Matrix44Test

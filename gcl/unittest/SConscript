@@ -21,8 +21,8 @@
 
 Import('env')
 
-name = "GCL_test"
-dependencies = ["GCL", "OpenCV"]
+name = "gcl_test"
+dependencies = ["gcl", "opencv"]
 src_files = env.Glob("*.cpp")
 data = []
 prog = env.UnitTest(name,  src_files, dependencies, data)

@@ -1,9 +1,9 @@
-#include "GCL/Hash.h"
+#include "gcl/Hash.h"
 #include <cstring>
 #include <stdint.h>
 #include "md5.h"
 
-#include "GCL/Assert.h"
+#include "gcl/Assert.h"
 
 using namespace GCL;
 

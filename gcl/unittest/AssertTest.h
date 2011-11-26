@@ -21,8 +21,8 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
-#include <GCL/Assert.h>
+#include <gcl/UnitTest.h>
+#include <gcl/Assert.h>
 
 using namespace GCL;
 namespace AssertTest

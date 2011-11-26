@@ -21,8 +21,8 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
-#include <GCL/Hash.h>
+#include <gcl/UnitTest.h>
+#include <gcl/Hash.h>
 
 using namespace GCL;
 namespace HashTest

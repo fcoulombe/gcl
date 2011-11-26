@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GCL/Point2.h>
+#include <gcl/Point2.h>
 
 namespace GCL
 {

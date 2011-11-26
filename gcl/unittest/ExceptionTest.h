@@ -21,8 +21,8 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
-#include <GCL/Exception.h>
+#include <gcl/UnitTest.h>
+#include <gcl/Exception.h>
 
 using namespace GCL;
 namespace ExceptionTest
@@ -53,7 +53,7 @@ void Test()
 	catch (GCLException &e)
 	{
 		Assert_Test(strncmp("",e.message(), strlen(""))==0);
-		Assert_Test(strncmp("\n0   GCL_test",e.stacktrace(), strlen("\n0   GCL_test"))==0);
+		AssertMsg_Test(strncmp("\n0   gcl_test",e.stacktrace(), strlen("\n0   gcl_test"))==0, e.stacktrace());
 	}
 	try
 	{

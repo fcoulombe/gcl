@@ -21,9 +21,9 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
+#include <gcl/UnitTest.h>
 
-#include <GCL/Point2.h>
+#include <gcl/Point2.h>
 
 using namespace GCL;
 namespace Point2Test

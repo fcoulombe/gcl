@@ -23,7 +23,7 @@
 //============================================================================
 
 #pragma once
-#include "GCL/Macro.h"
+#include "gcl/Macro.h"
 #include <float.h>
 
 //============================================================================
@@ -284,7 +284,7 @@ namespace GCL
 	};
 
 //---------------------------------------------------------------------------
-#include "GCL/PushWarnings.h"
+#include "gcl/PushWarnings.h"
 	template<> class TypeData<signed long long>
 	{
 	public:
@@ -324,7 +324,7 @@ namespace GCL
 		typedef double MathematicalFloatUpcast;
 		typedef unsigned long long ParameterType;
 	};
-#include "GCL/PopWarnings.h"
+#include "gcl/PopWarnings.h"
 //---------------------------------------------------------------------------
 
 	template<> class TypeData<float>

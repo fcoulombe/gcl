@@ -24,8 +24,8 @@
 
 #pragma once
 #include <iostream>
-#include "GCL/Macro.h"
-#include "GCL/Point2.h"
+#include "gcl/Macro.h"
+#include "gcl/Point2.h"
 
 //============================================================================
 

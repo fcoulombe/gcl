@@ -21,8 +21,8 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
-#include <GCL/SafeCast.h>
+#include <gcl/UnitTest.h>
+#include <gcl/SafeCast.h>
 
 using namespace GCL;
 namespace SafeCastTest

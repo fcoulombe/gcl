@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 #pragma once
-#include "GCL/Macro.h"
+#include "gcl/Macro.h"
 namespace GCL
 {
 

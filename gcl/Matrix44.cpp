@@ -24,8 +24,8 @@
 
 #include <cmath>
 
-#include "GCL/Assert.h"
-#include "GCL/Matrix44.h"
+#include "gcl/Assert.h"
+#include "gcl/Matrix44.h"
 
 //============================================================================
 

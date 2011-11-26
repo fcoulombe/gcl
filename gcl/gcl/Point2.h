@@ -25,9 +25,9 @@
 #pragma once
 #include <iostream>
 
-#include "GCL/Macro.h"
-#include "GCL/TypeData.h"
-#include "GCL/WorldUnit.h"
+#include "gcl/Macro.h"
+#include "gcl/TypeData.h"
+#include "gcl/WorldUnit.h"
 
 //============================================================================
 

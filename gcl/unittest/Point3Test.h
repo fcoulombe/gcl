@@ -21,8 +21,8 @@
  */
 #pragma once
 
-#include <GCL/UnitTest.h>
-#include <GCL/Point3.h>
+#include <gcl/UnitTest.h>
+#include <gcl/Point3.h>
 
 using namespace GCL;
 namespace Point3Test

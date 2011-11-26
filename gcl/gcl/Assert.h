@@ -21,7 +21,7 @@
  */
 #pragma once
 #include <cassert>
-#include <GCL/Exception.h>
+#include <gcl/Exception.h>
 
 #define GCLAssert(x) iGCLAssert(x, __FILE__, __LINE__)
 #define GCLAssertMsg(x, msg) iGCLAssertMsg(x, msg, __FILE__, __LINE__)
