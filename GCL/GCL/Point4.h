@@ -32,19 +32,20 @@ namespace GCL
 {
 //============================================================================
 
-	template<typename T> class Point4 : public Point3<T>
+	template<typename T> class Point4
 	{
-	private:
-		typedef Point3<T> Inherited;
 
 	public:
+		T		x;
+		T		y;
+		T		z;
 		T		w;
 
 		GCLINLINE Point4() throw()												{ }
-		GCLINLINE Point4(const T& aX, const T& aY, const T& aZ, const T& aW) throw() : Inherited(aX, aY, aZ), w(aW)	{ }
-		GCLINLINE Point4(const T a[4]) throw() : Inherited(a), w(a[3]) 			{ }
+		GCLINLINE Point4(const T& aX, const T& aY, const T& aZ, const T& aW) throw() : x(aX),y(aY),z(aZ), w(aW)	{ }
+		GCLINLINE Point4(const T a[4]) throw() : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }
 		template<typename A>
-			GCLINLINE explicit Point4(const Point4<A>& a) : Inherited(a), w(a.w)	{ }
+			GCLINLINE explicit Point4(const Point4<A>& a) : x(a.x),y(a.x),z(a.x), w(a.w)	{ }
 
 		GCLINLINE void Set(const T& aX, const T& aY, const T& aZ, const T& aW) throw()	{ this->x = aX; this->y = aY; this->z = aZ; this->w = aW; }
 		GCLINLINE void Set(const T a[4])				throw()								{ this->x = a[0]; this->y = a[1]; this->z = a[2]; this->w = a[3]; }
@@ -75,7 +76,10 @@ namespace GCL
 		// Dot Product
 		GCLINLINE typename TypeData<T>::MathematicalUpcast operator%(const Point4& a) const { return this->x*a.x + this->y*a.y + this->z*a.z + this->w*a.w; }
 
-		// Array access (operator[]) inherited from Point2/Point3
+
+		GCLINLINE	    T& operator[](int i)		 throw()			{ return (&x)[i]; }
+		GCLINLINE const T& operator[](int i) const throw()			{ return (&x)[i]; }
+
 		GCLINLINE Point4 &operator=(const Point3<T>& a)  throw()
 				{
 			this->x = a.x;
@@ -83,12 +87,35 @@ namespace GCL
 			this->z = a.z;
 			return *this; }
 
-		GCLINLINE bool operator==(const Point4& a) const throw()		{ return this->x == a.x && this->y == a.y && this->z == a.z && this->w == a.w; }
-		GCLINLINE bool operator!=(const Point4& a) const throw()		{ return this->x != a.x || this->y != a.y || this->z != a.z || this->w != a.w; }
+		GCLINLINE bool operator==(const Point4& a) const throw()
+				{
+			return (abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) &&
+						abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) &&
+						abseq(this->z, a.z, DBL_PRECISION_TOLERANCE) &&
+						abseq(this->w, a.w, DBL_PRECISION_TOLERANCE));}
+		GCLINLINE bool operator!=(const Point4& a) const throw()
+		{ return (!abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) ||
+								!abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ||
+								!abseq(this->z, a.z, DBL_PRECISION_TOLERANCE) ||
+								!abseq(this->w, a.w, DBL_PRECISION_TOLERANCE));}
 		GCLINLINE bool operator< (const Point4& a) const throw()		{ return this->x <  a.x && this->y <  a.y && this->z <  a.z && this->w <  a.w; }
 		GCLINLINE bool operator<=(const Point4& a) const throw()		{ return this->x <= a.x && this->y <= a.y && this->z <= a.z && this->w <= a.w; }
 		GCLINLINE bool operator> (const Point4& a) const throw()		{ return this->x >  a.x && this->y >  a.y && this->z >  a.z && this->w >  a.w; }
 		GCLINLINE bool operator>=(const Point4& a) const throw()		{ return this->x >= a.x && this->y >= a.y && this->z >= a.z && this->w >= a.w; }
+
+
+		GCLINLINE double Length() const {  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z + this->w*this->w); }
+		GCLINLINE double LengthSqr() const {  return (this->x*this->x + this->y*this->y + this->z*this->z + this->w*this->w);	}
+		GCLINLINE void Normalize()
+		{
+			double ln = Length();
+			if (ln == 0) return;                    // do nothing for nothing
+			this->x /= ln;
+			this->y /= ln;
+			this->z /= ln;
+			this->w /= ln;
+		}
+
 
 		GCLINLINE friend Point4 Abs(const Point4& a) throw()			{ return Point4(Abs(a.x), Abs(a.y), Abs(a.z), Abs(a.w)); }
 		
@@ -136,6 +163,11 @@ namespace GCL
 	template<typename T> const Point4<T> TypeData< Point4<T> >::MAXIMUM( TypeData<T>::Maximum(), TypeData<T>::Maximum(), TypeData<T>::Maximum(), TypeData<T>::Maximum() ); 
 	template<typename T> const Point4<T> TypeData< Point4<T> >::IDENTITY( TypeData<T>::Identity(), TypeData<T>::Identity(), TypeData<T>::Identity(), TypeData<T>::Identity() );
 
+	// Write output Vector4 in format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point4<double> &P) {
+		output << "(" << P.x << ", " << P.y << ", " << P.z << ", " << P.w <<")";
+		return output;
+	}
 //============================================================================
 
 	typedef Point4<WorldUnit> WorldPoint4;

@@ -33,19 +33,19 @@ namespace GCL
 {
 //============================================================================
 
-	template<typename T> class Point3 : public Point2<T>
+	template<typename T> class Point3
 	{
-	private:
-		typedef Point2<T> Inherited;
 
 	public:
+		T		x;
+		T		y;
 		T		z;
 
 		GCLINLINE Point3() throw()												{ }
-		GCLINLINE Point3(const T& aX, const T& aY, const T& aZ) throw() : Inherited(aX, aY), z(aZ)	{ }
-		GCLINLINE Point3(const T a[3]) throw() : Inherited(a), z(a[2]) 			{ }
+		GCLINLINE Point3(const T& aX, const T& aY, const T& aZ) throw() : x(aX), y(aY), z(aZ)	{ }
+		GCLINLINE Point3(const T a[3]) throw() : x(a[0]),y(a[1]), z(a[2]) 			{ }
 		template<typename A>
-			GCLINLINE explicit Point3(const Point3<A>& a) : Inherited(a), z(a.z)	{ }
+			GCLINLINE explicit Point3(const Point3<A>& a) : x(a.x), y(a.x), z(a.z)	{ }
 
 		GCLINLINE void Set(const T& aX, const T& aY, const T& aZ) throw()			{ this->x = aX; this->y = aY; this->z = aZ; }
 		GCLINLINE void Set(const T a[3])				throw()						{ this->x = a[0]; this->y = a[1]; this->z = a[2]; }
@@ -81,10 +81,12 @@ namespace GCL
 		GCLINLINE Point3 operator^(const Point3& a) throw()			{ return Point3(this->y*a.z - this->z*a.y, this->z*a.x-this->x*a.z, this->x*a.y-this->y*a.x); }
 		GCLINLINE Point3& operator^=(const Point3& a) throw()			{ *this = *this ^ a; return *this; }
 
-		// Array access (operator[]) inherited from Point2
 
-		GCLINLINE bool operator==(const Point3& a) const throw()		{ return this->x == a.x && this->y == a.y && this->z == a.z; }
-		GCLINLINE bool operator!=(const Point3& a) const throw()		{ return this->x != a.x || this->y != a.y || this->z != a.z; }
+		GCLINLINE	    T& operator[](int i)		 throw()			{ return (&x)[i]; }
+		GCLINLINE const T& operator[](int i) const throw()			{ return (&x)[i]; }
+
+		GCLINLINE bool operator==(const Point3& a) const throw();
+		GCLINLINE bool operator!=(const Point3& a) const throw();
 		GCLINLINE bool operator< (const Point3& a) const throw()		{ return this->x <  a.x && this->y <  a.y && this->z <  a.z; }
 		GCLINLINE bool operator<=(const Point3& a) const throw()		{ return this->x <= a.x && this->y <= a.y && this->z <= a.z; }
 		GCLINLINE bool operator> (const Point3& a) const throw()		{ return this->x >  a.x && this->y >  a.y && this->z >  a.z; }
@@ -96,8 +98,8 @@ namespace GCL
 		friend GCLINLINE std::ostream& operator<<( std::ostream&, const Point3 &);*/
 
 
-		GCLINLINE double Length() {  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z); }
-		GCLINLINE double LengthSqr() {  return (this->x*this->x + this->y*this->y + this->z*this->z);	}
+		GCLINLINE double Length() const{  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z); }
+		GCLINLINE double LengthSqr() const{  return (this->x*this->x + this->y*this->y + this->z*this->z);	}
 
 		GCLINLINE void Normalize()
 		{

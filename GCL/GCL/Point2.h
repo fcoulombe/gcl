@@ -23,6 +23,8 @@
 //============================================================================
 
 #pragma once
+#include <iostream>
+
 #include "GCL/Macro.h"
 #include "GCL/TypeData.h"
 #include "GCL/WorldUnit.h"
@@ -76,13 +78,25 @@ namespace GCL
 		
 		GCLINLINE friend typename TypeData<T>::MathematicalUpcast Length(const Point2& a) throw()				{ return sqrt(a%a); }
 		GCLINLINE friend typename TypeData<T>::MathematicalUpcast LengthSquared(const Point2& a) throw()		{ return a%a; }
-		GCLINLINE friend Point2 Normalize(const Point2& a) throw()	{ return a / Length(a); }
+		GCLINLINE double Length() const{  return sqrt(this->x*this->x + this->y*this->y ); }
+		GCLINLINE double LengthSqr() const{  return (this->x*this->x + this->y*this->y );	}
+
+		//GCLINLINE friend Point2 Normalize(const Point2& a) throw()	{ return a / Length(a); }
+
+		GCLINLINE void Normalize()
+		{
+			double ln = Length();
+			*this/= ln; //can throw float div zero
+		}
+
 		
 		GCLINLINE	      T& operator[](int i)		 throw()			{ return (&x)[i]; }
 		GCLINLINE const T& operator[](int i) const throw()			{ return (&x)[i]; }
 
-		GCLINLINE bool operator==(const Point2& a) const throw()		{ return x == a.x && y == a.y; }
-		GCLINLINE bool operator!=(const Point2& a) const throw()		{ return x != a.x || y != a.y; }
+		GCLINLINE bool operator==(const Point2& a) const throw()
+				{ return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ; }
+		GCLINLINE bool operator!=(const Point2& a) const throw()
+		{ return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ; }
 		GCLINLINE bool operator< (const Point2& a) const throw()		{ return x <  a.x && y <  a.y; }
 		GCLINLINE bool operator<=(const Point2& a) const throw()		{ return x <= a.x && y <= a.y; }
 		GCLINLINE bool operator> (const Point2& a) const throw()		{ return x >  a.x && y >  a.y; }
@@ -131,6 +145,12 @@ namespace GCL
 	template<typename T> const Point2<T> TypeData< Point2<T> >::MAXIMUM( TypeData<T>::Maximum(), TypeData<T>::Maximum()); 
 	template<typename T> const Point2<T> TypeData< Point2<T> >::IDENTITY( TypeData<T>::Identity(), TypeData<T>::Identity());
 		
+	// Write output Vector3 in format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point2<double> &P) {
+		output << "(" << P.x << ", " << P.y  << ")";
+		return output;
+	}
+
 //============================================================================
 	
 	typedef Point2<WorldUnit> WorldPoint2;
