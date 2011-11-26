@@ -75,13 +75,13 @@ namespace GCL
 		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix44& b) throw();
 		GCLEXPORT friend WorldPoint4  operator*(const WorldPoint4& a, const Matrix44& b) throw();
 		GCLEXPORT friend WorldUnit  Determinant(const Matrix44& m) throw();
-		GCLEXPORT friend Matrix44  Inverse(const Matrix44& m) throw();
+		GCLEXPORT friend Matrix44  Inverse(const Matrix44& m) ;
 
 		GCLINLINE		  WorldPoint4& operator[](size_t i)				{ return (&m0)[i]; }
 		GCLINLINE const WorldPoint4& operator[](size_t i) const		{ return (&m0)[i]; }
 
-		GCLINLINE bool operator==(const Matrix44& a) const throw()	{ return memcmp(this, &a, sizeof(*this)) == 0; }
-		GCLINLINE bool operator!=(const Matrix44& a) const throw()	{ return memcmp(this, &a, sizeof(*this)) != 0; }
+		GCLINLINE bool operator==(const Matrix44& a) const throw()	{ return m0==a.m0 && m1==a.m1 && m2==a.m2 && m3==a.m3 ; }
+		GCLINLINE bool operator!=(const Matrix44& a) const throw()	{ return m0!=a.m0 || m1!=a.m1 || m2!=a.m2 || m3!=a.m3 ; }
 
 		GCLEXPORT static const Matrix44 ZERO;
 		GCLEXPORT static const Matrix44 IDENTITY;

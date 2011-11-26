@@ -24,6 +24,7 @@
 
 #include <cmath>
 
+#include "GCL/Assert.h"
 #include "GCL/Matrix44.h"
 
 //============================================================================
@@ -104,8 +105,9 @@ void Matrix44::SetRotationZ(double rotation)
 
 namespace GCL
 {	
-	Matrix44  Inverse(const Matrix44& m) throw()
+	Matrix44  Inverse(const Matrix44& m)
 	{
+		//std::cout << "inversing: " << m;
 		WorldUnit a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
 		WorldUnit a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
 		WorldUnit a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
@@ -119,7 +121,10 @@ namespace GCL
 		WorldUnit b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
 		WorldUnit b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
-		WorldUnit s = 1.0f / (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
+		const WorldUnit div = (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
+		GCLAssert(div!=0.0f);
+
+		WorldUnit s = 1.0f / div;
 		return Matrix44(WorldPoint4(s*( m[1][1]*b5 - m[1][2]*b4 + m[1][3]*b3 ),
 									s*(-m[0][1]*b5 + m[0][2]*b4 - m[0][3]*b3 ),
 									s*( m[3][1]*a5 - m[3][2]*a4 + m[3][3]*a3 ),

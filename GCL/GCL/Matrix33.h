@@ -36,7 +36,7 @@ namespace GCL
 	class Matrix33
 	{
 	public:
-		Matrix33() throw()														{ }
+		Matrix33() 														{ }
 		Matrix33(const WorldPoint3& a0, const WorldPoint3& a1, const WorldPoint3& a2) throw() : m0(a0), m1(a1), m2(a2) { }
 		Matrix33(const WorldUnit a[9]) throw() : m0(a), m1(a+3), m2(a+6) { }
 
