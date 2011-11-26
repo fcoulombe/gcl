@@ -2,3 +2,4 @@
 
 
 #define GCLEXPORT
+#define GCLTEST_EXPORT
