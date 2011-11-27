@@ -21,22 +21,40 @@
  */
 //============================================================================
 
-#pragma once
-#include <string>
+#include <iostream>
+
+#include "gcl/StringUtil.h"
+#include "gcl/Assert.h"
+//============================================================================
+
+using namespace GCL;
 
 //============================================================================
 
-namespace GCL
+std::vector<std::string> StringUtil::Explode(const std::string& str, const char& ch)
 {
-//============================================================================
+	std::string next = "";
+	std::vector<std::string> result;
+	GCLAssertMsg(str.length(), "you are trying to explode an empty string");
 
-class Path
-{
-public:
+	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+	{
+		if (*it == ch || *it == 0)
+		{
+			if (next.length() > 0)
+			{
+				result.push_back(next);
+				next = "";
+			}
+		}
+		else
+		{
+			//std::cout << *it << std::endl;
+			next += *it;
+		}
+	}
+	result.push_back(next);
 
-	static const std::string Dirname(const std::string  &dir);
-};
-
-//============================================================================
-} // namespace GCL
+	return result;
+}
 //============================================================================

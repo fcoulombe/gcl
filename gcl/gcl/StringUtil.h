@@ -23,6 +23,7 @@
 
 #pragma once
 #include <string>
+#include <vector>
 
 //============================================================================
 
@@ -30,11 +31,11 @@ namespace GCL
 {
 //============================================================================
 
-class Path
+class StringUtil
 {
 public:
 
-	static const std::string Dirname(const std::string  &dir);
+	static std::vector<std::string> Explode(const std::string& str, const char& ch);
 };
 
 //============================================================================

@@ -19,24 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-//============================================================================
-
 #pragma once
-#include <string>
 
-//============================================================================
+#include <sstream>
 
-namespace GCL
+#include <gcl/UnitTest.h>
+
+#include <gcl/StringUtil.h>
+
+using namespace GCL;
+namespace StringUtilTest
 {
-//============================================================================
 
-class Path
+void Test()
 {
-public:
+	TEST_START
 
-	static const std::string Dirname(const std::string  &dir);
-};
+	std::string explodeTest = "some string to explode";
+	const std::string explodedTest[] = { std::string("some"),
+										std::string("string"),
+										std::string("to"),
+										std::string("explode")};
+	std::vector<std::string> res = StringUtil::Explode(explodeTest, ' ');
+	for (size_t i=0; i<res.size();++i)
+		{
+		std::cout << res[i] << std::endl;}
+	std::stringstream s;
+	s<<res.size()<<" == 4";
+	AssertMsg_Test(res.size()==4, s.str().c_str());
+	for (size_t i=0; i<res.size();++i)
+	{
+		std::stringstream s2;
+		s2<<res[i] << std::endl << "==" << std::endl << explodedTest[i];
 
-//============================================================================
-} // namespace GCL
-//============================================================================
+		AssertMsg_Test(res[i] ==  explodedTest[i], s2.str().c_str());
+	}
+}
+}

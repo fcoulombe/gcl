@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 by Francois Coulombe
+  * Copyright (C) 2011 by Francois Coulombe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,24 @@
  */
 //============================================================================
 
-#pragma once
-#include <string>
+#include "gcl/Path.h"
 
 //============================================================================
 
-namespace GCL
+using namespace GCL;
+
+//============================================================================
+
+const std::string Path::Dirname(const std::string  &dir)
 {
-//============================================================================
+	const char DIR_SEPARATOR = '/';
+	register int i;
+	const std::string &loc = dir;
+	size_t size = loc.length();
 
-class Path
-{
-public:
+	for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
+		;
 
-	static const std::string Dirname(const std::string  &dir);
-};
-
-//============================================================================
-} // namespace GCL
+	return loc.substr(0, i);
+}
 //============================================================================

@@ -45,6 +45,7 @@
 #include "AssertTest.h"
 #include "ExceptionTest.h"
 #include "HashTest.h"
+#include "StringUtilTest.h"
 #include "PathTest.h"
 #include "Matrix44Test.h"
 #include "Point2Test.h"
@@ -64,6 +65,7 @@ int main(int /*argc*/, char **argv)
       AssertTest::Test();
       SafeCastTest::Test();
       HashTest::Test();
+      StringUtilTest::Test();
       PathTest::Test();
 
       Point2Test::Test();
