@@ -41,9 +41,7 @@ void Test()
 										std::string("to"),
 										std::string("explode")};
 	std::vector<std::string> res = StringUtil::Explode(explodeTest, ' ');
-	for (size_t i=0; i<res.size();++i)
-		{
-		std::cout << res[i] << std::endl;}
+
 	std::stringstream s;
 	s<<res.size()<<" == 4";
 	AssertMsg_Test(res.size()==4, s.str().c_str());
