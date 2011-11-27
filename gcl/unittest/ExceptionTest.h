@@ -53,7 +53,9 @@ void Test()
 	catch (GCLException &e)
 	{
 		Assert_Test(strncmp("",e.message(), strlen(""))==0);
+#ifdef OS_MACOSX
 		AssertMsg_Test(strncmp("\n0   gcl_test",e.stacktrace(), strlen("\n0   gcl_test"))==0, e.stacktrace());
+#endif
 	}
 	try
 	{
