@@ -26,6 +26,7 @@
 #include <gcl/Math.h>
 
 #include <gcl/UnitTest.h>
+#include <iomanip>
 
 using namespace GCL;
 namespace Matrix44Test
@@ -93,6 +94,19 @@ void Test()
 	std::stringstream s;
 	s << tempMatrix << std::endl << "==" << std::endl << Matrix44(testMatrix);
 	AssertMsg_Test(tempMatrix==Matrix44(testMatrix), s.str().c_str());
+
+	//perspective test
+	Matrix44 perspective;
+	perspective.SetPerspective( 45.0,640.0/480.0,0.1,100.0);
+
+	Matrix44 testPerspective;
+	testPerspective[0] = WorldPoint4(1.810660174077882, 0.0, 0.0, 0.0);
+	testPerspective[1] = WorldPoint4(0.0, 2.414213565437175, 0.0, 0.0);
+	testPerspective[2] = WorldPoint4(0.0, 0.0, -1.002002002002002, -1.0);
+	testPerspective[3] = WorldPoint4(-0.0, -0.0, -0.2002002002002002, -0.0);
+	s.str("");
+	s <<std::setprecision(16)<< std::endl<<perspective << std::endl << "==" << std::endl << testPerspective;
+	AssertMsg_Test(perspective==testPerspective, s.str().c_str());
 
 }
 

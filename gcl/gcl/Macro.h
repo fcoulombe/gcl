@@ -35,7 +35,7 @@ GCLINLINE bool eq(T lhs, T rhs)
   return lhs ==rhs;
 }
 
-static const double DBL_PRECISION_TOLERANCE = 1.794896737e-09;
+static const double DBL_PRECISION_TOLERANCE = 1.794896737e-06;
 
 template <class T>
 GCLINLINE bool abseq(T lhs, T rhs, T epsilon = std::numeric_limits<T>::epsilon())

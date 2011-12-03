@@ -21,15 +21,22 @@
  */
 #pragma once
 #include "gcl/Macro.h"
+#include "gcl/WorldUnit.h"
+
 namespace GCL
 {
 
-const double PI = 3.14159265;
-const double RADIAN = 57.2957795;
-const double DEGREE = 0.0174532925;
+const WorldUnit PI = 3.14159265;
+const WorldUnit RADIAN = 57.2957795;
+const WorldUnit DEGREE = 0.0174532925;
 
-GCLINLINE double DegreeToRadian(double degree) { return degree * PI/180.0; }
-GCLINLINE double RadianToDegree(double radian) { return radian * 180.0/PI; }
+GCLINLINE WorldUnit DegreeToRadian(WorldUnit degree) { return degree * PI/180.0; }
+GCLINLINE WorldUnit RadianToDegree(WorldUnit radian) { return radian * 180.0/PI; }
 
+
+GCLINLINE WorldUnit Randf(WorldUnit vmin, WorldUnit vmax)
+{
+	return vmin + ((WorldUnit)rand() / (WorldUnit)RAND_MAX) * (vmax - vmin);
+}
 
 }

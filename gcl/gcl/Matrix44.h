@@ -25,8 +25,9 @@
 #pragma once
 #include <cstring>
 
-#include "Point4.h"
-#include "WorldUnit.h"
+#include "gcl/Math.h"
+#include "gcl/Point4.h"
+#include "gcl/WorldUnit.h"
 
 //============================================================================
 
@@ -86,6 +87,35 @@ namespace GCL
 		GCLEXPORT static const Matrix44 ZERO;
 		GCLEXPORT static const Matrix44 IDENTITY;
 
+		GCLINLINE void SetPerspective(WorldUnit fov, WorldUnit aspect, WorldUnit near, WorldUnit far)
+		{
+		    /* Restrict fov to 179 degrees, for numerical stability */
+		    if(fov >= 180.0)
+		        fov = 179.0;
+
+		    WorldUnit y = 1.0 / std::tan(DegreeToRadian(fov) * 0.5);
+		    WorldUnit x = y/aspect;
+		    WorldUnit z1 = (far+near)/(near-far);
+		    WorldUnit z2 = (2.0f*far*near)/(near-far);
+		    m0=WorldPoint4(x, 0.0,  0.0,  0.0);
+		    m1=WorldPoint4(0.0, y,  0.0,  0.0);
+		    m2=WorldPoint4(0.0, 0, z1, -1);
+		    m3=WorldPoint4(0.0, 0.0,  z2,  0.0);
+		}
+
+		GCLINLINE WorldPoint4 Project(const WorldPoint4& v, WorldUnit width, WorldUnit height)
+		{
+		    WorldPoint4 proj;
+		    WorldUnit centerX = width*0.5f;
+		    WorldUnit centerY = height*0.5f;
+
+		    proj.x = v.x*centerX  + centerX;
+		    proj.y = v.y*centerY + centerY;
+		    proj.z = v.z*0.5f + 0.5f;
+		    proj.w = 1.0f / v.w;
+
+		    return proj;
+		}
 	protected:
 		WorldPoint4		m0;
 		WorldPoint4		m1;
@@ -119,5 +149,36 @@ namespace GCL
 	};
 
 //============================================================================
+	class Matrix44f
+	{
+	public:
+		Matrix44f(){}
+		Matrix44f(const Matrix44 &m)
+		{
+			m0.x = m[0].x;
+			m0.y = m[0].y;
+			m0.z = m[0].z;
+			m0.w = m[0].w;
+
+			m1.x = m[1].x;
+			m1.y = m[1].y;
+			m1.z = m[1].z;
+			m1.w = m[1].w;
+
+			m2.x = m[2].x;
+			m2.y = m[2].y;
+			m2.z = m[2].z;
+			m2.w = m[2].w;
+
+			m3.x = m[3].x;
+			m3.y = m[3].y;
+			m3.z = m[3].z;
+			m3.w = m[3].w;
+		}
+		Point4<float> m0;
+		Point4<float> m1;
+		Point4<float> m2;
+		Point4<float> m3;
+	};
 }
 //============================================================================
