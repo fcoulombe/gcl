@@ -26,6 +26,7 @@
 #include <gcl/Assert.h>
 #include <gcl/Circle.h>
 #include <gcl/Complex.h>
+#include <gcl/Curve.h>
 #include <gcl/Exception.h>
 #include <gcl/FixedPoint.h>
 #include <gcl/Macro.h>
@@ -43,15 +44,16 @@
 #include <gcl/WorldUnit.h>
 
 #include "AssertTest.h"
+#include "CurveTest.h"
 #include "ExceptionTest.h"
 #include "HashTest.h"
-#include "StringUtilTest.h"
-#include "PathTest.h"
 #include "Matrix44Test.h"
+#include "PathTest.h"
 #include "Point2Test.h"
 #include "Point3Test.h"
 #include "Point4Test.h"
 #include "SafeCastTest.h"
+#include "StringUtilTest.h"
 #include "WarningTest.h"
 
 using namespace GCL;
@@ -71,8 +73,10 @@ int main(int /*argc*/, char **argv)
       Point2Test::Test();
       Point3Test::Test();
       Point4Test::Test();
+
       Matrix44Test::Test();
 
+      CurveTest::Test();
   }
   catch (GCLException & e)
   {
