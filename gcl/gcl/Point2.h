@@ -146,7 +146,8 @@ namespace GCL
 	template<typename T> const Point2<T> TypeData< Point2<T> >::IDENTITY( TypeData<T>::Identity(), TypeData<T>::Identity());
 		
 	// Write output Vector3 in format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
-	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point2<double> &P) {
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point2<double> &P)
+	{
 		output << "(" << P.x << ", " << P.y  << ")";
 		return output;
 	}
