@@ -43,7 +43,8 @@ namespace GCL
 
 		GCLINLINE Point4() throw()												{ }
 		GCLINLINE Point4(const T& aX, const T& aY, const T& aZ, const T& aW) throw() : x(aX),y(aY),z(aZ), w(aW)	{ }
-		GCLINLINE Point4(const T a[4]) throw() : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }
+		GCLINLINE Point4(const double a[4]) throw() : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }
+		GCLINLINE Point4(const float a[4]) throw() : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }
 		template<typename A>
 			GCLINLINE explicit Point4(const Point4<A>& a) : x(a.x),y(a.x),z(a.x), w(a.w)	{ }
 

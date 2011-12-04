@@ -45,6 +45,7 @@ namespace GCL
 		Matrix44() throw()														{ }
 		Matrix44(const WorldPoint4& a0, const WorldPoint4& a1, const WorldPoint4& a2, const WorldPoint4& a3) throw() : m0(a0), m1(a1), m2(a2), m3(a3) { }
 		Matrix44(const WorldUnit a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
+		Matrix44(const float a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
 
 		explicit Matrix44(const Matrix43& a) { Set(a); }
 		
