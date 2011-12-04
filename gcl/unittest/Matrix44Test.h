@@ -108,6 +108,18 @@ void Test()
 	s <<std::setprecision(16)<< std::endl<<perspective << std::endl << "==" << std::endl << testPerspective;
 	AssertMsg_Test(perspective==testPerspective, s.str().c_str());
 
+
+	{
+
+		const float fidentity[16] = {1.0f,0.f,0.f,0.f,
+									0.f,1.0f,0.f,0.f,
+									0.f,0.f,1.f,0.f,
+									0.f,0.f,0.f,1.0f};
+		Matrix44 matIdentity(fidentity);
+		s.str("");
+		s<<std::endl<<matIdentity<<std::endl<<"=="<<std::endl<<Matrix44::IDENTITY;
+		AssertMsg_Test(matIdentity==Matrix44::IDENTITY, s.str().c_str());
+	}
 }
 
 }

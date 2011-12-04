@@ -68,16 +68,23 @@ void Test()
 
 	t4.Normalize();
 
-	std::stringstream s1;
-	s1<<std::endl<<t4 <<"== WorldPoint4(0, 0.5773502692, 0.5773502692, 0.5773502692)";
-	AssertMsg_Test(t4 == WorldPoint4(0, 0.5773502692, 0.5773502692, 0.5773502692), s1.str().c_str());
+	std::stringstream s;
+	s<<std::endl<<t4 <<"== WorldPoint4(0, 0.5773502692, 0.5773502692, 0.5773502692)";
+	AssertMsg_Test(t4 == WorldPoint4(0, 0.5773502692, 0.5773502692, 0.5773502692), s.str().c_str());
 
-	std::stringstream s2;
-	s2<<std::endl<<t3.Length() <<"==2.0";
-	AssertMsg_Test(abseq(t3.Length(),2.0, DBL_PRECISION_TOLERANCE), s2.str().c_str());
+	s.str("");
+	s<<std::endl<<t3.Length() <<"==2.0";
+	AssertMsg_Test(abseq(t3.Length(),2.0, DBL_PRECISION_TOLERANCE), s.str().c_str());
 
-	std::stringstream s3;
-	s3<<std::endl<<t3.LengthSqr()<<" == 4.0";
-	AssertMsg_Test(abseq(t3.LengthSqr(), 4.0,DBL_PRECISION_TOLERANCE),s3.str().c_str());
+	s.str("");
+	s<<std::endl<<t3.LengthSqr()<<" == 4.0";
+	AssertMsg_Test(abseq(t3.LengthSqr(), 4.0,DBL_PRECISION_TOLERANCE),s.str().c_str());
+
+	s.str("");
+	const float floatInit[] = {1.0f,0.5f,0.2f, 0.1f};
+	WorldPoint4 wp4FloatInit(floatInit);
+	s<<wp4FloatInit<<" == " << WorldPoint4(1.0,0.5,0.2, 0.1);
+	AssertMsg_Test(wp4FloatInit==WorldPoint4(1.0,0.5,0.2, 0.1),s.str().c_str());
+
 }
 }
