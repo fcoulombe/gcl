@@ -28,7 +28,7 @@
 using namespace GCL;
 namespace Point2Test
 {
-
+void Test();
 void Test()
 {
 	TEST_START

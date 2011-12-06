@@ -31,7 +31,7 @@
 using namespace GCL;
 namespace Matrix44Test
 {
-
+    void Test();
 void Test()
 {
 	TEST_START

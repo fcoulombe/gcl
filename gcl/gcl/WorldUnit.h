@@ -29,8 +29,11 @@
 namespace GCL
 {
 //============================================================================
-
+#if USE_64BIT_PLATFORM
 	typedef double WorldUnit;
+#else
+	typedef float WorldUnit;
+#endif
 
 //============================================================================
 } // namespace GCL

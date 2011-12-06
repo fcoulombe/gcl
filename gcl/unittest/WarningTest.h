@@ -32,6 +32,7 @@ using namespace GCL;
 
 namespace WarningTest
 {
+    void Test();
 void Test()
 {
 	TEST_START

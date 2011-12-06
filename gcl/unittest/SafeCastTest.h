@@ -47,6 +47,7 @@ namespace SafeCastTest
 
   };
 
+    void Test();
   void Test()
   {
 	  TEST_START

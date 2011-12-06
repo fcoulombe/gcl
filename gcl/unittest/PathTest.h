@@ -30,7 +30,7 @@
 using namespace GCL;
 namespace PathTest
 {
-
+void Test();
 void Test()
 {
 	TEST_START

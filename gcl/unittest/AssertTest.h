@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 #pragma once
+#include <iostream>
 
 #include <gcl/UnitTest.h>
 #include <gcl/Assert.h>
@@ -28,16 +29,19 @@ using namespace GCL;
 namespace AssertTest
 {
 
-
+void ExceptionTestFunction2();
 void ExceptionTestFunction2()
 {
 	GCLAssert(false);
 }
 
+    void ExceptionTestFunction1();
 void ExceptionTestFunction1()
 {
 	ExceptionTestFunction2();
 }
+
+    void Test();
 void Test()
 {
 	TEST_START

@@ -21,6 +21,7 @@
  */
 #pragma once
 
+#include <sstream>
 
 #include <gcl/Curve.h>
 #include <gcl/UnitTest.h>
@@ -28,7 +29,7 @@
 using namespace GCL;
 namespace CurveTest
 {
-
+    void Test();
 void Test()
 {
 	TEST_START

@@ -27,7 +27,7 @@
 using namespace GCL;
 namespace HashTest
 {
-
+void Test();
 void Test()
 {
 	TEST_START

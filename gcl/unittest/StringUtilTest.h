@@ -30,7 +30,7 @@
 using namespace GCL;
 namespace StringUtilTest
 {
-
+void Test();
 void Test()
 {
 	TEST_START
