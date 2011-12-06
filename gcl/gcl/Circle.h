@@ -35,13 +35,13 @@ namespace GCL
 	{
 	public:
 		Circle() { }
-		Circle(const WorldPoint2& aCenter, const WorldUnit& aRadius) : center(aCenter), radius(aRadius) { }
+		Circle(const WorldPoint2& aCenter, const Real& aRadius) : center(aCenter), radius(aRadius) { }
 
 		bool Contains(const WorldPoint2& p) const;
 
 	private:
 		WorldPoint2	center;
-		WorldUnit	radius;
+		Real	radius;
 	};
 
 //============================================================================

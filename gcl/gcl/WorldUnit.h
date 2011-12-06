@@ -30,9 +30,9 @@ namespace GCL
 {
 //============================================================================
 #if USE_64BIT_PLATFORM
-	typedef double WorldUnit;
+	typedef double Real;
 #else
-	typedef float WorldUnit;
+	typedef float Real;
 #endif
 
 //============================================================================

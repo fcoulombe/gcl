@@ -38,7 +38,7 @@ void Test()
 	const WorldPoint3 p2(1.0,1.0,0.0);
 	const WorldPoint3 p3(2.0,1.0,0.0);
 	const WorldPoint3 p4(4.0,0.0,0.0);
-	const WorldUnit t = 0.5;
+	const Real t = 0.5;
 	const WorldPoint3 pos1 = Curve::BezierCurve(p1,p2,p3,p4, t);
 	std::stringstream s;
 	s<<pos1<<"==WorldPoint3(1.625, 0.75, 0)";

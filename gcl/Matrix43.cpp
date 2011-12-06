@@ -72,11 +72,11 @@ namespace GCL
 {	
 	Matrix43  Inverse(const Matrix43& m) throw()
 	{
-		WorldUnit a0 = m[1][1]*m[2][2] - m[1][2]*m[2][1];
-		WorldUnit a1 = m[1][2]*m[2][0] - m[1][0]*m[2][2];
-		WorldUnit a2 = m[1][0]*m[2][1] - m[1][1]*m[2][0];
+		Real a0 = m[1][1]*m[2][2] - m[1][2]*m[2][1];
+		Real a1 = m[1][2]*m[2][0] - m[1][0]*m[2][2];
+		Real a2 = m[1][0]*m[2][1] - m[1][1]*m[2][0];
 		
-		WorldUnit s = 1.0f / (m[0][0]*a0 + m[0][1]*a1 + m[0][2]*a2);
+		Real s = 1.0f / (m[0][0]*a0 + m[0][1]*a1 + m[0][2]*a2);
 		
 		Matrix43 result;
 		result[0].Set(s*a0, s*(m[0][2]*m[2][1]-m[0][1]*m[2][2]), s*(m[0][1]*m[1][2]-m[0][2]*m[1][1]));
@@ -90,7 +90,7 @@ namespace GCL
 
 #if defined(JASM_GNUC_ARM_NEON)
 
-Matrix43 GCL::operator*(const WorldUnit a, const Matrix43& b) throw() 
+Matrix43 GCL::operator*(const Real a, const Matrix43& b) throw() 
 {
 	asm("fmsr		s0, r1");
 	asm("vldmia		r2!, { q1-q3 }");
@@ -162,7 +162,7 @@ WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix43& b) throw()
 
 #elif defined(JASM_GNUC_ARM)
 
-Matrix43 GCL::operator*(const WorldUnit a, const Matrix43& b) throw() 
+Matrix43 GCL::operator*(const Real a, const Matrix43& b) throw() 
 {
 	asm("fmsr	 s0, r1");
 	asm("fldmias r2!, { s4-s15 }");
@@ -249,7 +249,7 @@ WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix43& b) throw()
 	
 #else
 
-Matrix43  GCL::operator*(const WorldUnit a, const Matrix43& b) throw() 
+Matrix43  GCL::operator*(const Real a, const Matrix43& b) throw() 
 { 
 	return Matrix43(a*b.m0, a*b.m1, a*b.m2, a*b.m3);
 }

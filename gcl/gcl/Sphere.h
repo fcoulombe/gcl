@@ -35,13 +35,13 @@ namespace GCL
 	{
 	public:
 		Sphere() { }
-		Sphere(const WorldPoint3& aCenter, const WorldUnit& aRadius) : center(aCenter), radius(aRadius) { }
+		Sphere(const WorldPoint3& aCenter, const Real& aRadius) : center(aCenter), radius(aRadius) { }
 
 		bool Contains(const WorldPoint3& p) const;
 
 	private:
 		WorldPoint3	center;
-		WorldUnit	radius;
+		Real	radius;
 	};
 
 //============================================================================

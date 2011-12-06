@@ -72,7 +72,7 @@ Matrix44& Matrix44::operator-=(const Matrix44& a) throw()
 	return *this;	
 		}
 
-Matrix44  GCL::operator*(const WorldUnit a, const Matrix44& b) throw() 
+Matrix44  GCL::operator*(const Real a, const Matrix44& b) throw() 
 		{
 	return Matrix44(a*b.m0, a*b.m1, a*b.m2, a*b.m3); 
 		}
@@ -109,23 +109,23 @@ namespace GCL
 Matrix44  Inverse(const Matrix44& m)
 {
 	//std::cout << "inversing: " << m;
-	WorldUnit a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
-	WorldUnit a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
-	WorldUnit a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
-	WorldUnit a3 = m[0][1]*m[1][2] - m[0][2]*m[1][1];
-	WorldUnit a4 = m[0][1]*m[1][3] - m[0][3]*m[1][1];
-	WorldUnit a5 = m[0][2]*m[1][3] - m[0][3]*m[1][2];
-	WorldUnit b0 = m[2][0]*m[3][1] - m[2][1]*m[3][0];
-	WorldUnit b1 = m[2][0]*m[3][2] - m[2][2]*m[3][0];
-	WorldUnit b2 = m[2][0]*m[3][3] - m[2][3]*m[3][0];
-	WorldUnit b3 = m[2][1]*m[3][2] - m[2][2]*m[3][1];
-	WorldUnit b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
-	WorldUnit b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
+	Real a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
+	Real a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
+	Real a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
+	Real a3 = m[0][1]*m[1][2] - m[0][2]*m[1][1];
+	Real a4 = m[0][1]*m[1][3] - m[0][3]*m[1][1];
+	Real a5 = m[0][2]*m[1][3] - m[0][3]*m[1][2];
+	Real b0 = m[2][0]*m[3][1] - m[2][1]*m[3][0];
+	Real b1 = m[2][0]*m[3][2] - m[2][2]*m[3][0];
+	Real b2 = m[2][0]*m[3][3] - m[2][3]*m[3][0];
+	Real b3 = m[2][1]*m[3][2] - m[2][2]*m[3][1];
+	Real b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
+	Real b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
-	const WorldUnit div = (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
+	const Real div = (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
 	GCLAssert(div!=0.0f);
 
-	WorldUnit s = 1.0f / div;
+	Real s = 1.0f / div;
 	return Matrix44(WorldPoint4(s*( m[1][1]*b5 - m[1][2]*b4 + m[1][3]*b3 ),
 			s*(-m[0][1]*b5 + m[0][2]*b4 - m[0][3]*b3 ),
 			s*( m[3][1]*a5 - m[3][2]*a4 + m[3][3]*a3 ),
@@ -145,20 +145,20 @@ Matrix44  Inverse(const Matrix44& m)
 	);
 }
 
-WorldUnit  Determinant(const Matrix44& m) throw()
+Real  Determinant(const Matrix44& m) throw()
 			{
-	WorldUnit a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
-	WorldUnit a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
-	WorldUnit a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
-	WorldUnit a3 = m[0][1]*m[1][2] - m[0][2]*m[1][1];
-	WorldUnit a4 = m[0][1]*m[1][3] - m[0][3]*m[1][1];
-	WorldUnit a5 = m[0][2]*m[1][3] - m[0][3]*m[1][2];
-	WorldUnit b0 = m[2][0]*m[3][1] - m[2][1]*m[3][0];
-	WorldUnit b1 = m[2][0]*m[3][2] - m[2][2]*m[3][0];
-	WorldUnit b2 = m[2][0]*m[3][3] - m[2][3]*m[3][0];
-	WorldUnit b3 = m[2][1]*m[3][2] - m[2][2]*m[3][1];
-	WorldUnit b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
-	WorldUnit b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
+	Real a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
+	Real a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
+	Real a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
+	Real a3 = m[0][1]*m[1][2] - m[0][2]*m[1][1];
+	Real a4 = m[0][1]*m[1][3] - m[0][3]*m[1][1];
+	Real a5 = m[0][2]*m[1][3] - m[0][3]*m[1][2];
+	Real b0 = m[2][0]*m[3][1] - m[2][1]*m[3][0];
+	Real b1 = m[2][0]*m[3][2] - m[2][2]*m[3][0];
+	Real b2 = m[2][0]*m[3][3] - m[2][3]*m[3][0];
+	Real b3 = m[2][1]*m[3][2] - m[2][2]*m[3][1];
+	Real b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
+	Real b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
 	return a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
 			}
@@ -390,23 +390,23 @@ WorldPoint4  GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
 
 
 /*
-void Matrix44::Perspective(Matrix44 &m, const WorldUnit fov, const WorldUnit aspect, const WorldUnit znear, const WorldUnit zfar)
+void Matrix44::Perspective(Matrix44 &m, const Real fov, const Real aspect, const Real znear, const Real zfar)
 {
-	WorldUnit ymax = znear * tan(fov * PI/360.0);
-	WorldUnit ymin = -ymax;
-	WorldUnit xmax = ymax * aspect;
-	WorldUnit xmin = ymin * aspect;
+	Real ymax = znear * tan(fov * PI/360.0);
+	Real ymin = -ymax;
+	Real xmax = ymax * aspect;
+	Real xmin = ymin * aspect;
 
-	WorldUnit width = xmax - xmin;
-	WorldUnit height = ymax - ymin;
+	Real width = xmax - xmin;
+	Real height = ymax - ymin;
 
-	WorldUnit depth = zfar - znear;
-	WorldUnit q = -(zfar + znear) / depth;
-	WorldUnit qn = -2 * (zfar * znear) / depth;
+	Real depth = zfar - znear;
+	Real q = -(zfar + znear) / depth;
+	Real qn = -2 * (zfar * znear) / depth;
 
-	WorldUnit w = 2 * znear / width;
+	Real w = 2 * znear / width;
 	w = w / aspect;
-	WorldUnit h = 2 * znear / height;
+	Real h = 2 * znear / height;
 
 
 	m[0].x  = w;

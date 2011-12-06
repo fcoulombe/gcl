@@ -70,18 +70,18 @@ namespace GCL
 {	
 	Matrix33  Inverse(const Matrix33& m) throw()
 	{
-		WorldUnit a0 = m[1][1]*m[2][2] - m[1][2]*m[2][1];
-		WorldUnit a1 = m[1][2]*m[2][0] - m[1][0]*m[2][2];
-		WorldUnit a2 = m[1][0]*m[2][1] - m[1][1]*m[2][0];
+		Real a0 = m[1][1]*m[2][2] - m[1][2]*m[2][1];
+		Real a1 = m[1][2]*m[2][0] - m[1][0]*m[2][2];
+		Real a2 = m[1][0]*m[2][1] - m[1][1]*m[2][0];
 
-		WorldUnit s = 1.0f / (m[0][0]*a0 + m[0][1]*a1 + m[0][2]*a2);
+		Real s = 1.0f / (m[0][0]*a0 + m[0][1]*a1 + m[0][2]*a2);
 
 		return Matrix33(WorldPoint3(s*a0, s*(m[0][2]*m[2][1]-m[0][1]*m[2][2]), s*(m[0][1]*m[1][2]-m[0][2]*m[1][1])),
 						WorldPoint3(s*a1, s*(m[0][0]*m[2][2]-m[0][2]*m[2][0]), s*(m[0][2]*m[1][0]-m[0][0]*m[1][2])),
 						WorldPoint3(s*a2, s*(m[0][1]*m[2][0]-m[0][0]*m[2][1]), s*(m[0][0]*m[1][1]-m[0][1]*m[1][0])));
 	}
 
-	WorldUnit  Determinant(const Matrix33& m) throw()
+	Real  Determinant(const Matrix33& m) throw()
 	{
 		return m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1])
 			   + m[0][1]*(m[1][2]*m[2][0] - m[1][0]*m[2][2])
@@ -91,7 +91,7 @@ namespace GCL
 
 #if defined(JASM_GNUC_ARM_NEON)
 
-Matrix33 GCL::operator*(const WorldUnit a, const Matrix33& b) throw()
+Matrix33 GCL::operator*(const Real a, const Matrix33& b) throw()
 { 
 	asm("fmsr	 s0, r1");
 	asm("fldmias r2!, { s4-s12 }");
@@ -130,7 +130,7 @@ WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix33& b) throw()
 
 #elif defined(JASM_GNUC_ARM)
 
-Matrix33 GCL::operator*(const WorldUnit a, const Matrix33& b) throw()
+Matrix33 GCL::operator*(const Real a, const Matrix33& b) throw()
 { 
 	asm("fmsr	 s0, r1");
 	asm("fldmias r2!, { s4-s12 }");
@@ -180,7 +180,7 @@ Matrix33  Matrix33::operator*(const Matrix33& a) const throw()
 	return Matrix33(m0*a, m1*a, m2*a);
 }
 
-Matrix33  GCL::operator*(const WorldUnit a, const Matrix33& b) throw() 
+Matrix33  GCL::operator*(const Real a, const Matrix33& b) throw() 
 { 
 	return Matrix33(a*b.m0, a*b.m1, a*b.m2); 
 }

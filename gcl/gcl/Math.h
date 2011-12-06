@@ -26,17 +26,17 @@
 namespace GCL
 {
 
-const WorldUnit PI = 3.14159265;
-const WorldUnit RADIAN = 57.2957795;
-const WorldUnit DEGREE = 0.0174532925;
+const Real PI = 3.14159265;
+const Real RADIAN = 57.2957795;
+const Real DEGREE = 0.0174532925;
 
-GCLINLINE WorldUnit DegreeToRadian(WorldUnit degree) { return degree * PI/180.0; }
-GCLINLINE WorldUnit RadianToDegree(WorldUnit radian) { return radian * 180.0/PI; }
+GCLINLINE Real DegreeToRadian(Real degree) { return degree * PI/180.0; }
+GCLINLINE Real RadianToDegree(Real radian) { return radian * 180.0/PI; }
 
 
-GCLINLINE WorldUnit Randf(WorldUnit vmin, WorldUnit vmax)
+GCLINLINE Real Randf(Real vmin, Real vmax)
 {
-	return vmin + ((WorldUnit)rand() / (WorldUnit)RAND_MAX) * (vmax - vmin);
+	return vmin + ((Real)rand() / (Real)RAND_MAX) * (vmax - vmin);
 }
 
 }

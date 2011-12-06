@@ -40,7 +40,7 @@ void Test()
 
 	//equal test
 	myMat = Matrix44::IDENTITY;
-	const WorldUnit testIdentityMatrix[] =  {
+	const Real testIdentityMatrix[] =  {
 				1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
@@ -85,7 +85,7 @@ void Test()
 
 	//proper inverse
 	tempMatrix = Inverse(myMat);
-	const WorldUnit testMatrix[] =  {
+	const Real testMatrix[] =  {
 			1.794896737e-09, 1, 0, 0,
 			-1, 1.794896737e-09, 0, 0,
 			0, -0, 1, 0,

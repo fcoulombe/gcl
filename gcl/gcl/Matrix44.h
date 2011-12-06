@@ -44,15 +44,15 @@ namespace GCL
 	public:
 		Matrix44() throw()														{ }
 		Matrix44(const WorldPoint4& a0, const WorldPoint4& a1, const WorldPoint4& a2, const WorldPoint4& a3) throw() : m0(a0), m1(a1), m2(a2), m3(a3) { }
-		Matrix44(const WorldUnit a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
+		Matrix44(const Real a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
 		Matrix44(const float a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
 
 		explicit Matrix44(const Matrix43& a) { Set(a); }
 		
-		GCLINLINE explicit Matrix44(bool b) : m0(b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()),
-											m1(TypeData<WorldUnit>::Zero(), b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()),
-											m2(TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()),
-											m3(TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero()) { }
+		GCLINLINE explicit Matrix44(bool b) : m0(b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()),
+											m1(TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()),
+											m2(TypeData<Real>::Zero(), TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero()),
+											m3(TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero()) { }
 	
 		void Set(const Matrix43& a);
 		
@@ -73,10 +73,10 @@ namespace GCL
 	
 		GCLEXPORT Matrix44  operator*(const Matrix44& a) const throw();
 		
-		GCLEXPORT friend Matrix44  operator*(const WorldUnit a, const Matrix44& b) throw();
+		GCLEXPORT friend Matrix44  operator*(const Real a, const Matrix44& b) throw();
 		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix44& b) throw();
 		GCLEXPORT friend WorldPoint4  operator*(const WorldPoint4& a, const Matrix44& b) throw();
-		GCLEXPORT friend WorldUnit  Determinant(const Matrix44& m) throw();
+		GCLEXPORT friend Real  Determinant(const Matrix44& m) throw();
 		GCLEXPORT friend Matrix44  Inverse(const Matrix44& m) ;
 
 		GCLINLINE		  WorldPoint4& operator[](size_t i)				{ return (&m0)[i]; }
@@ -88,27 +88,27 @@ namespace GCL
 		GCLEXPORT static const Matrix44 ZERO;
 		GCLEXPORT static const Matrix44 IDENTITY;
 
-		GCLINLINE void SetPerspective(WorldUnit fov, WorldUnit aspect, WorldUnit near, WorldUnit far)
+		GCLINLINE void SetPerspective(Real fov, Real aspect, Real near, Real far)
 		{
 		    /* Restrict fov to 179 degrees, for numerical stability */
 		    if(fov >= 180.0)
 		        fov = 179.0;
 
-		    WorldUnit y = 1.0 / std::tan(DegreeToRadian(fov) * 0.5);
-		    WorldUnit x = y/aspect;
-		    WorldUnit z1 = (far+near)/(near-far);
-		    WorldUnit z2 = (2.0f*far*near)/(near-far);
+		    Real y = 1.0 / std::tan(DegreeToRadian(fov) * 0.5);
+		    Real x = y/aspect;
+		    Real z1 = (far+near)/(near-far);
+		    Real z2 = (2.0f*far*near)/(near-far);
 		    m0=WorldPoint4(x, 0.0,  0.0,  0.0);
 		    m1=WorldPoint4(0.0, y,  0.0,  0.0);
 		    m2=WorldPoint4(0.0, 0, z1, -1);
 		    m3=WorldPoint4(0.0, 0.0,  z2,  0.0);
 		}
 
-		GCLINLINE WorldPoint4 Project(const WorldPoint4& v, WorldUnit width, WorldUnit height)
+		GCLINLINE WorldPoint4 Project(const WorldPoint4& v, Real width, Real height)
 		{
 		    WorldPoint4 proj;
-		    WorldUnit centerX = width*0.5f;
-		    WorldUnit centerY = height*0.5f;
+		    Real centerX = width*0.5f;
+		    Real centerY = height*0.5f;
 
 		    proj.x = v.x*centerX  + centerX;
 		    proj.y = v.y*centerY + centerY;
@@ -142,11 +142,11 @@ namespace GCL
 		static const Matrix44& Zero()		{ return Matrix44::ZERO;			}
 		static const Matrix44& Identity()	{ return Matrix44::IDENTITY;		}
 
-		enum { IS_INTEGRAL			= TypeData<WorldUnit>::IS_INTEGRAL			};
-		enum { IS_FLOAT				= TypeData<WorldUnit>::IS_FLOAT				};
-		enum { IS_POD				= TypeData<WorldUnit>::IS_POD				};
-		enum { IS_BITWISE_COPY_SAFE	= TypeData<WorldUnit>::IS_BITWISE_COPY_SAFE };
-		enum { IS_POINTER			= TypeData<WorldUnit>::IS_POINTER			};
+		enum { IS_INTEGRAL			= TypeData<Real>::IS_INTEGRAL			};
+		enum { IS_FLOAT				= TypeData<Real>::IS_FLOAT				};
+		enum { IS_POD				= TypeData<Real>::IS_POD				};
+		enum { IS_BITWISE_COPY_SAFE	= TypeData<Real>::IS_BITWISE_COPY_SAFE };
+		enum { IS_POINTER			= TypeData<Real>::IS_POINTER			};
 	};
 
 //============================================================================

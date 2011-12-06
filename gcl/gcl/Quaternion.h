@@ -23,8 +23,8 @@
 //============================================================================
 
 #pragma once
-#include "Point3.h"
-#include "WorldUnit.h"
+#include "gcl/Point3.h"
+#include "gcl/WorldUnit.h"
 
 //============================================================================
 
@@ -32,11 +32,11 @@ namespace GCL
 {
 //============================================================================
 
-	class Quaternion : public Point3<WorldUnit>
+	class Quaternion : public Point3<Real>
 	{
 	protected:
-		typedef WorldUnit T;
-		typedef Point3<WorldUnit> Inherited;
+		typedef Real T;
+		typedef Point3<Real> Inherited;
 
 	public:
 		T		w;
@@ -79,7 +79,7 @@ namespace GCL
 	template<> class TypeData< Quaternion >
 	{
 	private:
-		typedef WorldUnit T;
+		typedef Real T;
 			
 	public:
 		static const Quaternion& Identity()	{ return Quaternion::IDENTITY;	}

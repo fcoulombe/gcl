@@ -24,8 +24,8 @@
 
 #pragma once
 #include <cstring>
-#include "Point3.h"
-#include "WorldUnit.h"
+#include "gcl/Point3.h"
+#include "gcl/WorldUnit.h"
 
 //============================================================================
 
@@ -38,11 +38,11 @@ namespace GCL
 	public:
 		Matrix33() 														{ }
 		Matrix33(const WorldPoint3& a0, const WorldPoint3& a1, const WorldPoint3& a2) throw() : m0(a0), m1(a1), m2(a2) { }
-		Matrix33(const WorldUnit a[9]) throw() : m0(a), m1(a+3), m2(a+6) { }
+		Matrix33(const Real a[9]) throw() : m0(a), m1(a+3), m2(a+6) { }
 
-		GCLINLINE explicit Matrix33(bool b) : m0(b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()),
-											m1(TypeData<WorldUnit>::Zero(), b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()),
-											m2(TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), b ? TypeData<WorldUnit>::Identity() : TypeData<WorldUnit>::Zero()) { }
+		GCLINLINE explicit Matrix33(bool b) : m0(b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()),
+											m1(TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero()),
+											m2(TypeData<Real>::Zero(), TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero()) { }
 	
 		GCLINLINE const Matrix33& operator+() const throw()			{ return *this;		}
 		GCLEXPORT Matrix33  operator-() const throw();
@@ -55,9 +55,9 @@ namespace GCL
 	
 		GCLEXPORT Matrix33  operator*(const Matrix33& a) const throw();
 		
-		GCLEXPORT friend Matrix33  operator*(const WorldUnit a, const Matrix33& b) throw();
+		GCLEXPORT friend Matrix33  operator*(const Real a, const Matrix33& b) throw();
 		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix33& b) throw();
-		GCLEXPORT friend WorldUnit  Determinant(const Matrix33& m) throw();
+		GCLEXPORT friend Real  Determinant(const Matrix33& m) throw();
 		GCLEXPORT friend Matrix33  Inverse(const Matrix33& m) throw();
 		
 		GCLINLINE WorldPoint3 TransformVector(const WorldPoint3& a) const { return a * (*this); }
@@ -85,11 +85,11 @@ namespace GCL
 		static const Matrix33& Zero()		{ return Matrix33::ZERO;			}
 		static const Matrix33& Identity()	{ return Matrix33::IDENTITY;		}
 
-		enum { IS_INTEGRAL			= TypeData<WorldUnit>::IS_INTEGRAL			};
-		enum { IS_FLOAT				= TypeData<WorldUnit>::IS_FLOAT				};
-		enum { IS_POD				= TypeData<WorldUnit>::IS_POD				};
-		enum { IS_BITWISE_COPY_SAFE	= TypeData<WorldUnit>::IS_BITWISE_COPY_SAFE };
-		enum { IS_POINTER			= TypeData<WorldUnit>::IS_POINTER			};
+		enum { IS_INTEGRAL			= TypeData<Real>::IS_INTEGRAL			};
+		enum { IS_FLOAT				= TypeData<Real>::IS_FLOAT				};
+		enum { IS_POD				= TypeData<Real>::IS_POD				};
+		enum { IS_BITWISE_COPY_SAFE	= TypeData<Real>::IS_BITWISE_COPY_SAFE };
+		enum { IS_POINTER			= TypeData<Real>::IS_POINTER			};
 	};
 
 //============================================================================

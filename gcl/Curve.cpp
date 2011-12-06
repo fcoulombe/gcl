@@ -4,9 +4,9 @@
 using namespace GCL;
 
 
-WorldPoint3 Curve::BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, const WorldPoint3& p3, const WorldPoint3& p4, WorldUnit t)
+WorldPoint3 Curve::BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, const WorldPoint3& p3, const WorldPoint3& p4, Real t)
 {
-   WorldUnit mum1,mum13,mu3;
+   Real mum1,mum13,mu3;
    mum1 = 1.0 - t;
    mum13 = mum1 * mum1 * mum1;
    mu3 = t * t * t;
@@ -19,15 +19,15 @@ WorldPoint3 Curve::BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, con
    return p;
 }
 
-WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, WorldUnit t)
+WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, Real t)
 {
 
-	WorldUnit blend,muk,munk;
+	Real blend,muk,munk;
 	size_t count = p.size();
 	WorldPoint3 b(0.0, 0.0, 0.0);
 
 	muk = 1.0;
-	munk = std::pow(1.0-t,(WorldUnit)count);
+	munk = std::pow(1.0-t,(Real)count);
 
 	for(size_t k=0;k<count;k++)
 	{
@@ -40,16 +40,16 @@ WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, WorldUnit t)
 		munk /= (1.0-t);
 		while (nn >= 1)
 		{
-			blend *= (WorldUnit)nn;
+			blend *= (Real)nn;
 			--nn;
 			if(kn > 1)
 			{
-				blend /= (WorldUnit)kn;
+				blend /= (Real)kn;
 				--kn;
 			}
 			if (nkn > 1)
 			{
-				blend /= (WorldUnit)nkn;
+				blend /= (Real)nkn;
 				--nkn;
 			}
 		}

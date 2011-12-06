@@ -39,10 +39,10 @@ namespace GCL
 	public:
 		Matrix43() throw()														{ }
 		Matrix43(const WorldPoint3& a0, const WorldPoint3& a1, const WorldPoint3& a2, const WorldPoint3& a3) throw() : Inherited(a0, a1, a2), m3(a3) { }
-		Matrix43(const WorldUnit a[12]) throw() : Inherited(a), m3(a+9) { }
+		Matrix43(const Real a[12]) throw() : Inherited(a), m3(a+9) { }
 
 		GCLINLINE explicit Matrix43(bool b) : Inherited(b),
-											m3(TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero(), TypeData<WorldUnit>::Zero()) { }
+											m3(TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()) { }
 		
 		GCLINLINE const Matrix43& operator+() const throw()			{ return *this;		}
 		GCLEXPORT Matrix43  operator-() const throw();
@@ -55,7 +55,7 @@ namespace GCL
 	
 		GCLEXPORT Matrix43  operator*(const Matrix43& a) const throw();
 		
-		GCLEXPORT friend Matrix43  operator*(const WorldUnit a, const Matrix43& b) throw();
+		GCLEXPORT friend Matrix43  operator*(const Real a, const Matrix43& b) throw();
 		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix43& b) throw();
 		GCLEXPORT friend Matrix43  Inverse(const Matrix43& m) throw();
 
@@ -79,11 +79,11 @@ namespace GCL
 		static const Matrix43& Zero()		{ return Matrix43::ZERO;			}
 		static const Matrix43& Identity()	{ return Matrix43::IDENTITY;		}
 
-		enum { IS_INTEGRAL			= TypeData<WorldUnit>::IS_INTEGRAL			};
-		enum { IS_FLOAT				= TypeData<WorldUnit>::IS_FLOAT				};
-		enum { IS_POD				= TypeData<WorldUnit>::IS_POD				};
-		enum { IS_BITWISE_COPY_SAFE	= TypeData<WorldUnit>::IS_BITWISE_COPY_SAFE };
-		enum { IS_POINTER			= TypeData<WorldUnit>::IS_POINTER			};
+		enum { IS_INTEGRAL			= TypeData<Real>::IS_INTEGRAL			};
+		enum { IS_FLOAT				= TypeData<Real>::IS_FLOAT				};
+		enum { IS_POD				= TypeData<Real>::IS_POD				};
+		enum { IS_BITWISE_COPY_SAFE	= TypeData<Real>::IS_BITWISE_COPY_SAFE };
+		enum { IS_POINTER			= TypeData<Real>::IS_POINTER			};
 	};
 
 //============================================================================

@@ -28,8 +28,8 @@ namespace GCL
 class Curve
 {
 public:
-static WorldPoint3 BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, const WorldPoint3& p3, const WorldPoint3& p4, WorldUnit t);
+static WorldPoint3 BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, const WorldPoint3& p3, const WorldPoint3& p4, Real t);
 
-static WorldPoint3 BezierCurvev(const std::vector<WorldPoint3>& p, WorldUnit t);
+static WorldPoint3 BezierCurvev(const std::vector<WorldPoint3>& p, Real t);
 };
 }
