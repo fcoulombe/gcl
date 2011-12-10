@@ -27,7 +27,7 @@ WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, Real t)
 	WorldPoint3 b(0.0, 0.0, 0.0);
 
 	muk = 1.0;
-	munk = std::pow(1.0-t,(Real)count);
+	munk = pow(1.0-t,(Real)count);
 
 	for(size_t k=0;k<count;k++)
 	{

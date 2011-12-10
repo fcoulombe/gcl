@@ -26,7 +26,7 @@ name = "gcl"
 incPath = [env.Dir(".").srcnode()]
 dependencies = []
 
-cflags = ['-DUSE_64BIT_PLATFORM=1']
+cflags = ['-DUSE_64BIT_PLATFORM=0']
 env.AppendUnique(CPPFLAGS=cflags)
 env.AppendUnique(CPPPATH=incPath)
 src_files = env.Glob("*.cpp")

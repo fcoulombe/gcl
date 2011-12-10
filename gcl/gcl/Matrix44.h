@@ -42,49 +42,78 @@ namespace GCL
 	class Matrix44
 	{
 	public:
-		Matrix44() throw()														{ }
-		Matrix44(const WorldPoint4& a0, const WorldPoint4& a1, const WorldPoint4& a2, const WorldPoint4& a3) throw() : m0(a0), m1(a1), m2(a2), m3(a3) { }
-		Matrix44(const Real a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
-		Matrix44(const float a[16]) throw() : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
+		explicit Matrix44() { }
+		Matrix44(const Matrix44 &m)
+		{
+			m0 = m[0];
+			m1 = m[1];
+			m2 = m[2];
+			m3 = m[3];
+		}
+		explicit Matrix44(const WorldPoint4& a0, const WorldPoint4& a1, const WorldPoint4& a2, const WorldPoint4& a3)
+		//: m0(a0), m1(a1), m2(a2), m3(a3) { }
+		{
+			m0 = a0;
+			m1 = a1;
+			m2 = a2;
+			m3 = a3;
+		}
 
-		explicit Matrix44(const Matrix43& a) { Set(a); }
+		template<typename T>
+        explicit Matrix44(const T a[16])  : m0(a), m1(a+4), m2(a+8), m3(a+12) { }
 		
-		GCLINLINE explicit Matrix44(bool b) : m0(b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()),
-											m1(TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero()),
-											m2(TypeData<Real>::Zero(), TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero(), TypeData<Real>::Zero()),
-											m3(TypeData<Real>::Zero(), TypeData<Real>::Zero(), TypeData<Real>::Zero(), b ? TypeData<Real>::Identity() : TypeData<Real>::Zero()) { }
-	
-		void Set(const Matrix43& a);
+
 		
-		void SetRotationX(double rotation);
-		void SetRotationY(double rotation);
-		void SetRotationZ(double rotation);
+		GCLINLINE explicit Matrix44(bool isIdentity)
+		{
+			if (isIdentity)
+			{
+				m0 = WorldPoint4(1.0, 0.0, 0.0, 0.0);
+				m1 = WorldPoint4(0.0, 1.0, 0.0, 0.0);
+				m2 = WorldPoint4(0.0, 0.0, 1.0, 0.0);
+				m3 = WorldPoint4(0.0, 0.0, 0.0, 1.0);
+			}
+		}
+
+		GCLINLINE void Set(const Matrix44& a)
+		{
+			m0 = a[0];
+			m1 = a[1];
+			m2 = a[2];
+			m3 = a[3];
+		}
+		
+
+		void SetRotationX(Real rotation);
+		void SetRotationY(Real rotation);
+		void SetRotationZ(Real rotation);
 
 		void SetPosition(const WorldPoint3 &position) { m3 = position; }
 
-		GCLINLINE const Matrix44& operator+() const throw()			{ return *this;		}
-		GCLEXPORT Matrix44  operator-() const throw();
+		GCLINLINE const Matrix44& operator+() const 		{ return *this;		}
+		GCLEXPORT Matrix44  operator-() const ;
 
-		GCLEXPORT Matrix44  operator+(const Matrix44& a) const throw();
-		GCLEXPORT Matrix44  operator-(const Matrix44& a) const throw();
+		GCLEXPORT Matrix44  operator+(const Matrix44& a) const ;
+		GCLEXPORT Matrix44  operator-(const Matrix44& a) const ;
 
-		GCLEXPORT Matrix44&  operator+=(const Matrix44& a) throw();
-		GCLEXPORT Matrix44&  operator-=(const Matrix44& a) throw();
+		GCLEXPORT Matrix44&  operator+=(const Matrix44& a) ;
+		GCLEXPORT Matrix44&  operator-=(const Matrix44& a) ;
 	
-		GCLEXPORT Matrix44  operator*(const Matrix44& a) const throw();
+		GCLEXPORT Matrix44  operator*(const Matrix44& a) const ;
 		
-		GCLEXPORT friend Matrix44  operator*(const Real a, const Matrix44& b) throw();
-		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix44& b) throw();
-		GCLEXPORT friend WorldPoint4  operator*(const WorldPoint4& a, const Matrix44& b) throw();
-		GCLEXPORT friend Real  Determinant(const Matrix44& m) throw();
+		GCLEXPORT friend Matrix44  operator*(const Real a, const Matrix44& b) ;
+		GCLEXPORT friend WorldPoint3  operator*(const WorldPoint3& a, const Matrix44& b);
+		GCLEXPORT friend WorldPoint4  operator*(const WorldPoint4& a, const Matrix44& b);
+		GCLEXPORT friend Real  Determinant(const Matrix44& m) ;
 		GCLEXPORT friend Matrix44  Inverse(const Matrix44& m) ;
 
 		GCLINLINE		  WorldPoint4& operator[](size_t i)				{ return (&m0)[i]; }
 		GCLINLINE const WorldPoint4& operator[](size_t i) const		{ return (&m0)[i]; }
 
-		GCLINLINE bool operator==(const Matrix44& a) const throw()	{ return m0==a.m0 && m1==a.m1 && m2==a.m2 && m3==a.m3 ; }
-		GCLINLINE bool operator!=(const Matrix44& a) const throw()	{ return m0!=a.m0 || m1!=a.m1 || m2!=a.m2 || m3!=a.m3 ; }
+		GCLINLINE bool operator==(const Matrix44& a) const 	{ return m0==a.m0 && m1==a.m1 && m2==a.m2 && m3==a.m3 ; }
+		GCLINLINE bool operator!=(const Matrix44& a) const { return m0!=a.m0 || m1!=a.m1 || m2!=a.m2 || m3!=a.m3 ; }
 
+		GCLINLINE bool IsOrthoNormal() const { Real det = Determinant(*this); return det>=1.0 || det<=-1.0; }
 		GCLEXPORT static const Matrix44 ZERO;
 		GCLEXPORT static const Matrix44 IDENTITY;
 
@@ -116,6 +145,31 @@ namespace GCL
 		    proj.w = 1.0f / v.w;
 
 		    return proj;
+		}
+		GCLINLINE void Transpose()
+		{
+			WorldPoint4 temp;
+			temp.y = m0.y;
+			temp.z = m0.z;
+			temp.w = m0.w;
+			m0.y = m1.x;
+			m0.z = m2.x;
+			m0.w = m3.x;
+
+			m1.x = temp.y;
+			m2.x = temp.z;
+			m3.x = temp.w;
+
+			temp.x = m1.z;
+			temp.y = m1.w;
+			temp.z = m2.w;
+			m1.z = m2.y;
+			m1.w = m3.y;
+			m2.w = m3.z;
+			m2.y = temp.x;
+			m3.y = temp.y;
+			m3.z = temp.z;
+
 		}
 	protected:
 		WorldPoint4		m0;

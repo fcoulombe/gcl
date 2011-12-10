@@ -98,12 +98,12 @@ namespace GCL
 		friend GCLINLINE std::ostream& operator<<( std::ostream&, const Point3 &);*/
 
 
-		GCLINLINE double Length() const{  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z); }
-		GCLINLINE double LengthSqr() const{  return (this->x*this->x + this->y*this->y + this->z*this->z);	}
+		GCLINLINE Real Length() const{  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z); }
+		GCLINLINE Real LengthSqr() const{  return (this->x*this->x + this->y*this->y + this->z*this->z);	}
 
 		GCLINLINE void Normalize()
 		{
-			double ln = Length();
+			Real ln = Length();
 			if (ln == 0) return;                    // do nothing for nothing
 			this->x /= ln;
 			this->y /= ln;
@@ -125,7 +125,7 @@ namespace GCL
 	GCLINLINE static Point3<T> Normalize(const Point3<T>& a) throw()	{ return a / Length(a); }
 
 	// Read input Vector3 format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
-	GCLINLINE std::istream& operator>>( std::istream& input, Point3<double>& P) {
+	GCLINLINE std::istream& operator>>( std::istream& input, Point3<Real>& P) {
 		char c;
 		input >> c;                // skip '('
 		input >> P.x;
@@ -138,7 +138,7 @@ namespace GCL
 	}
 
 	// Write output Vector3 in format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
-	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point3<double> &P)
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point3<Real> &P)
 	{
 		output << "(" << P.x << ", " << P.y << ", " << P.z << ")";
 		return output;
@@ -184,18 +184,18 @@ namespace GCL
 
 //============================================================================
 	
-	template<> GCLINLINE Point3<float> Point3<float>::operator/(const float& a) const throw()
+	template<> GCLINLINE Point3<Real> Point3<Real>::operator/(const Real& a) const throw()
 	{
-		return *this * (1.0f / a);
+		return *this * (1.0 / a);
 	}
 
-	template<> GCLINLINE Point3<float>& Point3<float>::operator/=(const float& a) throw()
+	template<> GCLINLINE Point3<Real>& Point3<Real>::operator/=(const Real& a) throw()
 	{
-		return *this *= (1.0f / a);
+		return *this *= (1.0 / a);
 	}
 	
-	template<> GCLINLINE bool Point3<double>::operator==(const Point3& a) const throw()		{ return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) && abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
-	template<> GCLINLINE bool Point3<double>::operator!=(const Point3& a) const throw()		{ return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) || !abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
+	template<> GCLINLINE bool Point3<Real>::operator==(const Point3& a) const throw()		{ return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) && abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
+	template<> GCLINLINE bool Point3<Real>::operator!=(const Point3& a) const throw()		{ return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) || !abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
 
 
 //============================================================================

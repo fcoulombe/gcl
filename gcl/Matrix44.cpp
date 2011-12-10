@@ -39,47 +39,47 @@ const Matrix44 Matrix44::IDENTITY(true);
 
 //============================================================================
 
-Matrix44 Matrix44::operator-() const throw()					
-		{
-	return Matrix44(-m0, -m1, -m2, -m3);	
-		}
+Matrix44 Matrix44::operator-() const
+{
+	return Matrix44(-m0, -m1, -m2, -m3);
+}
 
-Matrix44 Matrix44::operator+(const Matrix44& a) const throw()	
-		{
+Matrix44 Matrix44::operator+(const Matrix44& a) const
+{
 	return Matrix44(m0+a.m0, m1+a.m1, m2+a.m2, m3+a.m3);	
-		}
+}
 
-Matrix44 Matrix44::operator-(const Matrix44& a) const throw()	
-		{
+Matrix44 Matrix44::operator-(const Matrix44& a) const
+{
 	return Matrix44(m0-a.m0, m1-a.m1, m2-a.m2, m3-a.m3);	
-		}
+}
 
-Matrix44& Matrix44::operator+=(const Matrix44& a) throw()		
-		{
+Matrix44& Matrix44::operator+=(const Matrix44& a)
+{
 	m0 += a.m0; 
 	m1 += a.m1; 
 	m2 += a.m2; 
 	m3 += a.m3; 
 	return *this;	
-		}
+}
 
-Matrix44& Matrix44::operator-=(const Matrix44& a) throw()		
-		{
+Matrix44& Matrix44::operator-=(const Matrix44& a)
+{
 	m0 -= a.m0; 
 	m1 -= a.m1; 
 	m2 -= a.m2; 
 	m3 -= a.m3; 
 	return *this;	
-		}
+}
 
-Matrix44  GCL::operator*(const Real a, const Matrix44& b) throw() 
-		{
+Matrix44  GCL::operator*(const Real a, const Matrix44& b)
+{
 	return Matrix44(a*b.m0, a*b.m1, a*b.m2, a*b.m3); 
-		}
+}
 
 
 
-void Matrix44::SetRotationX(double rotation)
+void Matrix44::SetRotationX(Real rotation)
 {
 	*this = IDENTITY;
 	m1[1] = cos(rotation);
@@ -87,7 +87,7 @@ void Matrix44::SetRotationX(double rotation)
 	m2[1] = sin(rotation);
 	m2[2] = cos(rotation);
 }
-void Matrix44::SetRotationY(double rotation)
+void Matrix44::SetRotationY(Real rotation)
 {
 	*this = IDENTITY;
 	m0[0] = cos(rotation);
@@ -95,7 +95,7 @@ void Matrix44::SetRotationY(double rotation)
 	m2[0] = -sin(rotation);
 	m2[2] = cos(rotation);
 }
-void Matrix44::SetRotationZ(double rotation)
+void Matrix44::SetRotationZ(Real rotation)
 {
 	*this = IDENTITY;
 	m0[0] = cos(rotation);
@@ -106,46 +106,119 @@ void Matrix44::SetRotationZ(double rotation)
 
 namespace GCL
 {	
+#if 0
 Matrix44  Inverse(const Matrix44& m)
 {
 	//std::cout << "inversing: " << m;
 	Real a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
 	Real a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
 	Real a2 = m[0][0]*m[1][3] - m[0][3]*m[1][0];
+
 	Real a3 = m[0][1]*m[1][2] - m[0][2]*m[1][1];
 	Real a4 = m[0][1]*m[1][3] - m[0][3]*m[1][1];
 	Real a5 = m[0][2]*m[1][3] - m[0][3]*m[1][2];
+
 	Real b0 = m[2][0]*m[3][1] - m[2][1]*m[3][0];
 	Real b1 = m[2][0]*m[3][2] - m[2][2]*m[3][0];
 	Real b2 = m[2][0]*m[3][3] - m[2][3]*m[3][0];
+
 	Real b3 = m[2][1]*m[3][2] - m[2][2]*m[3][1];
 	Real b4 = m[2][1]*m[3][3] - m[2][3]*m[3][1];
 	Real b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
 	const Real div = (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
+	std::cout <<"DET: "<<div<<std::endl;
 	GCLAssert(div!=0.0f);
 
 	Real s = 1.0f / div;
 	return Matrix44(WorldPoint4(s*( m[1][1]*b5 - m[1][2]*b4 + m[1][3]*b3 ),
-			s*(-m[0][1]*b5 + m[0][2]*b4 - m[0][3]*b3 ),
-			s*( m[3][1]*a5 - m[3][2]*a4 + m[3][3]*a3 ),
-			s*(-m[2][1]*a5 + m[2][2]*a4 - m[2][3]*a3 )),
-			WorldPoint4(s*(-m[1][0]*b5 + m[1][2]*b2 - m[1][3]*b1 ),
-					s*( m[0][0]*b5 - m[0][2]*b2 + m[0][3]*b1 ),
-					s*(-m[3][0]*a5 + m[3][2]*a2 - m[3][3]*a1 ),
-					s*( m[2][0]*a5 - m[2][2]*a2 + m[2][3]*a1 )),
+								s*(-m[0][1]*b5 + m[0][2]*b4 - m[0][3]*b3 ),
+								s*( m[3][1]*a5 - m[3][2]*a4 + m[3][3]*a3 ),
+								s*(-m[2][1]*a5 + m[2][2]*a4 - m[2][3]*a3 )),
+					WorldPoint4(s*(-m[1][0]*b5 + m[1][2]*b2 - m[1][3]*b1 ),
+								s*( m[0][0]*b5 - m[0][2]*b2 + m[0][3]*b1 ),
+								s*(-m[3][0]*a5 + m[3][2]*a2 - m[3][3]*a1 ),
+								s*( m[2][0]*a5 - m[2][2]*a2 + m[2][3]*a1 )),
 					WorldPoint4(s*( m[1][0]*b4 - m[1][1]*b2 + m[1][3]*b0 ),
-							s*(-m[0][0]*b4 + m[0][1]*b2 - m[0][3]*b0 ),
-							s*( m[3][0]*a4 - m[3][1]*a2 + m[3][3]*a0 ),
-							s*(-m[2][0]*a4 + m[2][1]*a2 - m[2][3]*a0 )),
-							WorldPoint4(s*(-m[1][0]*b3 + m[1][1]*b1 - m[1][2]*b0 ),
-									s*( m[0][0]*b3 - m[0][1]*b1 + m[0][2]*b0 ),
-									s*(-m[3][0]*a3 + m[3][1]*a1 - m[3][2]*a0 ),
-									s*( m[2][0]*a3 - m[2][1]*a1 + m[2][2]*a0 ))						
+								s*(-m[0][0]*b4 + m[0][1]*b2 - m[0][3]*b0 ),
+								s*( m[3][0]*a4 - m[3][1]*a2 + m[3][3]*a0 ),
+								s*(-m[2][0]*a4 + m[2][1]*a2 - m[2][3]*a0 )),
+					WorldPoint4(s*(-m[1][0]*b3 + m[1][1]*b1 - m[1][2]*b0 ),
+								s*( m[0][0]*b3 - m[0][1]*b1 + m[0][2]*b0 ),
+								s*(-m[3][0]*a3 + m[3][1]*a1 - m[3][2]*a0 ),
+								s*( m[2][0]*a3 - m[2][1]*a1 + m[2][2]*a0 ))
 	);
 }
+#else
+Matrix44  Inverse(const Matrix44& m)
+{
+    Real m00 = m[0][0], m01 = m[0][1], m02 = m[0][2], m03 = m[0][3];
+    Real m10 = m[1][0], m11 = m[1][1], m12 = m[1][2], m13 = m[1][3];
+    Real m20 = m[2][0], m21 = m[2][1], m22 = m[2][2], m23 = m[2][3];
+    Real m30 = m[3][0], m31 = m[3][1], m32 = m[3][2], m33 = m[3][3];
 
-Real  Determinant(const Matrix44& m) throw()
+    Real v0 = m20 * m31 - m21 * m30;
+    Real v1 = m20 * m32 - m22 * m30;
+    Real v2 = m20 * m33 - m23 * m30;
+    Real v3 = m21 * m32 - m22 * m31;
+    Real v4 = m21 * m33 - m23 * m31;
+    Real v5 = m22 * m33 - m23 * m32;
+
+    Real t00 = + (v5 * m11 - v4 * m12 + v3 * m13);
+    Real t10 = - (v5 * m10 - v2 * m12 + v1 * m13);
+    Real t20 = + (v4 * m10 - v2 * m11 + v0 * m13);
+    Real t30 = - (v3 * m10 - v1 * m11 + v0 * m12);
+
+    const Real div = (t00 * m00 + t10 * m01 + t20 * m02 + t30 * m03);
+	GCLAssert(div!=0.0);
+
+    Real invDet = 1.0 / div;
+
+    Real d00 = t00 * invDet;
+    Real d10 = t10 * invDet;
+    Real d20 = t20 * invDet;
+    Real d30 = t30 * invDet;
+
+    Real d01 = - (v5 * m01 - v4 * m02 + v3 * m03) * invDet;
+    Real d11 = + (v5 * m00 - v2 * m02 + v1 * m03) * invDet;
+    Real d21 = - (v4 * m00 - v2 * m01 + v0 * m03) * invDet;
+    Real d31 = + (v3 * m00 - v1 * m01 + v0 * m02) * invDet;
+
+    v0 = m10 * m31 - m11 * m30;
+    v1 = m10 * m32 - m12 * m30;
+    v2 = m10 * m33 - m13 * m30;
+    v3 = m11 * m32 - m12 * m31;
+    v4 = m11 * m33 - m13 * m31;
+    v5 = m12 * m33 - m13 * m32;
+
+    Real d02 = + (v5 * m01 - v4 * m02 + v3 * m03) * invDet;
+    Real d12 = - (v5 * m00 - v2 * m02 + v1 * m03) * invDet;
+    Real d22 = + (v4 * m00 - v2 * m01 + v0 * m03) * invDet;
+    Real d32 = - (v3 * m00 - v1 * m01 + v0 * m02) * invDet;
+
+    v0 = m21 * m10 - m20 * m11;
+    v1 = m22 * m10 - m20 * m12;
+    v2 = m23 * m10 - m20 * m13;
+    v3 = m22 * m11 - m21 * m12;
+    v4 = m23 * m11 - m21 * m13;
+    v5 = m23 * m12 - m22 * m13;
+
+    Real d03 = - (v5 * m01 - v4 * m02 + v3 * m03) * invDet;
+    Real d13 = + (v5 * m00 - v2 * m02 + v1 * m03) * invDet;
+    Real d23 = - (v4 * m00 - v2 * m01 + v0 * m03) * invDet;
+    Real d33 = + (v3 * m00 - v1 * m01 + v0 * m02) * invDet;
+
+
+    WorldPoint4 res1(d00, d01, d02, d03);
+    WorldPoint4 res2(d10, d11, d12, d13);
+    WorldPoint4 res3(d20, d21, d22, d23);
+    WorldPoint4 res4(d30, d31, d32, d33);
+    Matrix44 tempMat(res1,res2,res3,res4);
+    return tempMat;
+}
+#endif
+
+Real  Determinant(const Matrix44& m)
 			{
 	Real a0 = m[0][0]*m[1][1] - m[0][1]*m[1][0];
 	Real a1 = m[0][0]*m[1][2] - m[0][2]*m[1][0];
@@ -161,12 +234,12 @@ Real  Determinant(const Matrix44& m) throw()
 	Real b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
 	return a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
-			}
+		}
 }
 
 #if defined(JASM_GNUC_ARM_NEON)
 
-Matrix44 Matrix44::operator*(const Matrix44& a) const throw()
+Matrix44 Matrix44::operator*(const Matrix44& a) const
 		{
 	asm("vldmia		r1, { q0-q3 }");		// q4-q7 = *this
 	asm("vldmia		r2, { q8-q11 }");		// q8-q11 = a
@@ -194,7 +267,7 @@ Matrix44 Matrix44::operator*(const Matrix44& a) const throw()
 	asm("vstmia		r0, { q12-q15 }");	
 		}
 
-WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
+WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b)
 		{
 	asm("fldmias	r1, { s0-s2 }");
 	asm("vldmia		r2!, { q8-q11 }");
@@ -207,7 +280,7 @@ WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
 	asm("fstmias	r0, { s0-s2 }");
 		}
 
-WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
+WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b)
 		{
 	asm("vldmia		r1, { q0 }");
 	asm("vldmia		r2!, { q8-q11 }");
@@ -223,7 +296,7 @@ WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
 
 #elif defined(JASM_GNUC_ARM)
 
-Matrix44 Matrix44::operator*(const Matrix44& a) const throw()
+Matrix44 Matrix44::operator*(const Matrix44& a) const
 		{
 	asm("fstmfds sp!, { s16-s31 }");
 
@@ -262,7 +335,7 @@ Matrix44 Matrix44::operator*(const Matrix44& a) const throw()
 	asm("fmxr	 fpscr, r12");
 		}
 
-WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
+WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b)
 		{
 	asm("fstmfds sp!, { s16-s18 }");
 	asm("fldmias r1, { s0-s2 }");
@@ -288,7 +361,7 @@ WorldPoint3 GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
 	asm("fstmias r0, { s4-s6 }");
 		}
 
-WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
+WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b)
 		{
 	asm("fstmfds sp!, { s16-s19 }");
 	asm("fldmias r1, { s0-s3 }");
@@ -325,12 +398,48 @@ WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
 
 #else
 
-Matrix44  Matrix44::operator*(const Matrix44& a) const throw()
-		{
-	return Matrix44(m0*a, m1*a, m2*a, m3*a);
-		}
+Matrix44  Matrix44::operator*(const Matrix44& a) const
+{
+	//return Matrix44(m0*a, m1*a, m2*a, m3*a);
+    Matrix44 result;
 
-WorldPoint3  GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
+    result[0].x = m0.x*a[0].x + m0.y*a[0].x + m0.z*a[2].x +m0.w*a[3].x;
+    result[0].y = m0.x*a[0].y + m0.y*a[1].y + m0.z*a[2].y +m0.w*a[3].y;
+    result[0].z = m0.x*a[0].z + m0.y*a[1].z + m0.z*a[2].z +m0.w*a[3].z;
+    result[0].w = m0.x*a[0].w + m0.y*a[1].w + m0.z*a[2].w +m0.w*a[3].w;
+
+    result[1].x = m1.x*a[1].x + m1.y*a[1].x + m1.z*a[2].x +m1.w*a[3].x;
+    result[1].y = m1.x*a[1].y + m1.y*a[1].y + m1.z*a[2].y +m1.w*a[3].y;
+    result[1].z = m1.x*a[1].z + m1.y*a[1].z + m1.z*a[2].z +m1.w*a[3].z;
+    result[1].w = m1.x*a[1].w + m1.y*a[1].w + m1.z*a[2].w +m1.w*a[3].w;
+
+    result[2].x = m2.x*a[2].x + m2.y*a[1].x + m2.z*a[2].x +m2.w*a[3].x;
+    result[2].y = m2.x*a[2].y + m2.y*a[1].y + m2.z*a[2].y +m2.w*a[3].y;
+    result[2].z = m2.x*a[2].z + m2.y*a[1].z + m2.z*a[2].z +m2.w*a[3].z;
+    result[2].w = m2.x*a[2].w + m2.y*a[1].w + m2.z*a[2].w +m2.w*a[3].w;
+
+    result[3].x = m3.x*a[3].x + m3.y*a[1].x + m3.z*a[2].x +m3.w*a[3].x;
+    result[3].y = m3.x*a[3].y + m3.y*a[1].y + m3.z*a[2].y +m3.w*a[3].y;
+    result[3].z = m3.x*a[3].z + m3.y*a[1].z + m3.z*a[2].z +m3.w*a[3].z;
+    result[3].w = m3.x*a[3].w + m3.y*a[1].w + m3.z*a[2].w +m3.w*a[3].w;
+
+
+    return result;
+    /*
+    for(size_t i=0; i<4; ++i)
+    {
+      for(size_t j=0; j<4; ++j)
+      {
+		for(size_t k=0; k<4; ++k)
+		{
+			result[i][j] += (*this)[i][k]*a[k][j];
+		}
+      }
+    }
+    return result;*/
+}
+
+WorldPoint3  GCL::operator*(const WorldPoint3& a, const Matrix44& b)
 		{
 	return WorldPoint3(a[0]*b[0][0] + a[1]*b[1][0] + a[2]*b[2][0] + b[3][0],
 			a[0]*b[0][1] + a[1]*b[1][1] + a[2]*b[2][1] + b[3][1],
@@ -339,7 +448,7 @@ WorldPoint3  GCL::operator*(const WorldPoint3& a, const Matrix44& b) throw()
 
 #if 0 // defined(JASM_GNUC_X86_SSE3)
 
-WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
+WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b)
 		{
 	asm("mov	8(%ebp), %eax");
 	asm("mov	12(%ebp), %ecx");
@@ -369,7 +478,7 @@ WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
 
 #else
 
-WorldPoint4  GCL::operator*(const WorldPoint4& a, const Matrix44& b) throw()
+WorldPoint4  GCL::operator*(const WorldPoint4& a, const Matrix44& b)
 		{
 	return WorldPoint4(a[0]*b[0][0] + a[1]*b[1][0] + a[2]*b[2][0] + a[3]*b[3][0],
 			a[0]*b[0][1] + a[1]*b[1][1] + a[2]*b[2][1] + a[3]*b[3][1],

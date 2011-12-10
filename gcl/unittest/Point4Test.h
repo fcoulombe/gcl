@@ -32,12 +32,12 @@ void Test()
 {
 	TEST_START
 
-	double arr[] = {1.0,1.0,1.0, 1.0};
+	Real arr[] = {1.0,1.0,1.0, 1.0};
 	WorldPoint4 t1(arr);
 	WorldPoint4 t2(1.0,1.0,1.0,1.0);
 	WorldPoint4 t3(1.0,1.0,1.0,1.0);
 	WorldPoint4 t4(0.0,1.0,1.0,1.0);
-	double scalar = 2.0;
+	Real scalar = 2.0;
 	int iscalar =5;
 
 	Assert_Test(t1+t2 == WorldPoint4(2,2,2,2));
