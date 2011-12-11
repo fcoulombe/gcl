@@ -24,6 +24,9 @@
 #include <gcl/UnitTest.h>
 
 #include <gcl/PushWarnings.h>
+#if defined(OS_IPHONE)
+#import <opencv2/opencv.hpp>
+#endif
 #include <cv.h>
 #include <gcl/PopWarnings.h>
 

@@ -21,12 +21,15 @@
  */
 #pragma once
 #include <vector>
+#include <iostream>
 
 namespace GCL
 {
+    size_t sNumTestFailures=0;
   class TestCounter
   {
   public:
+      
     struct Failure
     {
       Failure(const char *cond, const char *file, size_t line, const char *function, const char *msg)
@@ -60,6 +63,7 @@ namespace GCL
               if (failedTest[i].mMsg.length())
                 std::cerr << " Msg: " << failedTest[i].mMsg;
               std::cerr << std::endl;
+              sNumTestFailures++;
           }
       }
       else {
