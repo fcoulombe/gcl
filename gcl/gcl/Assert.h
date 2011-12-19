@@ -25,5 +25,16 @@
 
 #define GCLAssert(x) iGCLAssert(x, __FILE__, __LINE__)
 #define GCLAssertMsg(x, msg) iGCLAssertMsg(x, msg, __FILE__, __LINE__)
-#define iGCLAssert(x,file, line) do { if (!(x)) {  throw GCL::GCLException(#x, file, line); } }while(false);
-#define iGCLAssertMsg(x,msg, file, line) do { if (!(x)) throw GCL::GCLException(std::string(#x) + std::string(" ") + msg, file, line); }while(false);
+#define iGCLAssert(x,file, line) \
+do { \
+    if (!(x)) {\
+        throw GCL::GCLException(#x, file, line); \
+} }while(false); \
+\
+
+#define iGCLAssertMsg(x,msg, file, line) \
+do { \
+if (!(x)) \
+    throw GCL::GCLException(std::string(#x) + std::string(" ") + msg, file, line);\
+}while(false); \
+
