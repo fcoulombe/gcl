@@ -57,7 +57,7 @@ namespace SafeCastTest
       (void)b;
       delete a;
     }
-    A* a;
+    A* a=NULL;
     try
     {
       a = new C();
@@ -66,7 +66,8 @@ namespace SafeCastTest
     }
     catch (GCLException& e)
     {
-    	delete a;
+    	if (a)
+    		delete a;
         const char *testString = "t you are trying to up cast in the wrong type. this is very dangerous";
         Assert_Test(strncmp(e.message(), testString, strlen(testString)) == 0 );
     }

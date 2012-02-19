@@ -195,7 +195,7 @@ void Test()
 		s.str("");
 		myMat.SetRotationX(DegreeToRadian(90.0));
 		s<<Determinant(myMat)<<"==1.0";
-		AssertMsg_Test(Determinant(myMat)==1.0, s.str().c_str());
+		AssertMsg_Test(abseq(Determinant(myMat),1.0, DBL_PRECISION_TOLERANCE), s.str().c_str());
 		Assert_Test(myMat.IsOrthoNormal());
 
 		s.str("");
@@ -264,6 +264,18 @@ void Test()
 		s.str("");
 		s<<std::endl<<matIdentity<<std::endl<<"=="<<std::endl<<Matrix44::IDENTITY;
 		AssertMsg_Test(matIdentity==Matrix44::IDENTITY, s.str().c_str());
+	}
+
+	//[] operator test
+	{
+		Matrix44 indexOpTest;
+		indexOpTest[0] = WorldPoint4(1.810660174077882, 2.0, 3.0, 4.0);
+
+		WorldPoint4 indexOpTestPoint = indexOpTest[0];
+
+		s.str("");
+		s<<std::endl<<indexOpTestPoint<<std::endl<<"=="<<std::endl<<WorldPoint4(1.810660174077882, 2.0, 3.0, 4.0);
+		AssertMsg_Test(indexOpTestPoint==WorldPoint4(1.810660174077882, 2.0, 3.0, 4.0), s.str().c_str());
 	}
 
 }

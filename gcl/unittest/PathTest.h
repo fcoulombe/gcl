@@ -34,12 +34,35 @@ void Test();
 void Test()
 {
 	TEST_START
+	std::stringstream s;
 
+	//path to first slash test
+	{
 	const std::string path ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest/renderer_test";
 	const std::string dirNameOfPath ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest";
-	std::string dirName = Path::Dirname(path);
-	std::stringstream s;
+	std::string dirName = Path::PathToFirstSlash(path);
+	s.str("");
 	s<<dirName<<std::endl<<" == "<<std::endl << dirNameOfPath ;
 	AssertMsg_Test(dirName==dirNameOfPath, s.str().c_str());
+	}
+
+	//path from first slash test
+	{
+		const std::string path ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest/renderer_test";
+		const std::string dirNameOfPath ="renderer_test";
+		std::string dirName = Path::PathFromFirstSlash(path);
+		std::stringstream s;
+		s.str("");
+		s<<dirName<<std::endl<<" == "<<std::endl << dirNameOfPath ;
+		AssertMsg_Test(dirName==dirNameOfPath, s.str().c_str());
+	}
+
+	//get CWD test
+	{
+	const std::string cwd = Path::Cwd();
+	s.str("");
+	s<<Path::PathFromFirstSlash(cwd)<<std::endl<<" == "<<std::endl << "unittest" ;
+	AssertMsg_Test(Path::PathFromFirstSlash(cwd)=="unittest", s.str().c_str());
+	}
 }
 }

@@ -28,22 +28,25 @@ using namespace GCL;
 namespace ExceptionTest
 {
 
-    void ExceptionTestFunction2();
+namespace
+{
+void ExceptionTestFunction2();
 void ExceptionTestFunction2()
 {
 	throw GCLException();
 }
-    void ExceptionTestFunction1();
-    void ExceptionTestFunction1()
+void ExceptionTestFunction1();
+void ExceptionTestFunction1()
 {
 	ExceptionTestFunction2();
 }
-    void ExceptionTestFunction3();
-    void ExceptionTestFunction3()
+void ExceptionTestFunction3();
+void ExceptionTestFunction3()
 {
 	throw GCLException("Message Exception");
 }
-    void Test();
+}
+void Test();
 void Test()
 {
 	TEST_START

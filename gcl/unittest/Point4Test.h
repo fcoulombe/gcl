@@ -40,6 +40,13 @@ void Test()
 	Real scalar = 2.0;
 	int iscalar =5;
 
+	//equal test
+	WorldPoint4 eqTest1(10.0,11.0,12.0,13.0);
+	WorldPoint4 eqTest2;
+	eqTest2 = eqTest1;
+	Assert_Test(eqTest2 == eqTest1);
+
+	//arithm test
 	Assert_Test(t1+t2 == WorldPoint4(2,2,2,2));
 	Assert_Test(t2-t3 == WorldPoint4(0,0,0,0));
 	Assert_Test(t1*t2 == WorldPoint4(1,1,1,1));
