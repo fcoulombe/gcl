@@ -29,7 +29,7 @@ using namespace GCL;
 
 //============================================================================
 
-const std::string Path::Dirname(const std::string  &dir)
+const std::string Path::PathToFirstSlash(const std::string  &dir)
 {
 	const char DIR_SEPARATOR = '/';
 	register int i;
@@ -41,4 +41,25 @@ const std::string Path::Dirname(const std::string  &dir)
 
 	return loc.substr(0, i);
 }
+const std::string Path::PathFromFirstSlash(const std::string  &dir)
+{
+	const char DIR_SEPARATOR = '/';
+	register int i;
+	const std::string &loc = dir;
+	size_t size = loc.length();
+
+	for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
+		;
+
+	return loc.substr(i+1, size);
+}
+
+const std::string Path::Cwd()
+{
+	char cwd[4096 + 1] = { '\0' };
+	getcwd(cwd, sizeof(cwd));
+	return std::string(cwd);
+
+}
+
 //============================================================================
