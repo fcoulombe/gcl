@@ -51,7 +51,7 @@ namespace GCL
 
 		template <typename T2>
 		GCLINLINE explicit Point4(const T2 a[4])  : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }
-		GCLINLINE Point4(const Point4& a) : x(a.x),y(a.x),z(a.x), w(a.w)	{ }
+		GCLINLINE Point4(const Point4& a) : x(a.x),y(a.y),z(a.z), w(a.w)	{ }
 
 		GCLINLINE void Set(const T& aX, const T& aY, const T& aZ, const T& aW) 	{ this->x = aX; this->y = aY; this->z = aZ; this->w = aW; }
 		GCLINLINE void Set(const T a[4])												{ this->x = a[0]; this->y = a[1]; this->z = a[2]; this->w = a[3]; }
@@ -92,6 +92,14 @@ namespace GCL
 			this->y = a.y;
 			this->z = a.z;
 			return *this; }
+
+		GCLINLINE Point4 &operator=(const Point4<T>& a)
+						{
+					this->x = a.x;
+					this->y = a.y;
+					this->z = a.z;
+					this->w = a.w;
+					return *this; }
 
 		GCLINLINE bool operator==(const Point4& a) const
 				{
