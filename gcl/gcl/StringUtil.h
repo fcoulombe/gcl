@@ -34,8 +34,8 @@ namespace GCL
 class StringUtil
 {
 public:
-
-	static std::vector<std::string> Explode(const std::string& str, const char& ch);
+	static std::vector<std::string> Explode(const std::string& str,
+											const char ch);
 };
 
 //============================================================================
