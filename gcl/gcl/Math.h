@@ -20,6 +20,9 @@
  * THE SOFTWARE.
  */
 #pragma once
+#include <math.h>
+#include <stdlib.h>
+
 #include "gcl/Macro.h"
 #include "gcl/WorldUnit.h"
 
