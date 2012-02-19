@@ -25,7 +25,6 @@
 //============================================================================
 
 
-#if defined(__APPLE__) && __APPLE__
 #	if defined(__GNUC__)
 #		define COMP_VERSION __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__
 #		if __llvm__ && __clang__
@@ -35,7 +34,6 @@
 #			pragma clang diagnostic ignored "-Wunused-variable"
 #		endif
 #	endif
-#endif
 
 //#pragma clang diagnostic pop
 
