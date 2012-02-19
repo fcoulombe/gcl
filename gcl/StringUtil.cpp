@@ -31,7 +31,7 @@ using namespace GCL;
 
 //============================================================================
 
-std::vector<std::string> StringUtil::Explode(const std::string& str, const char& ch)
+std::vector<std::string> StringUtil::Explode(const std::string& str, const char ch)
 {
 	std::string next = "";
 	std::vector<std::string> result;
