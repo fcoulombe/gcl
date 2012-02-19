@@ -30,32 +30,37 @@
 
 namespace GCL
 {
-  //============================================================================
+//============================================================================
 
-  class GCLException : public std::exception
-  {
-  public:
-    /*GCLException(const std::string &message = "no reason")
+class GCLException : public std::exception
+{
+public:
+	/*GCLException(const std::string &message = "no reason")
     { Initialize(message, "undefined", 0); }*/
 
 
-    GCLException(const std::string &message=  "no reason", const std::string &file = std::string(), int line = 0)
-    { Initialize(message, file, line); }
+	GCLException(const std::string &message=  "no reason", const std::string &file = std::string(), int line = 0)
+	{ Initialize(message, file, line); }
 
-    virtual ~GCLException() throw() {}
-    virtual const char *what() const throw() { return (mFileInfo+mMessage+mStackTrace).c_str(); }
+	virtual ~GCLException() throw() {}
+	virtual const char *what() const throw()
+    {
+		static std::string ret;
+		ret = mFileInfo+mMessage+mStackTrace;
+		return ret.c_str();
+    }
 
-    const char *message() { return mMessage.c_str(); }
-    const char *stacktrace() { return mStackTrace.c_str(); }
+	const char *message() { return mMessage.c_str(); }
+	const char *stacktrace() { return mStackTrace.c_str(); }
 
-  private:
-    //copy string argument to ensure the string data to be cleared by the stack unwinding
-    void Initialize(const std::string &message, const std::string &file, int line);
-    std::string mFileInfo;
-    std::string mMessage;
-    std::string mStackTrace;
-  };
+private:
+	//copy string argument to ensure the string data to be cleared by the stack unwinding
+	void Initialize(const std::string &message, const std::string &file, int line);
+	std::string mFileInfo;
+	std::string mMessage;
+	std::string mStackTrace;
+};
 
-  //============================================================================
+//============================================================================
 } // namespace GCL
 //============================================================================
