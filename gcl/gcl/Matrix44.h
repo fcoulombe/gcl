@@ -90,6 +90,8 @@ namespace GCL
 
 		void SetPosition(const WorldPoint3 &position) { m3 = position; }
 
+		void SetPosition(const WorldPoint4 &position) { m3 = position; }
+
 		GCLINLINE const Matrix44& operator+() const 		{ return *this;		}
 		GCLEXPORT Matrix44  operator-() const ;
 
