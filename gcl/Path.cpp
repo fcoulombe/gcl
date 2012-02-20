@@ -57,7 +57,8 @@ const std::string Path::PathFromFirstSlash(const std::string  &dir)
 const std::string Path::Cwd()
 {
 	char cwd[4096 + 1] = { '\0' };
-	getcwd(cwd, sizeof(cwd));
+	const char *ret = getcwd(cwd, sizeof(cwd));
+	(void)ret;
 	return std::string(cwd);
 
 }
