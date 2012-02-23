@@ -22,6 +22,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include "gcl/Exception.h"
 
 namespace GCL
 {
