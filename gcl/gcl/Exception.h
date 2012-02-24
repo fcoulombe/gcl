@@ -26,6 +26,7 @@
 #include <string>
 #include <exception>
 
+
 //============================================================================
 
 namespace GCL
@@ -46,7 +47,7 @@ public:
 	virtual const char *what() const throw()
     {
 		static std::string ret;
-		ret = mFileInfo+mMessage+mStackTrace;
+		ret = std::string("\n")+ mFileInfo+mMessage;//+mStackTrace;
 		return ret.c_str();
     }
 
