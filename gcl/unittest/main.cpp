@@ -38,6 +38,9 @@
 #include <gcl/Point3.h>
 #include <gcl/Point4.h>
 #include <gcl/Quaternion.h>
+#include <gcl/Resource.h>
+#include <gcl/ResourceManager.h>
+#include <gcl/ResourceManagerConfig.h>
 #include <gcl/Sphere.h>
 #include <gcl/TypeData.h>
 #include <gcl/UnitTest.h>
@@ -52,6 +55,7 @@
 #include "Point2Test.h"
 #include "Point3Test.h"
 #include "Point4Test.h"
+#include "ResourceTest.h"
 #include "SafeCastTest.h"
 #include "StringUtilTest.h"
 #include "WarningTest.h"
@@ -77,6 +81,8 @@ int main(int /*argc*/, char **argv)
       Matrix44Test::Test();
 
       CurveTest::Test();
+
+      ResourceTest::Test();
   }
   catch (GCLException & e)
   {
