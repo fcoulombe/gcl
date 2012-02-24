@@ -29,3 +29,4 @@
 #define TEXTURE_PATH  DATA_PATH"Texture/"
 #define MATERIAL_PATH DATA_PATH"Material/"
 #define SPRITE_PATH DATA_PATH"Sprite/"
+#define SOUND_PATH DATA_PATH"Sound/"
