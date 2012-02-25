@@ -30,10 +30,10 @@
 using namespace GCL;
 
 
-const Resource * ResourceManager::LoadResource( const char *textureName )
+const Resource * ResourceManager::LoadResource( const char *fileName )
 {
   //hash the name for faster search in the tree
-  uint32_t fileNameHash = Hash::DJB(textureName, strlen(textureName));
+  uint32_t fileNameHash = Hash::DJB(fileName, strlen(fileName));
 
   //check if we have the resource in our ResourceManager
   ResourceCache::iterator it = mResourceCache.find(fileNameHash);
@@ -44,7 +44,7 @@ const Resource * ResourceManager::LoadResource( const char *textureName )
     }
 
   //if we don't then load the resource
-  Resource *newResource = Allocate(textureName);
+  Resource *newResource = Allocate(fileName);
   mResourceCache[fileNameHash] = newResource;
   return newResource;
 }
