@@ -35,9 +35,10 @@ void Test()
 
 	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
-
+	Assert_Test(fp.GetCurrentReadPos() == 0);
 	uint8_t *buffer = new uint8_t[fp.GetFileSize()];
 	fp.Read(buffer, fp.GetFileSize());
+
 	delete [] buffer;
 	fp.Close();
 }

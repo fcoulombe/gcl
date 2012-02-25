@@ -41,6 +41,7 @@ public:
 
 	~GCLFile() {}
 	size_t GetFileSize() const;
+	size_t GetCurrentReadPos() const;
 	void Read(void *buffer, size_t count);
 	void Close();
 	void Open(const char *file );

@@ -29,6 +29,12 @@
 
 using namespace GCL;
 
+size_t GCLFile::GetCurrentReadPos() const
+{
+	int pos = ((std::istream&)mFp).tellg() ;
+	return pos;
+}
+
 size_t GCLFile::GetFileSize() const
 {
 	((std::istream&)mFp).seekg(0, std::ios::end);
@@ -48,6 +54,9 @@ void GCLFile::Close()
 void GCLFile::Open(const char *file )
 {
 	mFp.open(file, std::ios::in|std::ios::binary);
-	GCLAssert(mFp.good());
+	std::string msg("trying to loads " );
+	msg += file;
+	msg += "\n";
+	GCLAssertMsg(mFp.is_open() && mFp.good(), msg.c_str());
 }
 //============================================================================
