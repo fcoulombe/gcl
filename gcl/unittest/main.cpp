@@ -38,6 +38,7 @@
 #include <gcl/Point3.h>
 #include <gcl/Point4.h>
 #include <gcl/Quaternion.h>
+#include <gcl/File.h>
 #include <gcl/Resource.h>
 #include <gcl/ResourceManager.h>
 #include <gcl/ResourceManagerConfig.h>
@@ -49,6 +50,7 @@
 #include "AssertTest.h"
 #include "CurveTest.h"
 #include "ExceptionTest.h"
+#include "FileLoadingTest.h"
 #include "HashTest.h"
 #include "Matrix44Test.h"
 #include "PathTest.h"
@@ -82,6 +84,7 @@ int main(int /*argc*/, char **argv)
 
       CurveTest::Test();
 
+      FileLoadingTest::Test();
       ResourceTest::Test();
   }
   catch (GCLException & e)
