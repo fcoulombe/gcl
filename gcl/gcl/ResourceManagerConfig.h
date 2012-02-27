@@ -30,4 +30,5 @@
 #define MATERIAL_PATH DATA_PATH"Material/"
 #define SPRITE_PATH DATA_PATH"Sprite/"
 #define SOUND_PATH DATA_PATH"Sound/"
+#define MUSIC_PATH DATA_PATH"Music/"
 #define MESH_PATH DATA_PATH"Mesh/"
