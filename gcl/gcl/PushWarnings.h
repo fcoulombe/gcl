@@ -24,7 +24,6 @@
 
 //============================================================================
 
-
 #	if defined(__GNUC__)
 #		define COMP_VERSION __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__
 #		if __llvm__ && __clang__
@@ -32,6 +31,10 @@
 #			pragma clang diagnostic ignored "-Wunused-parameter"
 #			pragma clang diagnostic ignored "-Wsign-compare"
 #			pragma clang diagnostic ignored "-Wunused-variable"
+#			pragma clang diagnostic ignored "-Wignored-qualifiers"
+#		else
+#			pragma GCC diagnostic push
+#			pragma GCC diagnostic ignored "-Wuninitialized"
 #		endif
 #	endif
 

@@ -20,10 +20,9 @@
  * THE SOFTWARE.
  */
 
-#ifdef __APPLE__
 #	if defined __GNUC__
+#		pragma GCC diagnostic pop
 #	elif __llvm__ && __clang__
 #		pragma clang diagnostic pop
 #	endif
-#endif
 
