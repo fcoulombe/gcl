@@ -34,6 +34,7 @@
 #include <gcl/Matrix33.h>
 #include <gcl/Matrix43.h>
 #include <gcl/Matrix44.h>
+#include <gcl/Memory.h>
 #include <gcl/Point2.h>
 #include <gcl/Point3.h>
 #include <gcl/Point4.h>
@@ -53,6 +54,7 @@
 #include "FileLoadingTest.h"
 #include "HashTest.h"
 #include "Matrix44Test.h"
+#include "MemoryTest.h"
 #include "PathTest.h"
 #include "Point2Test.h"
 #include "Point3Test.h"
@@ -75,6 +77,7 @@ int main(int /*argc*/, char **argv)
       HashTest::Test();
       StringUtilTest::Test();
       PathTest::Test();
+      MemoryTest::Test();
 
       Point2Test::Test();
       Point3Test::Test();
