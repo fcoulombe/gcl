@@ -30,37 +30,48 @@
 using namespace GCL;
 
 
+ResourceManager::~ResourceManager()
+{
+	mResourceCache.clear();
+}
+
 const Resource * ResourceManager::LoadResource( const char *fileName )
 {
-  //hash the name for faster search in the tree
-  uint32_t fileNameHash = Hash::DJB(fileName, strlen(fileName));
+	//hash the name for faster search in the tree
+	uint32_t fileNameHash = Hash::DJB(fileName, strlen(fileName));
 
-  //check if we have the resource in our ResourceManager
-  ResourceCache::iterator it = mResourceCache.find(fileNameHash);
-  if (it != mResourceCache.end())
-    {
-      ++it->second->mRefCount;
-      return it->second;
-    }
+	//check if we have the resource in our ResourceManager
+	ResourceCache::iterator it = mResourceCache.find(fileNameHash);
+	if (it != mResourceCache.end())
+	{
+		++it->second->mRefCount;
+		return it->second;
+	}
 
-  //if we don't then load the resource
-  Resource *newResource = Allocate(fileName);
-  mResourceCache[fileNameHash] = newResource;
-  return newResource;
+	//if we don't then load the resource
+	Resource *newResource = Allocate(fileName);
+	mResourceCache[fileNameHash] = newResource;
+	return newResource;
 }
 
 //reduce the ref count
 void ResourceManager::ReleaseResource( const Resource *resource )
 {
-  for (ResourceCache::iterator it = mResourceCache.begin(); it != mResourceCache.end(); ++it)
-    {
-      if (it->second == resource)
-        {
-          --it->second->mRefCount;
-          GCLAssert((ssize_t)(resource->mRefCount)>=0); //if we get a ref count of -1, something went really wrong;
-          return;
-        }
-    }
-  GCLAssertMsg(false, "we released a texture that didnt exist.");
+	for (ResourceCache::iterator it = mResourceCache.begin(); it != mResourceCache.end(); ++it)
+	{
+		Resource *tempResource = it->second;
+		if (tempResource == resource)
+		{
+			--tempResource->mRefCount;
+			GCLAssert((ssize_t)(resource->mRefCount)>=0); //if we get a ref count of -1, something went really wrong;
+			if (resource->mRefCount == 0)
+			{
+				Free(tempResource);
+				mResourceCache.erase(it);
+			}
+			return;
+		}
+	}
+	GCLAssertMsg(false, "we released a texture that didnt exist.");
 }
 

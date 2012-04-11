@@ -43,8 +43,6 @@ public:
 protected:
 	typedef std::map<uint32_t, Resource*> ResourceCache;
 	ResourceCache mResourceCache;
-	virtual ~ResourceManager()
-	{
-	}
+	virtual ~ResourceManager();
 };
 }

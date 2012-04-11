@@ -70,7 +70,7 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
       stackStream << std::endl;
     }
   mStackTrace = stackStream.str();
-  delete (strings);
+  free(strings);
 }
 
 //============================================================================

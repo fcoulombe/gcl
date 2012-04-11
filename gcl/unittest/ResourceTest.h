@@ -44,10 +44,10 @@ public:
 		msg += path.c_str();
 		msg += "\n";
 
-			std::fstream fp(path.c_str(), std::fstream::binary|std::fstream::in);
-			GCLAssertMsg(fp.is_open() && fp.good(), msg.c_str());
-			//load file here
-			fp.close();
+		std::fstream fp(path.c_str(), std::fstream::binary|std::fstream::in);
+		GCLAssertMsg(fp.is_open() && fp.good(), msg.c_str());
+		//load file here
+		fp.close();
 	}
 	~MyResource(){}
 
@@ -78,9 +78,9 @@ public:
 	{
 		return new MyResource(filename);
 	}
-	void Free(Resource * /*resource*/)
+	void Free(Resource * resource)
 	{
-
+		delete resource;
 	}
 
 private:
@@ -103,6 +103,13 @@ void Test()
 	const Resource *tgaResource;
 	tgaResource = textureResourceManager.LoadResource(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(tgaResource);
+	const Resource *tgaResource2;
+	tgaResource2 = textureResourceManager.LoadResource(TEXTURE_PATH"mushroomtga.tga");
+	Assert_Test(tgaResource2);
+	Assert_Test(tgaResource == tgaResource2);
+
+	textureResourceManager.ReleaseResource(tgaResource2);
+	textureResourceManager.ReleaseResource(tgaResource);
 
 	MyResourceManager::Terminate();
 }
