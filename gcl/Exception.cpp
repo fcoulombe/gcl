@@ -71,8 +71,8 @@ const std::string GCLException::Demangle(const char *i_symbol)
 		else
 		{
 			// demangling failed, just pretend it's a C function with no args
-			strncpy(function, begin, sz);
-			strncat(function, "()", sz);
+			//strncpy(function, begin, sz);
+			//strncat(function, "()", sz);
 			function[sz-1] = ' ';
 		}
 		retStr = i_symbol;
