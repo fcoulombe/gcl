@@ -47,13 +47,14 @@ public:
 	virtual const char *what() const throw()
     {
 		static std::string ret;
-		ret = std::string("\n")+ mFileInfo+mMessage;//+mStackTrace;
+		ret = std::string("\n")+ mFileInfo+mMessage+mStackTrace;
 		return ret.c_str();
     }
 
 	const char *message() { return mMessage.c_str(); }
 	const char *stacktrace() { return mStackTrace.c_str(); }
 
+	static const std::string Demangle(const char *symbol);
 private:
 	//copy string argument to ensure the string data to be cleared by the stack unwinding
 	void Initialize(const std::string &message, const std::string &file, int line);
