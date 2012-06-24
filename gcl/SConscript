@@ -21,12 +21,19 @@
 
  
 Import('env')
+import platform
 
 name = "gcl"
 incPath = [env.Dir(".").srcnode()]
 dependencies = []
 
-cflags = ['-DUSE_64BIT_PLATFORM=0']
+if platform.architecture()[0] == "32bit":
+    cflags = ['-DUSE_64BIT_PLATFORM=0']
+elif platform.architecture()[0] == "64bit":
+    cflags = ['-DUSE_64BIT_PLATFORM=1']
+else:
+    print "unsupported architecture: %s" % platform.architecture()[0] 
+
 env.AppendUnique(CPPFLAGS=cflags)
 env.AppendUnique(CPPPATH=incPath)
 src_files = env.Glob("*.cpp")
