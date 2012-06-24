@@ -60,7 +60,14 @@ const std::string Path::Cwd()
 	const char *ret = getcwd(cwd, sizeof(cwd));
 	(void)ret;
 	return std::string(cwd);
+}
 
+#define PATH_MAX 255
+const std::string Path::GetApplicationPath()
+{
+	char result[ PATH_MAX ];
+	ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+	return std::string( result, (count > 0) ? count : 0 );
 }
 
 //============================================================================

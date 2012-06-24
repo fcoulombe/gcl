@@ -64,5 +64,14 @@ void Test()
 	s<<Path::PathFromFirstSlash(cwd)<<std::endl<<" == "<<std::endl << "unittest" ;
 	AssertMsg_Test(Path::PathFromFirstSlash(cwd)=="unittest", s.str().c_str());
 	}
+
+
+	//get application path test
+	{
+	const std::string applicationPath = Path::GetApplicationPath();
+	s.str("");
+	s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << "gcl_test" ;
+	AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)=="gcl_test", s.str().c_str());
+	}
 }
 }
