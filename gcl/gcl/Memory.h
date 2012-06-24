@@ -40,6 +40,22 @@ public:
 			addr+=pad;
 		return addr;
 	}
+	static size_t Align64(size_t addr)
+	{
+		size_t pad = 8-addr%8;
+		if (pad != 8)
+			addr+=pad;
+		return addr;
+	}
+	static size_t Align(size_t addr)
+	{
+
+#if USE_64BIT_PLATFORM
+		return Memory::Align64(addr);
+#else
+		return Memory::Align32(addr);
+#endif
+	}
 };
 
 //============================================================================

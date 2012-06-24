@@ -40,6 +40,20 @@ void Test()
 	{
 		Assert_Test(Memory::Align32(1) == 4);
 		Assert_Test(Memory::Align32(4) == 4);
+
+
+		Assert_Test(Memory::Align64(1) == 8);
+		Assert_Test(Memory::Align64(4) == 8);
+		Assert_Test(Memory::Align64(8) == 8);
+
+		size_t ali = Memory::Align(1);
+
+#if USE_64BIT_PLATFORM
+		Assert_Test(ali == 8);
+#else
+		Assert_Test(ali == 4);
+#endif
+
 	}
 }
 }
