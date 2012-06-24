@@ -37,6 +37,7 @@ public:
 	static const std::string PathToFirstSlash(const std::string  &dir);
 	static const std::string PathFromFirstSlash(const std::string  &dir);
 	static const std::string Cwd();
+	static const std::string GetApplicationPath();
 };
 
 //============================================================================
