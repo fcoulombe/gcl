@@ -44,6 +44,7 @@
 #include <gcl/ResourceManager.h>
 #include <gcl/ResourceManagerConfig.h>
 #include <gcl/Sphere.h>
+#include <gcl/Time.h>
 #include <gcl/TypeData.h>
 #include <gcl/UnitTest.h>
 #include <gcl/WorldUnit.h>
@@ -62,6 +63,7 @@
 #include "ResourceTest.h"
 #include "SafeCastTest.h"
 #include "StringUtilTest.h"
+#include "TimeTest.h"
 #include "WarningTest.h"
 
 using namespace GCL;
@@ -76,6 +78,7 @@ int main(int /*argc*/, char **argv)
       SafeCastTest::Test();
       HashTest::Test();
       StringUtilTest::Test();
+      TimeTest::Test();
       PathTest::Test();
       MemoryTest::Test();
 
