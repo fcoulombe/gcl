@@ -26,6 +26,9 @@
 #include "gcl/Macro.h"
 #include <float.h>
 
+#ifdef OS_WIN32
+#define ssize_t int
+#endif
 //============================================================================
 
 namespace GCL

@@ -53,7 +53,7 @@ namespace GCL
 
 		GCLINLINE Quaternion operator+(const Quaternion& a) const throw()		{ return Quaternion(this->w+a.w, this->x+a.x, this->y+a.y, this->z+a.z);	}
 		GCLINLINE Quaternion operator-(const Quaternion& a) const throw()		{ return Quaternion(this->w-a.w, this->x-a.x, this->y-a.y, this->z-a.z);	}
-		GCLINLINE Quaternion operator*(const Quaternion& a) const throw();
+		GCLINLINE Quaternion operator*(const Quaternion& a) const ;
 
 		GCLINLINE friend Quaternion operator*(const T& a, const Quaternion& b) throw() { return Quaternion(a*b.w, a*b.x, a*b.y, a*b.z); }
 

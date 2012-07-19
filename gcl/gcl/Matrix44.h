@@ -119,7 +119,7 @@ public:
 	GCLEXPORT static const Matrix44 ZERO;
 	GCLEXPORT static const Matrix44 IDENTITY;
 
-	GCLINLINE void SetPerspective(Real fov, Real aspect, Real near, Real far)
+	GCLINLINE void SetPerspective(Real fov, Real aspect, Real znear, Real zfar)
 	{
 		/* Restrict fov to 179 degrees, for numerical stability */
 		if(fov >= 180.0)
@@ -127,8 +127,8 @@ public:
 
 		Real y = 1.0 / std::tan(DegreeToRadian(fov) * 0.5);
 		Real x = y/aspect;
-		Real z1 = (far+near)/(near-far);
-		Real z2 = (2.0f*far*near)/(near-far);
+		Real z1 = (zfar+znear)/(znear-zfar);
+		Real z2 = (2.0f*zfar*znear)/(znear-zfar);
 		m0=WorldPoint4(x, 0.0,  0.0,  0.0);
 		m1=WorldPoint4(0.0, y,  0.0,  0.0);
 		m2=WorldPoint4(0.0, 0, z1, -1);

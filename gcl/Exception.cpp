@@ -23,18 +23,23 @@
 //============================================================================
 
 #include "gcl/Exception.h"
-#include <execinfo.h>
+#ifdef OS_WIN32
+#   include <windows.h>
+#   include <dbghelp.h>
+#else
+#   include <execinfo.h>
+#   include <cxxabi.h>
+#endif
 #include <sstream>
 #include <cstring>
 
-#include <cxxabi.h>
 //============================================================================
 
 using namespace GCL;
 //#include <iostream>
 //============================================================================
 
-
+#ifndef OS_WIN32
 const std::string GCLException::Demangle(const char *i_symbol)
 {
 	std::string retStr;
@@ -89,6 +94,7 @@ const std::string GCLException::Demangle(const char *i_symbol)
 
 }
 
+
 void GCLException::Initialize(const std::string &message, const std::string &file, int line )
 {
 	char **strings;
@@ -131,4 +137,37 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 	free(strings);
 }
 
+#else
+void GCLException::Initialize(const std::string &message, const std::string &file, int line )
+{
+    if (file.length())
+    {
+        std::stringstream trace;
+        //std::cout << std::endl << "file: " << file << ":" << line << std::endl;
+        trace << file;
+#ifdef OS_WIN32
+        trace << "(";
+        trace << line << "): ";
+
+        mFileInfo = trace.str();
+#else
+        trace << ":";
+        trace << line << ": ";
+        mFileInfo = trace.str();
+#endif
+    }
+    std::stringstream messageStream;
+
+    //printf ("Obtained %zd stack frames.\n", size);
+    if (message.length())
+    {
+        messageStream << message;
+    }
+
+    mMessage = messageStream.str();
+
+    mStackTrace = "";
+}
+
+#endif
 //============================================================================

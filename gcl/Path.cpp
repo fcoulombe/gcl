@@ -23,6 +23,9 @@
 
 #include "gcl/Path.h"
 
+#ifdef OS_WIN32
+#   include <windows.h>
+#endif
 //============================================================================
 
 using namespace GCL;
@@ -43,31 +46,49 @@ const std::string Path::PathToFirstSlash(const std::string  &dir)
 }
 const std::string Path::PathFromFirstSlash(const std::string  &dir)
 {
-	const char DIR_SEPARATOR = '/';
 	register int i;
 	const std::string &loc = dir;
 	size_t size = loc.length();
 
-	for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
+    const char DIR_SEPARATOR = '/';
+#ifdef OS_WIN32
+    const char DIR_SEPARATOR2 = '\\';
+    for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR)&& (loc[i] != DIR_SEPARATOR2); --i)
+        ;
+#else
+    for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
 		;
-
+#endif
 	return loc.substr(i+1, size);
 }
 
 const std::string Path::Cwd()
 {
+#ifdef OS_WIN32
+    char lpCurrentDirectory[_MAX_PATH];
+    ::GetCurrentDirectory( _MAX_PATH - 1, lpCurrentDirectory );
+    return std::string(lpCurrentDirectory);
+#else
 	char cwd[4096 + 1] = { '\0' };
 	const char *ret = getcwd(cwd, sizeof(cwd));
 	(void)ret;
 	return std::string(cwd);
+#endif
 }
 
 #define PATH_MAX 255
 const std::string Path::GetApplicationPath()
 {
-	char result[ PATH_MAX ];
+#ifdef OS_WIN32
+    char strPathName[_MAX_PATH];
+    ::GetModuleFileName(NULL, strPathName, _MAX_PATH);
+
+    return std::string(strPathName);
+#else
+    char result[ PATH_MAX ];
 	ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
 	return std::string( result, (count > 0) ? count : 0 );
+#endif
 }
 
 //============================================================================

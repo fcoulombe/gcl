@@ -23,6 +23,7 @@
 
 #include <limits>
 #include <cmath>
+#include <stdint.h>
 #define GCLINLINE inline
 #define GCLEXPORT
 

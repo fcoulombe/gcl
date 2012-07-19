@@ -69,9 +69,14 @@ void Test()
 	//get application path test
 	{
 	const std::string applicationPath = Path::GetApplicationPath();
-	s.str("");
-	s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << "gcl_test" ;
-	AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)=="gcl_test", s.str().c_str());
+#ifdef OS_WIN32
+    const std::string applicationNAme = "gcl_test.exe";
+#else
+    const std::string applicationNAme = "gcl_test";
+#endif
+    s.str("");
+	s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << applicationNAme ;
+	AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)==applicationNAme, s.str().c_str());
 	}
 }
 }

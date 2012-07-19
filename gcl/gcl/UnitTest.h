@@ -60,7 +60,11 @@ namespace GCL
     {
       if (failedTest.size()) {
           for (size_t i=0; i<failedTest.size(); ++i) {
+#ifndef OS_WIN32
               std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Test Has Failed for "<< failedTest[i].mCond;
+#else
+              std::cerr << failedTest[i].mFile << "(" << failedTest[i].mLine << "): error: Test Has Failed for "<< failedTest[i].mCond;
+#endif
               if (failedTest[i].mMsg.length())
                 std::cerr << " Msg: " << failedTest[i].mMsg;
               std::cerr << std::endl;

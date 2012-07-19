@@ -36,7 +36,7 @@ const Quaternion Quaternion::IDENTITY(1, 0, 0, 0);
 
 //============================================================================
 
-Quaternion Quaternion::operator*(const Quaternion& a) const throw()
+Quaternion Quaternion::operator*(const Quaternion& a) const 
 {
   GCLAssert(false && "TBD");
 
