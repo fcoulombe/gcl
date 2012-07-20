@@ -29,6 +29,8 @@
 #else
 #   include <execinfo.h>
 #   include <cxxabi.h>
+#	include <cstdio>
+#	include <malloc.h>
 #endif
 #include <sstream>
 #include <cstring>

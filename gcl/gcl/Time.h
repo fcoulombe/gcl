@@ -23,8 +23,11 @@
 
 #pragma once
 #include <string>
+#if OS_WIN32
 #include <windows.h>
-
+#else
+#include <unistd.h>
+#endif
 //============================================================================
 
 namespace GCL
@@ -40,7 +43,7 @@ public:
 #if OS_WIN32
         ::Sleep(milisec);
 #else
-        usleep(microsec*1000);
+        usleep(milisec*1000);
 #endif
 
 
