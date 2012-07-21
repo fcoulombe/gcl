@@ -21,15 +21,20 @@
  */
 #pragma once
 
+#include <sstream>
 
-//this is a define to ease string concatenation at compile time.
-//the compiler should be able to figure this out at compile time
-//with char pointers but who knows... maybe they didn't feel like it
-#define DATA_PATH  "data/"
-#define TEXTURE_PATH  DATA_PATH"Texture/"
-#define MATERIAL_PATH DATA_PATH"Material/"
-#define SPRITE_PATH DATA_PATH"Sprite/"
-#define SOUND_PATH DATA_PATH"Sound/"
-#define MUSIC_PATH DATA_PATH"Music/"
-#define MESH_PATH DATA_PATH"Mesh/"
-#define FONT_PATH DATA_PATH"Font/"
+#include <gcl/PixelBuffer.h>
+#include <gcl/UnitTest.h>
+
+using namespace GCL;
+namespace PixelBufferTest
+{
+    void Test();
+void Test()
+{
+	TEST_START
+	PixelBuffer buffer;
+
+}
+
+}

@@ -19,17 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 #pragma once
+#include <cstdlib>
+#include <stdint.h>
 
+namespace GCL
+{
+class PixelBuffer
+{
+public:
+	PixelBuffer(){}
+	~PixelBuffer() {}
+	uint8_t  mBitsPerPixel;
+	uint8_t  mBytesPerPixel;
+	size_t mWidth, mHeight;
+	uint8_t *mPixels;
+    static void SaveTga(const char *filename,
+    						size_t width, size_t height,
+    						size_t bytePerPixel,
+    						const uint8_t *data );
+private:
 
-//this is a define to ease string concatenation at compile time.
-//the compiler should be able to figure this out at compile time
-//with char pointers but who knows... maybe they didn't feel like it
-#define DATA_PATH  "data/"
-#define TEXTURE_PATH  DATA_PATH"Texture/"
-#define MATERIAL_PATH DATA_PATH"Material/"
-#define SPRITE_PATH DATA_PATH"Sprite/"
-#define SOUND_PATH DATA_PATH"Sound/"
-#define MUSIC_PATH DATA_PATH"Music/"
-#define MESH_PATH DATA_PATH"Mesh/"
-#define FONT_PATH DATA_PATH"Font/"
+};
+}
+
