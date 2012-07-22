@@ -39,6 +39,8 @@ public:
     						size_t width, size_t height,
     						size_t bytePerPixel,
     						const uint8_t *data );
+
+    void PadToNextPOT();
 private:
 
 };
