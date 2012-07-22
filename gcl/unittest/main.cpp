@@ -55,6 +55,7 @@
 #include "ExceptionTest.h"
 #include "FileLoadingTest.h"
 #include "HashTest.h"
+#include "MathTest.h"
 #include "Matrix44Test.h"
 #include "MemoryTest.h"
 #include "PathTest.h"
@@ -79,6 +80,7 @@ int main(int /*argc*/, char **argv)
       AssertTest::Test();
       SafeCastTest::Test();
       HashTest::Test();
+      MathTest::Test();
       StringUtilTest::Test();
       TimeTest::Test();
       PathTest::Test();

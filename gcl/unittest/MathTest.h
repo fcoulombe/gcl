@@ -20,31 +20,40 @@
  * THE SOFTWARE.
  */
 #pragma once
-#include <math.h>
-#include <stdlib.h>
 
-#include "gcl/Macro.h"
-#include "gcl/WorldUnit.h"
+#include <sstream>
+#include <gcl/UnitTest.h>
+#include <gcl/Math.h>
 
-namespace GCL
+
+using namespace GCL;
+namespace MathTest
 {
-
-const Real PI = 3.14159265;
-const Real RADIAN = 57.2957795;
-const Real DEGREE = 0.0174532925;
-
-GCLINLINE Real DegreeToRadian(Real degree) { return degree * PI/180.0; }
-GCLINLINE Real RadianToDegree(Real radian) { return radian * 180.0/PI; }
-
-
-GCLINLINE Real Randf(Real vmin, Real vmax)
+void Test();
+void Test()
 {
-	return vmin + ((Real)rand() / (Real)RAND_MAX) * (vmax - vmin);
+	TEST_START
+	std::stringstream s;
+
+	Real radTest = DegreeToRadian(90.0) ;
+	s.str("");
+	s<< radTest << " == " << PI/2.0<<std::endl;
+	AssertMsg_Test(abseq(radTest, PI/2.0, DBL_PRECISION_TOLERANCE), s.str().c_str());
+	Real degTest = RadianToDegree(PI/2.0) ;
+	s.str("");
+	s<< degTest << " == " << 90.0<<std::endl;
+	AssertMsg_Test(abseq(degTest, 90.0, DBL_PRECISION_TOLERANCE), s.str().c_str());
+
+
+	Real randTest = Randf(1.0, 4.0);
+	(void)randTest;
+
+
+	int nextPOTTest1 = UpgradeToNextPowerOf2(3);
+	Assert_Test(nextPOTTest1 == 4);
+	int nextPOTTest2 = UpgradeToNextPowerOf2(6);
+	Assert_Test(nextPOTTest2 == 8);
+	int nextPOTTest3 = UpgradeToNextPowerOf2(12);
+	Assert_Test(nextPOTTest3 == 16);
 }
-
-GCLINLINE size_t UpgradeToNextPowerOf2(size_t value)
-{
-	return pow(2, ceil(log(value)/log(2)));
-}
-
 }
