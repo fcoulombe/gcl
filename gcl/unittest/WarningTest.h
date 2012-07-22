@@ -27,7 +27,7 @@
 #if defined(OS_IPHONE)
 #import <opencv2/opencv.hpp>
 #endif
-#include <cv.h>
+#include <opencv2/opencv.hpp>
 #include <gcl/PopWarnings.h>
 
 using namespace GCL;
