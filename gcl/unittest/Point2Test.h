@@ -22,7 +22,6 @@
 #pragma once
 
 #include <gcl/UnitTest.h>
-
 #include <gcl/Point2.h>
 
 using namespace GCL;
@@ -46,8 +45,6 @@ void Test()
 	Assert_Test(t1*t2 == WorldPoint2(1,1));
 	Assert_Test(t1/t2 == WorldPoint2(1,1));
 	Assert_Test(t1%t2 == 2);
-
-
 
 	t1+=t2;
 	Assert_Test(t1 == WorldPoint2(2,2));

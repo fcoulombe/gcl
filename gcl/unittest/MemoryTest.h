@@ -53,7 +53,6 @@ void Test()
 #else
 		Assert_Test(ali == 4);
 #endif
-
 	}
 }
 }

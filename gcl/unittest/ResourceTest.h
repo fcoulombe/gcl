@@ -90,9 +90,6 @@ private:
 };
 MyResourceManager *MyResourceManager::smpInstance = NULL;
 
-
-
-
 void Test()
 {
 	TEST_START

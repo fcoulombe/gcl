@@ -27,8 +27,6 @@
 using namespace GCL;
 namespace SafeCastTest
 {
-
-
   class A
   {
   public:
@@ -71,7 +69,5 @@ namespace SafeCastTest
         const char *testString = "t you are trying to up cast in the wrong type. this is very dangerous";
         Assert_Test(strncmp(e.message(), testString, strlen(testString)) == 0 );
     }
-
-
   }
 }

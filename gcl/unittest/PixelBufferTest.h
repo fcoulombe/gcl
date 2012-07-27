@@ -34,7 +34,7 @@ void Test()
 {
 	TEST_START
 	PixelBuffer buffer;
-
+	//see font test
 }
 
 }

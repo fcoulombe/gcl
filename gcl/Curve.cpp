@@ -43,7 +43,6 @@ WorldPoint3 Curve::BezierCurve(const WorldPoint3& p1, const WorldPoint3& p2, con
 
 WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, Real t)
 {
-
 	Real blend,muk,munk;
 	size_t count = p.size();
 	WorldPoint3 b(0.0, 0.0, 0.0);

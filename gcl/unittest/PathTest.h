@@ -22,9 +22,7 @@
 #pragma once
 
 #include <sstream>
-
 #include <gcl/UnitTest.h>
-
 #include <gcl/Path.h>
 
 using namespace GCL;
@@ -38,12 +36,12 @@ void Test()
 
 	//path to first slash test
 	{
-	const std::string path ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest/renderer_test";
-	const std::string dirNameOfPath ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest";
-	std::string dirName = Path::PathToFirstSlash(path);
-	s.str("");
-	s<<dirName<<std::endl<<" == "<<std::endl << dirNameOfPath ;
-	AssertMsg_Test(dirName==dirNameOfPath, s.str().c_str());
+		const std::string path ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest/renderer_test";
+		const std::string dirNameOfPath ="/Users/francoiscoulombe/src/kinevox/build/clang-i386-64bit/lib/renderer/unittest";
+		std::string dirName = Path::PathToFirstSlash(path);
+		s.str("");
+		s<<dirName<<std::endl<<" == "<<std::endl << dirNameOfPath ;
+		AssertMsg_Test(dirName==dirNameOfPath, s.str().c_str());
 	}
 
 	//path from first slash test
@@ -59,24 +57,24 @@ void Test()
 
 	//get CWD test
 	{
-	const std::string cwd = Path::Cwd();
-	s.str("");
-	s<<Path::PathFromFirstSlash(cwd)<<std::endl<<" == "<<std::endl << "unittest" ;
-	AssertMsg_Test(Path::PathFromFirstSlash(cwd)=="unittest", s.str().c_str());
+		const std::string cwd = Path::Cwd();
+		s.str("");
+		s<<Path::PathFromFirstSlash(cwd)<<std::endl<<" == "<<std::endl << "unittest" ;
+		AssertMsg_Test(Path::PathFromFirstSlash(cwd)=="unittest", s.str().c_str());
 	}
 
 
 	//get application path test
 	{
-	const std::string applicationPath = Path::GetApplicationPath();
+		const std::string applicationPath = Path::GetApplicationPath();
 #ifdef OS_WIN32
-    const std::string applicationNAme = "gcl_test.exe";
+		const std::string applicationNAme = "gcl_test.exe";
 #else
-    const std::string applicationNAme = "gcl_test";
+		const std::string applicationNAme = "gcl_test";
 #endif
-    s.str("");
-	s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << applicationNAme ;
-	AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)==applicationNAme, s.str().c_str());
+		s.str("");
+		s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << applicationNAme ;
+		AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)==applicationNAme, s.str().c_str());
 	}
 }
 }

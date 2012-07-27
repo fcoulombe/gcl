@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 #pragma once
-#include <assert.h>
+
 #include "gcl/Exception.h"
 
 #define GCLAssert(x) iGCLAssert(x, __FILE__, __LINE__)

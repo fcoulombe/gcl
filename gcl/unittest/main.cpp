@@ -72,7 +72,6 @@
 using namespace GCL;
 int main(int /*argc*/, char **argv)
 {
-#if 1
   try
   {
 	  WarningTest::Test();
@@ -104,7 +103,6 @@ int main(int /*argc*/, char **argv)
       str << "[FAILED] " << argv[0] << std::endl;
       str << e.what();
       std::cerr << str.str();
-      //GLRendererTest::Assert_Test(false && str.str().c_str());
       return -1;
   }
   catch (...)
@@ -112,9 +110,6 @@ int main(int /*argc*/, char **argv)
       std::cerr << "[FAILED] " << argv[0] << std::endl;
       std::cerr << "something went wrong" << std::endl;
   }
-#else
-  (void)argv;
-#endif
 
   return 0;
 }

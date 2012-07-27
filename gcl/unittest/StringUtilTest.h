@@ -22,9 +22,7 @@
 #pragma once
 
 #include <sstream>
-
 #include <gcl/UnitTest.h>
-
 #include <gcl/StringUtil.h>
 
 using namespace GCL;

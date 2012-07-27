@@ -21,10 +21,7 @@
  */
 #pragma once
 
-#include <sstream>
-
 #include <gcl/UnitTest.h>
-
 #include <gcl/Path.h>
 
 using namespace GCL;
@@ -34,7 +31,6 @@ void Test();
 void Test()
 {
 	TEST_START
-	std::stringstream s;
 
 	//path to first slash test
 	{

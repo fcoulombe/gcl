@@ -51,8 +51,8 @@ public:
 		return ret.c_str();
     }
 
-	const char *message() { return mMessage.c_str(); }
-	const char *stacktrace() { return mStackTrace.c_str(); }
+	const char *message() const { return mMessage.c_str(); }
+	const char *stacktrace() const { return mStackTrace.c_str(); }
 
 	static const std::string Demangle(const char *symbol);
 private:

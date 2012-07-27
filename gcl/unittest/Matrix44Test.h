@@ -26,9 +26,7 @@
 
 #include <gcl/Matrix44.h>
 #include <gcl/Math.h>
-
 #include <gcl/UnitTest.h>
-
 
 using namespace GCL;
 namespace Matrix44Test
@@ -209,11 +207,9 @@ void Test()
 
 		s<<std::endl<<res<<std::endl<<"=="<<std::endl<<Matrix44::IDENTITY;
 		AssertMsg_Test(res==Matrix44::IDENTITY, s.str().c_str());
-
-
 	}
-	{
 
+	{
 		s.str("");
 		//proper inverse
 		myMat = Matrix44::IDENTITY;
