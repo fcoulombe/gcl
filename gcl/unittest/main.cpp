@@ -40,6 +40,7 @@
 #include <gcl/Point4.h>
 #include <gcl/Quaternion.h>
 #include <gcl/File.h>
+#include <gcl/Pixel.h>
 #include <gcl/PixelBuffer.h>
 #include <gcl/Resource.h>
 #include <gcl/ResourceManager.h>
@@ -59,13 +60,17 @@
 #include "Matrix44Test.h"
 #include "MemoryTest.h"
 #include "PathTest.h"
+#include "PixelTest.h"
 #include "PixelBufferTest.h"
+#include "PngLoadingTest.h"
 #include "Point2Test.h"
 #include "Point3Test.h"
 #include "Point4Test.h"
+#include "RawLoadingTest.h"
 #include "ResourceTest.h"
 #include "SafeCastTest.h"
 #include "StringUtilTest.h"
+#include "TgaLoadingTest.h"
 #include "TimeTest.h"
 #include "WarningTest.h"
 
@@ -95,7 +100,11 @@ int main(int /*argc*/, char **argv)
 
       FileLoadingTest::Test();
       ResourceTest::Test();
+      PixelTest::Test();
       PixelBufferTest::Test();
+      RawLoadingTest::Test();
+      TgaLoadingTest::Test();
+      PngLoadingTest::Test();
   }
   catch (GCLException & e)
   {

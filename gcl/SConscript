@@ -23,7 +23,7 @@ Import('env')
 
 name = "gcl"
 incPath = [env.Dir(".").srcnode()]
-dependencies = []
+dependencies = ['libpng']
 
 env.AppendUnique(CPPPATH=incPath)
 src_files = env.Glob("*.cpp")

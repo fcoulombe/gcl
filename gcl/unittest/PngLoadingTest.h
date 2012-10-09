@@ -21,33 +21,35 @@
  */
 #pragma once
 
-#include <sstream>
+#include <fstream>
 
-#include <gcl/PixelBuffer.h>
 #include <gcl/UnitTest.h>
+#include <gcl/PixelBuffer.h>
 
 using namespace GCL;
-namespace PixelBufferTest
+
+namespace PngLoadingTest
 {
+    
     void Test();
 void Test()
 {
 	TEST_START
-	PixelBuffer bufferMono;
-	PixelBuffer bufferRGB;
-	PixelBuffer bufferRGBA;
+	FILE *fp = fopen(TEXTURE_PATH"mushroompng.png", "rb");
+	AssertMsg_Test(fp, TEXTURE_PATH"mushroompng.png");
 
-	bufferMono.mWidth = 122;
-	bufferMono.mHeight = 122;
-	bufferMono.mBitsPerPixel = 8;
-	bufferMono.mBytesPerPixel = 1;
-	bufferMono.mPixels = new uint8_t[sizeof(PixelMono)*122*122];
+	PixelBuffer data;
+    
+#ifndef OS_IPHONE
+	PixelBuffer::LoadPng(fp, data);
+	Assert_Test(data.mPixels);
 
-	bufferMono.PadToNextPOT();
-	Assert_Test(bufferMono.mWidth == 128);
-
-	Assert_Test(bufferMono.mHeight == 128);
-	//see font test
+	Assert_Test(data.mBitsPerPixel==8);
+	Assert_Test(data.mBytesPerPixel==4);
+	Assert_Test(data.mWidth==512);
+	Assert_Test(data.mHeight==512);
+#endif
+	fclose(fp);
+	PixelBuffer::Unload(data);
 }
-
 }

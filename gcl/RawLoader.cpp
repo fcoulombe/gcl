@@ -19,35 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#pragma once
 
-#include <sstream>
-
-#include <gcl/PixelBuffer.h>
-#include <gcl/UnitTest.h>
+#include "gcl/PixelBuffer.h"
 
 using namespace GCL;
-namespace PixelBufferTest
+
+void PixelBuffer::LoadRaw(std::istream& fp, PixelBuffer &data)
 {
-    void Test();
-void Test()
-{
-	TEST_START
-	PixelBuffer bufferMono;
-	PixelBuffer bufferRGB;
-	PixelBuffer bufferRGBA;
-
-	bufferMono.mWidth = 122;
-	bufferMono.mHeight = 122;
-	bufferMono.mBitsPerPixel = 8;
-	bufferMono.mBytesPerPixel = 1;
-	bufferMono.mPixels = new uint8_t[sizeof(PixelMono)*122*122];
-
-	bufferMono.PadToNextPOT();
-	Assert_Test(bufferMono.mWidth == 128);
-
-	Assert_Test(bufferMono.mHeight == 128);
-	//see font test
+	data.mWidth = 256;
+	data.mHeight = 256;
+	data.mBytesPerPixel = 3;
+	data.mBitDepth = 8;
+	data.mBitsPerPixel = 24;
+	size_t size = data.mWidth * data.mHeight* data.mBytesPerPixel ;
+	data.mPixels =  new uint8_t[size];
+	fp.read( (char*)data.mPixels, size);
 }
 
-}

@@ -21,33 +21,35 @@
  */
 #pragma once
 
-#include <sstream>
+#include <fstream>
 
-#include <gcl/PixelBuffer.h>
 #include <gcl/UnitTest.h>
+#include <gcl/PixelBuffer.h>
 
 using namespace GCL;
-namespace PixelBufferTest
+
+namespace RawLoadingTest
 {
-    void Test();
+void Test();
 void Test()
 {
 	TEST_START
-	PixelBuffer bufferMono;
-	PixelBuffer bufferRGB;
-	PixelBuffer bufferRGBA;
+	{
+		std::fstream fp(TEXTURE_PATH"texture.raw", std::fstream::binary|std::fstream::in);
+		AssertMsg_Test( fp.good(), TEXTURE_PATH"texture.raw");
 
-	bufferMono.mWidth = 122;
-	bufferMono.mHeight = 122;
-	bufferMono.mBitsPerPixel = 8;
-	bufferMono.mBytesPerPixel = 1;
-	bufferMono.mPixels = new uint8_t[sizeof(PixelMono)*122*122];
 
-	bufferMono.PadToNextPOT();
-	Assert_Test(bufferMono.mWidth == 128);
+		PixelBuffer data;
+		PixelBuffer::LoadRaw(fp, data);
+		fp.close();
+		Assert_Test(data.mPixels);
+		Assert_Test(data.mBitsPerPixel==24);
+		Assert_Test(data.mBitDepth==8);
+		Assert_Test(data.mBytesPerPixel==3);
+		Assert_Test(data.mWidth==256);
+		Assert_Test(data.mHeight==256);
+		PixelBuffer::Unload(data);
+	}
 
-	Assert_Test(bufferMono.mHeight == 128);
-	//see font test
 }
-
 }

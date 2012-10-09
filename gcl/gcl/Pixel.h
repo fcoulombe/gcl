@@ -19,35 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 #pragma once
+#include <gcl/Assert.h>
+#include <gcl/Point3.h>
+#include <gcl/Point4.h>
 
-#include <sstream>
-
-#include <gcl/PixelBuffer.h>
-#include <gcl/UnitTest.h>
-
-using namespace GCL;
-namespace PixelBufferTest
+namespace GCL
 {
-    void Test();
-void Test()
+enum PixelTypeComponents
 {
-	TEST_START
-	PixelBuffer bufferMono;
-	PixelBuffer bufferRGB;
-	PixelBuffer bufferRGBA;
+	eMONO 	        = 1<<0,
+	eRGB 	        = 1<<1,
+	eRGBA			= 1<<2
+};
 
-	bufferMono.mWidth = 122;
-	bufferMono.mHeight = 122;
-	bufferMono.mBitsPerPixel = 8;
-	bufferMono.mBytesPerPixel = 1;
-	bufferMono.mPixels = new uint8_t[sizeof(PixelMono)*122*122];
+struct PixelMono
+{
+	uint8_t mColor;
+	static uint32_t GetComponentType()  { return eMONO; }
+	static size_t OffsetToNext() { return 1; }
+};
 
-	bufferMono.PadToNextPOT();
-	Assert_Test(bufferMono.mWidth == 128);
+struct PixelRGB
+{
+	Point3<uint8_t> mColor;
+	static uint32_t GetComponentType() { return eRGB; }
+	static size_t OffsetToNext() { return 3; }
+};
 
-	Assert_Test(bufferMono.mHeight == 128);
-	//see font test
-}
-
+struct PixelRGBA
+{
+	Point4<uint8_t> mColor;
+	static uint32_t GetComponentType()  { return eRGBA; }
+	static size_t OffsetToNext() { return 4; }
+};
 }

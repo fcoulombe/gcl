@@ -21,33 +21,45 @@
  */
 #pragma once
 
-#include <sstream>
-
-#include <gcl/PixelBuffer.h>
 #include <gcl/UnitTest.h>
+#include <gcl/Pixel.h>
 
 using namespace GCL;
-namespace PixelBufferTest
+namespace PixelTest
 {
-    void Test();
+void Test();
 void Test()
 {
 	TEST_START
-	PixelBuffer bufferMono;
-	PixelBuffer bufferRGB;
-	PixelBuffer bufferRGBA;
 
-	bufferMono.mWidth = 122;
-	bufferMono.mHeight = 122;
-	bufferMono.mBitsPerPixel = 8;
-	bufferMono.mBytesPerPixel = 1;
-	bufferMono.mPixels = new uint8_t[sizeof(PixelMono)*122*122];
+	{
+		PixelMono p;
+		std::stringstream s;
+		s<< p.GetComponentType() << "==eMONO";
+		AssertMsg_Test(p.GetComponentType()==eMONO, s.str().c_str());
 
-	bufferMono.PadToNextPOT();
-	Assert_Test(bufferMono.mWidth == 128);
+		s.str("");
+		s<< p.OffsetToNext() <<"==1";
+		AssertMsg_Test(p.OffsetToNext() == 1,s.str().c_str());
+	}
 
-	Assert_Test(bufferMono.mHeight == 128);
-	//see font test
+	{
+		PixelRGB pt;
+		std::stringstream s;
+		s<< pt.GetComponentType() << "==eRGB";
+		AssertMsg_Test(pt.GetComponentType()==(eRGB), s.str().c_str());
+		s.str("");
+		s<< pt.OffsetToNext() <<"==3";
+		AssertMsg_Test(pt.OffsetToNext() == 3,s.str().c_str());
+	}
+	{
+		PixelRGBA pt;
+		std::stringstream s;
+		s<< pt.GetComponentType() << "==eRGBA";
+		AssertMsg_Test(pt.GetComponentType()==(eRGBA), s.str().c_str());
+		s.str("");
+		s<< pt.OffsetToNext() <<"==4";
+		AssertMsg_Test(pt.OffsetToNext() == 4,s.str().c_str());
+	}
 }
-
 }

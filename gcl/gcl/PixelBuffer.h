@@ -22,27 +22,66 @@
 
 #pragma once
 #include <cstdlib>
+#include <cstring>
 #include <stdint.h>
+#include "gcl/Math.h"
+#include "gcl/Pixel.h"
 
 namespace GCL
 {
+
 class PixelBuffer
 {
 public:
-	PixelBuffer(){}
+	PixelBuffer()
+	{
+		mPixels = NULL;
+	}
+
+	template<typename PixelType>
+	PixelBuffer(const PixelType *pixelArray, size_t width, size_t height)
+	{
+		mPixels = (uint8_t*)pixelArray;
+		mWidth = width;
+		mHeight = height;
+		mBytesPerPixel = PixelType::OffsetToNext();
+		mBitsPerPixel = PixelType::OffsetToNext()*8;
+	}
 	~PixelBuffer() {}
+	uint8_t mBitDepth;
 	uint8_t  mBitsPerPixel;
 	uint8_t  mBytesPerPixel;
 	size_t mWidth, mHeight;
 	uint8_t *mPixels;
-    static void SaveTga(const char *filename,
-    						size_t width, size_t height,
-    						size_t bytePerPixel,
-    						const uint8_t *data );
 
-    void PadToNextPOT();
+	void PadToNextPOT()
+	{
+		size_t futureWidth = UpgradeToNextPowerOf2(mWidth);
+		size_t futureHeight = UpgradeToNextPowerOf2(mHeight);
+		size_t futureBufferSize = mBytesPerPixel*futureHeight*futureWidth;
+		uint8_t *newBuffer = new uint8_t[futureBufferSize];
+		memset(newBuffer, 0, futureBufferSize);
+		for (size_t i=0; i<mHeight; ++i)
+		{
+			memcpy(&(newBuffer[i*futureWidth*mBytesPerPixel]), &(mPixels[i*mWidth*mBytesPerPixel]), mWidth*mBytesPerPixel);
+		}
+		mWidth = futureWidth;
+		mHeight = futureHeight;
+		delete [] mPixels;
+		mPixels = newBuffer;
+	}
+	static void SaveTga(const char *filename,
+			size_t width, size_t height,
+			size_t bytePerPixel,
+			const uint8_t *data );
+	static void LoadPng(FILE *is, PixelBuffer &data);
+	static void LoadTga(std::istream &is, PixelBuffer &data);
+	static void LoadRaw(std::istream &is, PixelBuffer &data);
+
+	static void Unload(PixelBuffer &data);
 private:
 
 };
+
 }
 
