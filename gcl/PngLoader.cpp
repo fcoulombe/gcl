@@ -62,7 +62,8 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 	png_bytep* rowPtrs = NULL;
 	char* data = NULL;
 
-	if (setjmp(png_jmpbuf(pngPtr))) {
+	if (setjmp(png_jmpbuf(pngPtr)))
+	{
 		png_destroy_read_struct(&pngPtr, &infoPtr,(png_infopp)0);
 		if (rowPtrs != NULL)
 			delete [] rowPtrs;
@@ -109,7 +110,8 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 	default:
 		GCLAssert(false);
 	}
-	textureData.mBitsPerPixel = bitdepth;
+	textureData.mBitDepth = bitdepth;
+	textureData.mBitsPerPixel = textureData.mBitDepth*textureData.mBytesPerPixel;
 
 	if (png_get_valid(pngPtr, infoPtr, PNG_INFO_tRNS))
 	{
@@ -125,7 +127,8 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 
 	//A little for-loop here to set all the row pointers to the starting
 	//Adresses for every row in the buffer
-	for (size_t i = 0; i < imgHeight; i++) {
+	for (size_t i = 0; i < imgHeight; i++)
+	{
 		unsigned int q = (imgHeight - i - 1) * stride;
 		rowPtrs[i] = (png_bytep)data + q;
 	}

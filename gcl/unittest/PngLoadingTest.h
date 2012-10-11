@@ -35,21 +35,18 @@ namespace PngLoadingTest
 void Test()
 {
 	TEST_START
-	FILE *fp = fopen(TEXTURE_PATH"mushroompng.png", "rb");
-	AssertMsg_Test(fp, TEXTURE_PATH"mushroompng.png");
-
-	PixelBuffer data;
+	PixelBuffer data(TEXTURE_PATH"mushroompng.png");
     
 #ifndef OS_IPHONE
-	PixelBuffer::LoadPng(fp, data);
 	Assert_Test(data.mPixels);
-
-	Assert_Test(data.mBitsPerPixel==8);
+	Assert_Test(data.mBitDepth==8);
+	Assert_Test(data.mBitsPerPixel==32);
 	Assert_Test(data.mBytesPerPixel==4);
 	Assert_Test(data.mWidth==512);
 	Assert_Test(data.mHeight==512);
 #endif
-	fclose(fp);
+	PixelBuffer::SaveTga("mushroompng.tga", data.mWidth, data.mHeight, data.mBytesPerPixel, data.mPixels);
 	PixelBuffer::Unload(data);
+	AssertMsg_Test(UnitTest::ImageComp("mushroompng.tga"), "mushroompng.tga");
 }
 }
