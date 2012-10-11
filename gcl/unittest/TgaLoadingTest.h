@@ -38,12 +38,8 @@ void Test()
 	//tga uncompressed
 	{
 		const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
-		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
-		AssertMsg_Test( fp.good(), fullFileName);
 
-		PixelBuffer data;
-		PixelBuffer::LoadTga(fp, data);
-		fp.close();
+		PixelBuffer data(fullFileName);
 		Assert_Test(data.mPixels);
 		Assert_Test(data.mBitsPerPixel==32);
 		Assert_Test(data.mBitDepth==8);
@@ -56,25 +52,18 @@ void Test()
 	//tga saving
 	{
 		const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
-		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
 
-		PixelBuffer data;
-		PixelBuffer::LoadTga(fp, data);
-		fp.close();
+		PixelBuffer data(fullFileName);
 		PixelBuffer::SaveTga("tgasavingtest.tga", data.mWidth,
 				data.mHeight, data.mBytesPerPixel,data.mPixels);
 		PixelBuffer::Unload(data);
+		AssertMsg_Test(UnitTest::ImageComp("tgasavingtest.tga"), "tgasavingtest.tga");
 	}
 
 	//tga compressed
 	{
 		const char *fullFileName =TEXTURE_PATH"mushroomcompressedtga.tga";
-		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
-		AssertMsg_Test( fp.good(), fullFileName);
-
-		PixelBuffer data;
-		PixelBuffer::LoadTga(fp, data);
-		fp.close();
+		PixelBuffer data(fullFileName);
 		Assert_Test(data.mPixels);
 		Assert_Test(data.mBitsPerPixel==32);
 		Assert_Test(data.mBitDepth==8);

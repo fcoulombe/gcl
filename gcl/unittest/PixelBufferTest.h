@@ -52,12 +52,8 @@ void Test()
 	//Pixel Buffer Texture
 	{
 		const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
-		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
-		AssertMsg_Test( fp.good(), fullFileName);
 
-		PixelBuffer buffer;
-		PixelBuffer::LoadTga(fp, buffer);
-		fp.close();
+		PixelBuffer buffer(fullFileName);
 		PixelBuffer buffer2;
 		buffer2.mPixels = new uint8_t[buffer.GetBufferSize()];
 		buffer2.mBitDepth = buffer.mBitDepth;
@@ -68,17 +64,14 @@ void Test()
 		buffer2.Blit(buffer, 0,0);
 #ifndef OS_IPHONE
 		PixelBuffer::SaveTga("PixelBufferBlitTest.tga", buffer2.mWidth, buffer2.mHeight, buffer2.mBytesPerPixel, buffer2.mPixels);
+		AssertMsg_Test(UnitTest::ImageComp("PixelBufferBlitTest.tga"), "PixelBufferBlitTest.tga");
 #endif
 	}
 	//Pixel Buffer blit test
 	{
 		const char *fullFileName = TEXTURE_PATH"mushroomtga_small.tga";
-		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
-		AssertMsg_Test( fp.good(), fullFileName);
 
-		PixelBuffer buffer;
-		PixelBuffer::LoadTga(fp, buffer);
-		fp.close();
+		PixelBuffer buffer(fullFileName);
 		PixelBuffer buffer2;
 		buffer2.mPixels = new uint8_t[buffer.GetBufferSize()*8*8];
 		buffer2.mBitDepth = buffer.mBitDepth;
@@ -95,15 +88,14 @@ void Test()
 		}
 #ifndef OS_IPHONE
 		PixelBuffer::SaveTga("PixelBufferBlitTest2.tga", buffer2.mWidth, buffer2.mHeight, buffer2.mBytesPerPixel, buffer2.mPixels);
-
-		PixelBuffer compareTestBuffer;
-		std::fstream fp2("PixelBufferBlitTest2.tga", std::fstream::binary|std::fstream::in);
-		AssertMsg_Test( fp2.good(), fullFileName);
-
-		PixelBuffer::LoadTga(fp2, compareTestBuffer);
-		fp2.close();
+		AssertMsg_Test(UnitTest::ImageComp("PixelBufferBlitTest2.tga"), "PixelBufferBlitTest2.tga");
+		PixelBuffer compareTestBuffer("PixelBufferBlitTest2.tga");
 		Assert_Test(compareTestBuffer == buffer2);
 #endif
+	}
+	//test that all the images that got saved are equal to what we expect
+	{
+
 	}
 }
 

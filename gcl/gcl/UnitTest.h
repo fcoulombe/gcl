@@ -95,3 +95,20 @@ GCLINLINE void iAssert_Test(TestCounter testCounter, bool hasFailed, const char 
 #define TEST_START TestCounter testCounter(__FILE__);
 #define Assert_Test(x) if (!(x)) {   testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, "")); }
 #define AssertMsg_Test(x, msg) if (!(x)) { testCounter.failedTest.push_back(TestCounter::Failure(#x, __FILE__, __LINE__, __FUNCTION__, msg)); }
+
+#include "gcl/PixelBuffer.h"
+#include "gcl/ResourceManagerConfig.h"
+namespace GCL
+{
+namespace UnitTest
+{
+bool ImageComp(const char *filename)
+{
+	std::string otherFileName = TEXTURE_PATH"/comp/";
+	otherFileName += filename;
+	PixelBuffer original(otherFileName);
+	PixelBuffer output(filename);
+	return (original == output);
+}
+}
+}

@@ -24,8 +24,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <stdint.h>
+#include <fstream>
 #include "gcl/Math.h"
 #include "gcl/Pixel.h"
+#include "gcl/Path.h"
 
 namespace GCL
 {
@@ -36,6 +38,34 @@ public:
 	PixelBuffer()
 	{
 		mPixels = NULL;
+	}
+	PixelBuffer(const std::string &filename)
+	{
+		const std::string ext = Path::GetFileNameExtension(filename);
+		if (ext == "tga")
+		{
+			std::fstream fp(filename, std::fstream::binary|std::fstream::in);
+			GCLAssertMsg( fp.good(), filename);
+			PixelBuffer::LoadTga(fp, *this);
+			fp.close();
+		}
+		else if (ext == "png")
+		{
+			FILE *fp = fopen(filename.c_str(), "rb");
+			GCLAssertMsg(fp, filename);
+			PixelBuffer::LoadPng(fp, *this);
+			fclose(fp);
+		}
+		else if (ext == "raw")
+		{
+			std::fstream fp(filename, std::fstream::binary|std::fstream::in);
+			GCLAssertMsg( fp.good(), filename);
+			PixelBuffer::LoadRaw(fp, *this);
+			fp.close();
+		}
+		else
+			GCLAssertMsg(false, "Unsupported file extension: " + ext);
+
 	}
 
 	template<typename PixelType>
@@ -93,7 +123,7 @@ private:
 
 };
 inline	bool operator==(const PixelBuffer &lhs, const PixelBuffer &rhs)
-{
+								{
 	if (lhs.mBitDepth != rhs.mBitDepth)
 		return false;
 	if (lhs.mBitsPerPixel != rhs.mBitsPerPixel)
@@ -107,7 +137,7 @@ inline	bool operator==(const PixelBuffer &lhs, const PixelBuffer &rhs)
 	if (memcmp(lhs.mPixels, rhs.mPixels, lhs.GetBufferSize()) != 0)
 		return false;
 	return true;
-}
+								}
 
 
 
