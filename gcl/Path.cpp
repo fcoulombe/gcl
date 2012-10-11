@@ -91,4 +91,15 @@ const std::string Path::GetApplicationPath()
 #endif
 }
 
+
+
+const std::string Path::GetFileNameExtension(const std::string &path)
+{
+	size_t dotPos = path.rfind('.');
+	if (dotPos == std::string::npos)
+		return std::string("");
+	else
+		return path.substr(dotPos+1, std::string::npos);
+}
+
 //============================================================================

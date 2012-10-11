@@ -38,6 +38,7 @@ public:
 	static const std::string PathFromFirstSlash(const std::string  &dir);
 	static const std::string Cwd();
 	static const std::string GetApplicationPath();
+	static const std::string GetFileNameExtension(const std::string &path);
 };
 
 //============================================================================

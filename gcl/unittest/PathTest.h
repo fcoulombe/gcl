@@ -76,5 +76,16 @@ void Test()
 		s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << applicationNAme ;
 		AssertMsg_Test(Path::PathFromFirstSlash(applicationPath)==applicationNAme, s.str().c_str());
 	}
+
+	//file extension test
+	{
+		const char *dummyPath = "/bleh/blah/blig/somefile.tga";
+		const std::string ext = Path::GetFileNameExtension(dummyPath);
+		AssertMsg_Test(ext == "tga", ext.c_str());
+
+		const char *dummyPath2 = "/bleh/blah/blig/somefile";
+		const std::string ext2 = Path::GetFileNameExtension(dummyPath2);
+		AssertMsg_Test(ext2 == "", ext2.c_str());
+	}
 }
 }
