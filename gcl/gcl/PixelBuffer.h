@@ -39,7 +39,12 @@ public:
 	}
 
 	template<typename PixelType>
-	PixelBuffer(const PixelType *pixelArray, size_t width, size_t height)
+	PixelBuffer(PixelType *pixelArray, size_t width, size_t height)
+	{
+		Initialize(pixelArray, width, height);
+	}
+	template<typename PixelType>
+	void Initialize(PixelType *pixelArray, size_t width, size_t height)
 	{
 		mPixels = (uint8_t*)pixelArray;
 		mWidth = width;
@@ -54,6 +59,7 @@ public:
 	size_t mWidth, mHeight;
 	uint8_t *mPixels;
 
+	size_t GetBufferSize() const { return mWidth*mHeight*mBytesPerPixel; }
 	void PadToNextPOT()
 	{
 		size_t futureWidth = UpgradeToNextPowerOf2(mWidth);
@@ -70,6 +76,10 @@ public:
 		delete [] mPixels;
 		mPixels = newBuffer;
 	}
+
+	void Blit(const PixelBuffer &buffer, size_t x, size_t y);
+
+
 	static void SaveTga(const char *filename,
 			size_t width, size_t height,
 			size_t bytePerPixel,
@@ -82,6 +92,24 @@ public:
 private:
 
 };
+inline	bool operator==(const PixelBuffer &lhs, const PixelBuffer &rhs)
+{
+	if (lhs.mBitDepth != rhs.mBitDepth)
+		return false;
+	if (lhs.mBitsPerPixel != rhs.mBitsPerPixel)
+		return false;
+	if (lhs.mBytesPerPixel != rhs.mBytesPerPixel)
+		return false;
+	if (lhs.mHeight != rhs.mHeight)
+		return false;
+	if (lhs.mWidth != rhs.mWidth)
+		return false;
+	if (memcmp(lhs.mPixels, rhs.mPixels, lhs.GetBufferSize()) != 0)
+		return false;
+	return true;
+}
+
+
 
 }
 

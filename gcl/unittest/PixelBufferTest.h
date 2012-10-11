@@ -29,7 +29,7 @@
 using namespace GCL;
 namespace PixelBufferTest
 {
-    void Test();
+void Test();
 void Test()
 {
 	TEST_START
@@ -48,6 +48,63 @@ void Test()
 
 	Assert_Test(bufferMono.mHeight == 128);
 	//see font test
+
+	//Pixel Buffer Texture
+	{
+		const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
+		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
+		AssertMsg_Test( fp.good(), fullFileName);
+
+		PixelBuffer buffer;
+		PixelBuffer::LoadTga(fp, buffer);
+		fp.close();
+		PixelBuffer buffer2;
+		buffer2.mPixels = new uint8_t[buffer.GetBufferSize()];
+		buffer2.mBitDepth = buffer.mBitDepth;
+		buffer2.mBitsPerPixel = buffer.mBitsPerPixel;
+		buffer2.mBytesPerPixel = buffer.mBytesPerPixel;
+		buffer2.mHeight = buffer.mHeight;
+		buffer2.mWidth = buffer.mWidth;
+		buffer2.Blit(buffer, 0,0);
+#ifndef OS_IPHONE
+		PixelBuffer::SaveTga("PixelBufferBlitTest.tga", buffer2.mWidth, buffer2.mHeight, buffer2.mBytesPerPixel, buffer2.mPixels);
+#endif
+	}
+	//Pixel Buffer blit test
+	{
+		const char *fullFileName = TEXTURE_PATH"mushroomtga_small.tga";
+		std::fstream fp(fullFileName, std::fstream::binary|std::fstream::in);
+		AssertMsg_Test( fp.good(), fullFileName);
+
+		PixelBuffer buffer;
+		PixelBuffer::LoadTga(fp, buffer);
+		fp.close();
+		PixelBuffer buffer2;
+		buffer2.mPixels = new uint8_t[buffer.GetBufferSize()*8*8];
+		buffer2.mBitDepth = buffer.mBitDepth;
+		buffer2.mBitsPerPixel = buffer.mBitsPerPixel;
+		buffer2.mBytesPerPixel = buffer.mBytesPerPixel;
+		buffer2.mHeight = buffer.mHeight*8;
+		buffer2.mWidth = buffer.mWidth*8;
+		for (size_t i=0; i<8; ++i)
+		{
+			for (size_t j=0; j<8; ++j)
+			{
+				buffer2.Blit(buffer, i*64,j*64);
+			}
+		}
+#ifndef OS_IPHONE
+		PixelBuffer::SaveTga("PixelBufferBlitTest2.tga", buffer2.mWidth, buffer2.mHeight, buffer2.mBytesPerPixel, buffer2.mPixels);
+
+		PixelBuffer compareTestBuffer;
+		std::fstream fp2("PixelBufferBlitTest2.tga", std::fstream::binary|std::fstream::in);
+		AssertMsg_Test( fp2.good(), fullFileName);
+
+		PixelBuffer::LoadTga(fp2, compareTestBuffer);
+		fp2.close();
+		Assert_Test(compareTestBuffer == buffer2);
+#endif
+	}
 }
 
 }

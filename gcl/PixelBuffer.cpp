@@ -29,8 +29,23 @@
 
 using namespace GCL;
 
+
+void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y)
+{
+	GCLAssert(buffer.mBytesPerPixel == mBytesPerPixel);
+	uint8_t *currPos = &(mPixels[x*mBytesPerPixel+y*mWidth*mBytesPerPixel]);
+	for (size_t j=0; j<buffer.mHeight; ++j)
+	{
+		uint8_t *line = &(buffer.mPixels[j*buffer.mWidth*buffer.mBytesPerPixel]);
+		memcpy(currPos, line, buffer.mWidth*mBytesPerPixel);
+		currPos += mWidth*mBytesPerPixel;
+	}
+}
+
 void PixelBuffer::Unload(PixelBuffer &data)
 {
 	if (data.mPixels)
 		delete [] data.mPixels;
 }
+
+
