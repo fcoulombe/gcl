@@ -59,4 +59,16 @@ void GCLFile::Open(const char *file )
 	msg += "\n";
 	GCLAssertMsg(mFp.is_open() && mFp.good(), msg.c_str());
 }
+
+
+bool GCLFile::Exists(const char *filename)
+{
+	std::fstream fp(filename);
+	if (fp.good())
+	{
+		fp.close();
+		return true;
+	}
+	return false;
+}
 //============================================================================

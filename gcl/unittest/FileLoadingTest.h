@@ -33,6 +33,8 @@ void Test()
 {
 	TEST_START
 
+	Assert_Test(GCLFile::Exists(TEXTURE_PATH"mushroomtga.tga"));
+
 	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
 	Assert_Test(fp.GetCurrentReadPos() == 0);

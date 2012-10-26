@@ -45,6 +45,7 @@ public:
 	void Read(void *buffer, size_t count);
 	void Close();
 	void Open(const char *file );
+	static bool Exists(const char *filename);
 private:
 	std::fstream mFp;
 };
