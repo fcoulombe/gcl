@@ -75,50 +75,37 @@
 #include "WarningTest.h"
 
 using namespace GCL;
-int main(int /*argc*/, char **argv)
+int main(int argc, char **argv)
 {
-  try
-  {
-	  WarningTest::Test();
-      ExceptionTest::Test();
-      AssertTest::Test();
-      SafeCastTest::Test();
-      HashTest::Test();
-      MathTest::Test();
-      StringUtilTest::Test();
-      TimeTest::Test();
-      PathTest::Test();
-      MemoryTest::Test();
+	SUITE_INIT(argc, argv)
+		WarningTest::Test();
+		ExceptionTest::Test();
+		AssertTest::Test();
+		SafeCastTest::Test();
+		HashTest::Test();
+		MathTest::Test();
+		StringUtilTest::Test();
+		TimeTest::Test();
+		PathTest::Test();
+		MemoryTest::Test();
 
-      Point2Test::Test();
-      Point3Test::Test();
-      Point4Test::Test();
+		Point2Test::Test();
+		Point3Test::Test();
+		Point4Test::Test();
 
-      Matrix44Test::Test();
+		Matrix44Test::Test();
 
-      CurveTest::Test();
+		CurveTest::Test();
 
-      FileLoadingTest::Test();
-      ResourceTest::Test();
-      PixelTest::Test();
-      PixelBufferTest::Test();
-      RawLoadingTest::Test();
-      TgaLoadingTest::Test();
-      PngLoadingTest::Test();
-  }
-  catch (GCLException & e)
-  {
-      std::stringstream str;
-      str << "[FAILED] " << argv[0] << std::endl;
-      str << e.what();
-      std::cerr << str.str();
-      return -1;
-  }
-  catch (...)
-  {
-      std::cerr << "[FAILED] " << argv[0] << std::endl;
-      std::cerr << "something went wrong" << std::endl;
-  }
+		FileLoadingTest::Test();
+		ResourceTest::Test();
+		PixelTest::Test();
+		PixelBufferTest::Test();
+		RawLoadingTest::Test();
+		TgaLoadingTest::Test();
+		PngLoadingTest::Test();
+		SUITE_TERMINATE
 
-  return 0;
+
+	return 0;
 }

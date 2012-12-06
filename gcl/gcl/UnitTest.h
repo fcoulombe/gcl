@@ -26,6 +26,16 @@
 
 namespace GCL
 {
+
+//global data to all unit tests of an executable
+struct UnitTestConfig
+{
+	UnitTestConfig()
+	: mIsInteractive(false)
+	{}
+	bool mIsInteractive;
+}gTestConfig;
+
 size_t sNumTestFailures=0;
 class TestCounter
 {
@@ -53,21 +63,21 @@ public:
 		std::cout.precision(10);
 	}
 
-	~TestCounter()
+	virtual ~TestCounter()
 	{
 		if (failedTest.size())
 		{
 			for (size_t i=0; i<failedTest.size(); ++i)
 			{
 #ifndef OS_WIN32
-std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Test Has Failed for "<< failedTest[i].mCond;
+				std::cerr << failedTest[i].mFile << ":" << failedTest[i].mLine << ": error: Test Has Failed for "<< failedTest[i].mCond;
 #else
-std::cerr << failedTest[i].mFile << "(" << failedTest[i].mLine << "): error: Test Has Failed for "<< failedTest[i].mCond;
+				std::cerr << failedTest[i].mFile << "(" << failedTest[i].mLine << "): error: Test Has Failed for "<< failedTest[i].mCond;
 #endif
-if (failedTest[i].mMsg.length())
-	std::cerr << " Msg: " << failedTest[i].mMsg;
-std::cerr << std::endl;
-sNumTestFailures++;
+				if (failedTest[i].mMsg.length())
+					std::cerr << " Msg: " << failedTest[i].mMsg;
+				std::cerr << std::endl;
+				sNumTestFailures++;
 			}
 		}
 		else
@@ -112,3 +122,42 @@ bool ImageComp(const char *filename)
 }
 }
 }
+
+inline void ParseArguments(int argc, char **argv)
+{
+	  if (argc>1)
+	  {
+		  if (strcmp(argv[1], "--interactive")==0)
+		  {
+			  GCL::gTestConfig.mIsInteractive = true;
+		  }
+	  }
+}
+
+#define SUITE_INIT(argc, argv) \
+	ParseArguments(argc, argv);\
+	try {\
+		\
+
+#define SUITE_TERMINATE \
+		}\
+		catch (GCLException & e)\
+		{\
+			std::stringstream str;\
+			str << "[FAILED] " << argv[0] << std::endl;\
+			str << e.what();\
+			std::cerr << str.str();\
+			return -1;\
+		}\
+		catch (std::exception &e)\
+		{\
+			std::cerr << "[FAILED] " << e.what() << std::endl;\
+			return -1;\
+		}\
+		catch (...)\
+		{\
+			std::cerr << "[FAILED] not sure what happened" << std::endl;\
+		}\
+		\
+
+
