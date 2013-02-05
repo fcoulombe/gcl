@@ -147,16 +147,23 @@ inline void ParseArguments(int argc, char **argv)
 			str << "[FAILED] " << argv[0] << std::endl;\
 			str << e.what();\
 			std::cerr << str.str();\
+            std::cout.flush();\
+std::cerr.flush();\
 			return -1;\
 		}\
 		catch (std::exception &e)\
 		{\
 			std::cerr << "[FAILED] " << e.what() << std::endl;\
+            std::cout.flush();\
+            std::cerr.flush();\
 			return -1;\
 		}\
 		catch (...)\
 		{\
 			std::cerr << "[FAILED] not sure what happened" << std::endl;\
+            std::cout.flush();\
+            std::cerr.flush();\
+            return -1;\
 		}\
 		\
 
