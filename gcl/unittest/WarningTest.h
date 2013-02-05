@@ -24,10 +24,11 @@
 #include <gcl/UnitTest.h>
 
 #include <gcl/PushWarnings.h>
-#if defined(OS_IPHONE)
+/*#if defined(OS_IPHONE)
 #import <opencv2/opencv.hpp>
 #endif
 #include <opencv2/opencv.hpp>
+*/
 #include <gcl/PopWarnings.h>
 
 using namespace GCL;

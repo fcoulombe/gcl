@@ -23,9 +23,10 @@
 #include "gcl/ResourceManager.h"
 #include <cstring>
 
-#include "gcl/Hash.h"
 #include "gcl/Assert.h"
+#include "gcl/Hash.h"
 #include "gcl/Resource.h"
+#include "gcl/TypeData.h"
 
 using namespace GCL;
 

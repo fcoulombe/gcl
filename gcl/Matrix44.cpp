@@ -127,7 +127,7 @@ Matrix44  Inverse(const Matrix44& m)
 	Real b5 = m[2][2]*m[3][3] - m[2][3]*m[3][2];
 
 	const Real div = (a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0);
-	std::cout <<"DET: "<<div<<std::endl;
+	//std::cout <<"DET: "<<div<<std::endl;
 	GCLAssert(div!=0.0f);
 
 	Real s = 1.0f / div;
