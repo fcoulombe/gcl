@@ -80,7 +80,9 @@ public:
 		mWidth = width;
 		mHeight = height;
 		mBytesPerPixel = PixelType::OffsetToNext();
-		mBitsPerPixel = PixelType::OffsetToNext()*8;
+		mBitDepth = 8;
+        mBitsPerPixel = PixelType::OffsetToNext()*mBitDepth;
+        
 	}
 	~PixelBuffer() {}
 	uint8_t mBitDepth;
