@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#if OS_WIN32
+#if defined(OS_WIN32)
 #include <iostream>
 #include <ostream>
 #include <sstream>
@@ -80,6 +80,7 @@ namespace GCL
     public:
         GCLLog()
         {
+            std::cout << "GCLLOG" << std::endl;
             mBackCout = std::cout.rdbuf();
             mBackCerr = std::cerr.rdbuf();
             bool is = ::IsDebuggerPresent();
@@ -90,9 +91,9 @@ namespace GCL
             }
             else
             {
-                //BOOL ret = AttachConsole(5756);//ATTACH_PARENT_PROCESS);
+                BOOL ret = AttachConsole(ATTACH_PARENT_PROCESS);
                 //assert(ret != 0);
-                //ULONG_PTR p = GetParentProcessId();
+                //ULONG_PTR p = GetParentProcessId(); 
             }
         }
         ~GCLLog()

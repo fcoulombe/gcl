@@ -23,7 +23,7 @@
 
 #pragma once
 #include <string>
-#if OS_WIN32
+#if defined(OS_WIN32)
 #include <windows.h>
 #else
 #include <unistd.h>
@@ -40,7 +40,7 @@ public:
 
 	static void SleepMs(size_t milisec)
     {
-#if OS_WIN32
+#if defined(OS_WIN32)
         ::Sleep(milisec);
 #else
         usleep(milisec*1000);
