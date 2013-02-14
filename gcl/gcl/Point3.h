@@ -85,8 +85,14 @@ namespace GCL
 		GCLINLINE	    T& operator[](int i)		 throw()			{ return (&x)[i]; }
 		GCLINLINE const T& operator[](int i) const throw()			{ return (&x)[i]; }
 
-		GCLINLINE bool operator==(const Point3& a) const throw();
-		GCLINLINE bool operator!=(const Point3& a) const throw();
+		GCLINLINE bool operator==(const Point3& a) const throw()
+        {
+            return this->x == a.x && this->y == a.y && this->z == a.z; 
+        }
+		GCLINLINE bool operator!=(const Point3& a) const throw()
+        {
+            return this->x != a.x || this->y != a.y || this->z != a.z; 
+        }
 		GCLINLINE bool operator< (const Point3& a) const throw()		{ return this->x <  a.x && this->y <  a.y && this->z <  a.z; }
 		GCLINLINE bool operator<=(const Point3& a) const throw()		{ return this->x <= a.x && this->y <= a.y && this->z <= a.z; }
 		GCLINLINE bool operator> (const Point3& a) const throw()		{ return this->x >  a.x && this->y >  a.y && this->z >  a.z; }
@@ -194,8 +200,10 @@ namespace GCL
 		return *this *= (1.0 / a);
 	}
 	
-	template<> GCLINLINE bool Point3<Real>::operator==(const Point3& a) const throw()		{ return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) && abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
-	template<> GCLINLINE bool Point3<Real>::operator!=(const Point3& a) const throw()		{ return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) || !abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
+	template<> GCLINLINE bool Point3<Real>::operator==(const Point3& a) const throw()		
+    { return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) && abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
+	template<> GCLINLINE bool Point3<Real>::operator!=(const Point3& a) const throw()		
+    { return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) || !abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
 
 
 //============================================================================

@@ -31,7 +31,15 @@ void Test();
 void Test()
 {
 	TEST_START
-
+    {
+        //equal test
+        Point3<uint8_t> eqTest1(10,11,12);
+        Point3<uint8_t> eqTest2;
+        eqTest2 = eqTest1;
+        Assert_Test(eqTest2 == eqTest1);
+        eqTest2.x = 18;
+        Assert_Test(eqTest2 != eqTest1);
+    }
 	Real arr[] = {1.0,1.0,1.0};
 	WorldPoint3 t1(arr);
 	WorldPoint3 t2(1.0,1.0,1.0);

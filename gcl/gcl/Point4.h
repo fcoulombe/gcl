@@ -102,16 +102,19 @@ namespace GCL
 					return *this; }
 
 		GCLINLINE bool operator==(const Point4& a) const
-				{
-			return (abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) &&
-						abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) &&
-						abseq(this->z, a.z, DBL_PRECISION_TOLERANCE) &&
-						abseq(this->w, a.w, DBL_PRECISION_TOLERANCE));}
+		{
+			return (this->x == a.x &&
+						this->y == a.y &&
+						this->z == a.z &&
+						this->w == a.w );
+        }
 		GCLINLINE bool operator!=(const Point4& a) const
-		{ return (!abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) ||
-								!abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ||
-								!abseq(this->z, a.z, DBL_PRECISION_TOLERANCE) ||
-								!abseq(this->w, a.w, DBL_PRECISION_TOLERANCE));}
+		{ 
+            return (this->x!=a.x ||
+                this->y != a.y ||
+                this->z != a.z ||
+                this->w != a.w);
+        }
 		GCLINLINE bool operator< (const Point4& a) const 		{ return this->x <  a.x && this->y <  a.y && this->z <  a.z && this->w <  a.w; }
 		GCLINLINE bool operator<=(const Point4& a) const 		{ return this->x <= a.x && this->y <= a.y && this->z <= a.z && this->w <= a.w; }
 		GCLINLINE bool operator> (const Point4& a) const 		{ return this->x >  a.x && this->y >  a.y && this->z >  a.z && this->w >  a.w; }
@@ -139,6 +142,15 @@ namespace GCL
 		static const Point4 Z_AXIS;
 		static const Point4 W_AXIS;
 	};
+
+    GCLINLINE bool Point4<Real>::operator==(const Point4<Real>& a) const
+    {
+        return (abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) &&
+            abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) &&
+            abseq(this->z, a.z, DBL_PRECISION_TOLERANCE) &&
+            abseq(this->w, a.w, DBL_PRECISION_TOLERANCE));
+    }
+
 
 	template<typename T> const Point4<T> Point4<T>::ZERO( TypeData<T>::Zero(), TypeData<T>::Zero(), TypeData<T>::Zero(), TypeData<T>::Zero());
 	template<typename T> const Point4<T> Point4<T>::X_AXIS( TypeData<T>::Identity(), TypeData<T>::Zero(), TypeData<T>::Zero(), TypeData<T>::Zero());
