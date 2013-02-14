@@ -31,6 +31,8 @@ class Rect
 {
 public:
 	Rect() {}
+    Rect(T X, T Y, T WIDTH, T HEIGHT) 
+    : x(X), y(Y), width(WIDTH), height(HEIGHT) {}
 
 	T x,y;
 	T width, height;
