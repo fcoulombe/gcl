@@ -33,13 +33,36 @@ using namespace GCL;
 void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y)
 {
 	GCLAssert(buffer.mBytesPerPixel == mBytesPerPixel);
-	uint8_t *currPos = &(mPixels[x*mBytesPerPixel+y*mWidth*mBytesPerPixel]);
+    size_t thisBufferOffset = x*mBytesPerPixel+y*mWidth*mBytesPerPixel;
+    GCLAssert(thisBufferOffset < GetBufferSize() && "writing past the buffer bounds"); 
+    uint8_t *currPos = &(mPixels[thisBufferOffset]);
 	for (size_t j=0; j<buffer.mHeight; ++j)
 	{
 		uint8_t *line = &(buffer.mPixels[j*buffer.mWidth*buffer.mBytesPerPixel]);
 		memcpy(currPos, line, buffer.mWidth*mBytesPerPixel);
 		currPos += mWidth*mBytesPerPixel;
 	}
+    GCLAssert(intptr_t(currPos-mWidth*mBytesPerPixel)-intptr_t(mPixels) < GetBufferSize() && "writing past the buffer bounds"); 
+}
+
+void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y, const Rect<int> &clip)
+{
+    GCLAssert(buffer.mBytesPerPixel == mBytesPerPixel);
+    size_t thisBufferOffset = x*mBytesPerPixel+y*mWidth*mBytesPerPixel;
+    GCLAssert(thisBufferOffset < GetBufferSize() && "writing past the buffer bounds"); 
+    uint8_t *currPos = &(mPixels[thisBufferOffset]);
+    for (size_t j=0; j<clip.height; ++j)
+    {
+        //uint8_t *line = &(buffer.mPixels[j*buffer.mWidth*buffer.mBytesPerPixel]);
+        size_t offset = clip.y*buffer.mWidth*buffer.mBytesPerPixel+j*buffer.mWidth*buffer.mBytesPerPixel;
+        offset+=clip.x*buffer.mBytesPerPixel;
+        uint8_t *line = &(buffer.mPixels[offset]);
+        memcpy(currPos, line, clip.width*mBytesPerPixel);
+        currPos += mWidth*mBytesPerPixel;
+    }
+    
+    GCLAssert(intptr_t(currPos-mWidth*mBytesPerPixel)-intptr_t(mPixels) < GetBufferSize() && "writing past the buffer bounds"); 
+
 }
 
 void PixelBuffer::Unload(PixelBuffer &data)

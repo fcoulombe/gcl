@@ -101,6 +101,27 @@ void Test()
 		PixelBuffer compareTestBuffer("PixelBufferBlitTest2.tga");
 		Assert_Test(compareTestBuffer == buffer2);
 #endif
+        //test copying a piece of buffer into another one
+        PixelBuffer buffer3;
+        buffer3.mPixels = new uint8_t[buffer.GetBufferSize()*8];
+        buffer3.mBitDepth = buffer.mBitDepth;
+        buffer3.mBitsPerPixel = buffer.mBitsPerPixel;
+        buffer3.mBytesPerPixel = buffer.mBytesPerPixel;
+        buffer3.mHeight = buffer.mHeight;
+        buffer3.mWidth = buffer.mWidth*8;
+        for (size_t i=0; i<8; ++i)
+        {
+            Rect<int>  clip;
+            clip.x = 64;
+            clip.y = 64;
+            clip.width = 64;
+            clip.height = 64;
+            buffer3.Blit(buffer2, i*64,0, clip);
+        }
+#ifndef OS_IPHONE
+        PixelBuffer::SaveTga("PixelBufferBlitClipTest.tga", buffer3.mWidth, buffer3.mHeight, buffer3.mBytesPerPixel, buffer3.mPixels);
+        AssertMsg_Test(UnitTest::ImageComp("PixelBufferBlitClipTest.tga"), "PixelBufferBlitClipTest.tga");
+#endif
 	}
     {
         const Point4<uint8_t> kTestColor(128,128,128,128);

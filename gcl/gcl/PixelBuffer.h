@@ -28,6 +28,7 @@
 #include "gcl/Math.h"
 #include "gcl/Pixel.h"
 #include "gcl/Path.h"
+#include "gcl/Rect.h"
 
 namespace GCL
 {
@@ -117,7 +118,11 @@ public:
 		mPixels = newBuffer;
 	}
 
+    //blit a buffer onto this one at a specific location
 	void Blit(const PixelBuffer &buffer, size_t x, size_t y);
+    //blit a section of buffer onto this one
+    void Blit(const PixelBuffer &buffer, size_t x, size_t y, const Rect<int> &clip);
+
     template<typename T>
     void SetPixel(size_t x, size_t y, const T &color)
     {
