@@ -67,7 +67,15 @@ public:
 			GCLAssertMsg(false, "Unsupported file extension: " + ext);
 
 	}
-
+    PixelBuffer( size_t width, size_t height, size_t bytesPerPixel)
+    {
+        mPixels = new uint8_t[width*height*bytesPerPixel];
+        mWidth = width;
+        mHeight = height;
+        mBytesPerPixel = bytesPerPixel;
+        mBitDepth = 8;
+        mBitsPerPixel = bytesPerPixel*mBitDepth;
+    }
 	template<typename PixelType>
 	PixelBuffer(PixelType *pixelArray, size_t width, size_t height)
 	{
@@ -110,7 +118,13 @@ public:
 	}
 
 	void Blit(const PixelBuffer &buffer, size_t x, size_t y);
-
+    template<typename T>
+    void SetPixel(size_t x, size_t y, const T &color)
+    {
+        GCLAssert(sizeof(T) == mBytesPerPixel);
+        uint8_t *currPos = &(mPixels[x*mBytesPerPixel+y*mWidth*mBytesPerPixel]);
+        *(T*)(currPos) = color;
+    }
 
 	static void SaveTga(const char *filename,
 			size_t width, size_t height,

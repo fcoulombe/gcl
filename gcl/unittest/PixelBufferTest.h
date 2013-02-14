@@ -48,7 +48,16 @@ void Test()
 
 	Assert_Test(bufferMono.mHeight == 128);
 	//see font test
+    //Pixel Buffer Load Save
+    {
+        const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
 
+        PixelBuffer buffer(fullFileName);
+#ifndef OS_IPHONE
+        PixelBuffer::SaveTga("PixelBufferLoadSaveTest.tga", buffer.mWidth, buffer.mHeight, buffer.mBytesPerPixel, buffer.mPixels);
+        AssertMsg_Test(UnitTest::ImageComp("PixelBufferLoadSaveTest.tga"), "PixelBufferLoadSaveTest.tga");
+#endif
+    }
 	//Pixel Buffer Texture
 	{
 		const char *fullFileName = TEXTURE_PATH"mushroomtga.tga";
@@ -93,6 +102,13 @@ void Test()
 		Assert_Test(compareTestBuffer == buffer2);
 #endif
 	}
+    {
+        const Point4<uint8_t> kTestColor(128,128,128,128);
+        PixelBuffer buffer(256, 256, 4);
+        buffer.SetPixel(2,0, kTestColor);
+        Point4<uint8_t>*color = (Point4<uint8_t>*)&(buffer.mPixels[2*buffer.mBytesPerPixel]);
+        Assert_Test(kTestColor == *color);
+    }
 	//test that all the images that got saved are equal to what we expect
 	{
 
