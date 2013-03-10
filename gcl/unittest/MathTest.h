@@ -49,11 +49,11 @@ void Test()
 	(void)randTest;
 
 
-	int nextPOTTest1 = UpgradeToNextPowerOf2(3);
+	size_t nextPOTTest1 = UpgradeToNextPowerOf2(3);
 	Assert_Test(nextPOTTest1 == 4);
-	int nextPOTTest2 = UpgradeToNextPowerOf2(6);
+	size_t nextPOTTest2 = UpgradeToNextPowerOf2(6);
 	Assert_Test(nextPOTTest2 == 8);
-	int nextPOTTest3 = UpgradeToNextPowerOf2(12);
+	size_t nextPOTTest3 = UpgradeToNextPowerOf2(12);
 	Assert_Test(nextPOTTest3 == 16);
 }
 }

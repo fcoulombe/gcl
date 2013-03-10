@@ -107,8 +107,8 @@ namespace GCL
         template<typename A>
         GCLINLINE Point2 &operator=(const Point2<A> &a) throw()
         {
-            this->x = a.x;
-            this->y = a.y;
+            this->x = (T)a.x;
+            this->y = (T)a.y;
             return *this;
         }
 

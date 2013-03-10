@@ -31,17 +31,16 @@ using namespace GCL;
 
 size_t GCLFile::GetCurrentReadPos() const
 {
-	int pos = ((std::istream&)mFp).tellg() ;
-	return pos;
+	std::streampos pos = ((std::istream&)mFp).tellg() ;
+	return (size_t)pos;
 }
 
 size_t GCLFile::GetFileSize() const
 {
 	((std::istream&)mFp).seekg(0, std::ios::end);
-	int pos = ((std::istream&)mFp).tellg() ;
-	((std::istream&)mFp).seekg(0, std::ios::beg);
-
-	return pos;
+	std::streampos pos = ((std::istream&)mFp).tellg() ;
+    ((std::istream&)mFp).seekg(0, std::ios::beg);
+	return (size_t)pos;
 }
 void GCLFile::Read(void *buffer, size_t count)
 {

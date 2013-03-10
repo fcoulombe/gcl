@@ -41,7 +41,7 @@ public:
 	static void SleepMs(size_t milisec)
     {
 #if defined(OS_WIN32)
-        ::Sleep(milisec);
+        ::Sleep((DWORD)milisec);
 #else
         usleep(milisec*1000);
 #endif

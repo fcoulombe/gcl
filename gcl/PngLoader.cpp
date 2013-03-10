@@ -21,6 +21,9 @@
  */
 
 #include <gcl/PixelBuffer.h>
+#ifdef OS_WIN32
+#pragma warning( disable : 4611 ) //setjmp needed by lib png
+#endif
 
 #ifndef OS_IPHONE
 #include <png.h>
@@ -110,7 +113,7 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 	default:
 		GCLAssert(false);
 	}
-	textureData.mBitDepth = bitdepth;
+	textureData.mBitDepth = (uint8_t)bitdepth;
 	textureData.mBitsPerPixel = textureData.mBitDepth*textureData.mBytesPerPixel;
 
 	if (png_get_valid(pngPtr, infoPtr, PNG_INFO_tRNS))
@@ -129,7 +132,7 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 	//Adresses for every row in the buffer
 	for (size_t i = 0; i < imgHeight; i++)
 	{
-		unsigned int q = (imgHeight - i - 1) * stride;
+		size_t q = (imgHeight - i - 1) * stride;
 		rowPtrs[i] = (png_bytep)data + q;
 	}
 

@@ -35,31 +35,34 @@ using namespace GCL;
 const std::string Path::PathToFirstSlash(const std::string  &dir)
 {
 	const char DIR_SEPARATOR = '/';
-	register int i;
-	const std::string &loc = dir;
-	size_t size = loc.length();
+	size_t size = dir.length();
 
-	for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
+    int i;
+#ifdef OS_WIN32
+    const char DIR_SEPARATOR2 = '\\';
+    for (i = ((int)size - 1); (i >= 0) && (dir[i] != DIR_SEPARATOR) && (dir[i] != DIR_SEPARATOR2); --i)
+        ;
+#else
+	for (i = ((int)size - 1); (i >= 0) && (dir[i] != DIR_SEPARATOR); --i)
 		;
-
-	return loc.substr(0, i);
+#endif
+	return dir.substr(0, i);
 }
 const std::string Path::PathFromFirstSlash(const std::string  &dir)
 {
 	register int i;
-	const std::string &loc = dir;
-	size_t size = loc.length();
+	size_t size = dir.length();
 
     const char DIR_SEPARATOR = '/';
 #ifdef OS_WIN32
     const char DIR_SEPARATOR2 = '\\';
-    for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR)&& (loc[i] != DIR_SEPARATOR2); --i)
+    for (i = ((int)size - 1); (i >= 0) && (dir[i] != DIR_SEPARATOR)&& (dir[i] != DIR_SEPARATOR2); --i)
         ;
 #else
-    for (i = (size - 1); (i >= 0) && (loc[i] != DIR_SEPARATOR); --i)
+    for (i = ((int)size - 1); (i >= 0) && (dir[i] != DIR_SEPARATOR); --i)
 		;
 #endif
-	return loc.substr(i+1, size);
+	return dir.substr(i+1, size);
 }
 
 const std::string Path::Cwd()

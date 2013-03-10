@@ -50,7 +50,7 @@ Hash::MD5Hash Hash::MD5(const char* str, size_t len)
 
 	md5_state_s state;
 	md5_init(&state);
-	md5_append(&state, (const uint8_t*)str, len);
+	md5_append(&state, (const uint8_t*)str, (int)len);
 
 	MD5Hash hash;
 	md5_finish(&state, hash.digest);

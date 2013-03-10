@@ -45,9 +45,21 @@ namespace GCL
 
 		GCLINLINE Point4() 												{ }
 		template <typename A1,typename A2,typename A3,typename A4>
-		GCLINLINE explicit Point4(const A1& aX, const A2& aY, const A3& aZ, const A4& aW)  : x(aX),y(aY),z(aZ), w(aW)	{ }
+		GCLINLINE explicit Point4(const A1& aX, const A2& aY, const A3& aZ, const A4& aW)  
+        {
+            x = (T)(aX);
+            y = (T)(aY);
+            z = (T)(aZ);
+            w = (T)(aW);	
+        }
 		template <typename A1,typename A2,typename A3>
-		GCLINLINE explicit Point4(const A1& aX, const A2& aY, const A3& aZ)  : x(aX),y(aY),z(aZ), w(1.0)	{ }
+		GCLINLINE explicit Point4(const A1& aX, const A2& aY, const A3& aZ)  
+        { 
+            x = (T)(aX);
+            y = (T)(aY);
+            z = (T)(aZ);
+            w = (T)(1.0);	
+        }
 
 		template <typename T2>
 		GCLINLINE explicit Point4(const T2 a[4])  : x(a[0]),y(a[1]),z(a[2]), w(a[3]) 			{ }

@@ -36,6 +36,8 @@ enum PixelTypeComponents
 
 struct PixelMono
 {
+    PixelMono()
+        : mColor(0) {}
 	uint8_t mColor;
 	static uint32_t GetComponentType()  { return eMONO; }
 	static size_t OffsetToNext() { return 1; }

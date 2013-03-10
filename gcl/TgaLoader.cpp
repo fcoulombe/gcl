@@ -183,8 +183,8 @@ void PixelBuffer::SaveTga(const char *filename, size_t width, size_t height, siz
 	const char *ext = &(filename[strlen(filename)-3]);
 	if (strncmp(ext, "tga", 3)==0)
 	{
-		uint16_t x = width;
-		uint16_t y = height;
+		uint16_t x = (uint16_t)width;
+		uint16_t y = (uint16_t)height;
 		// split x and y sizes into bytes
 
 		//assemble the header
@@ -215,7 +215,7 @@ void PixelBuffer::SaveTga(const char *filename, size_t width, size_t height, siz
 		*(uint16_t*)&(header[10]) = 0;
 		*(uint16_t*)&(header[12]) = x;
 		*(uint16_t*)&(header[14]) = y;
-		*(uint8_t*)&(header[16]) = bytePerPixel*8;
+		*(uint8_t*)&(header[16]) = (uint8_t)bytePerPixel*8;
 
 		size_t imageSize = sizeof (uint8_t)*width*height*bytePerPixel;
 		//swap the R and the B

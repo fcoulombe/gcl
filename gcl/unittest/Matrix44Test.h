@@ -165,7 +165,7 @@ void Test()
 			tempMatrix = Inverse(tempMatrix);
 			Assert_Test(false);
 		}
-		catch (GCLException &e)
+		catch (GCLException & /*e*/)
 		{
 		}
 	}

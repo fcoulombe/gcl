@@ -46,7 +46,7 @@ namespace GCL
 		GCLINLINE Point3(const T a[3]) throw() : x(a[0]),y(a[1]), z(a[2]) 			{ }
 		template<typename A>
 		GCLINLINE explicit Point3(const Point3<A>& a) 
-    	{ x=a.x; y=a.y; z=a.z;}
+    	{ x=(T)a.x; y=(T)a.y; z=(T)a.z;}
 
 		GCLINLINE void Set(const T& aX, const T& aY, const T& aZ) throw()			{ this->x = aX; this->y = aY; this->z = aZ; }
 		GCLINLINE void Set(const T a[3])				throw()						{ this->x = a[0]; this->y = a[1]; this->z = a[2]; }
@@ -106,9 +106,9 @@ namespace GCL
         template<typename A>
         GCLINLINE Point3 &operator=(const Point3<A> &a) throw()
         {
-            this->x = a.x;
-            this->y = a.y;
-            this->z = a.z;
+            this->x = (T)a.x;
+            this->y = (T)a.y;
+            this->z = (T)a.z;
             return *this;
         }
 
@@ -119,10 +119,10 @@ namespace GCL
 		GCLINLINE void Normalize()
 		{
 			Real ln = Length();
-			if (ln == 0) return;                    // do nothing for nothing
-			this->x /= ln;
-			this->y /= ln;
-			this->z /= ln;
+			if (abseq(ln, 0.0,  DBL_PRECISION_TOLERANCE)) return;                    // do nothing for nothing
+			this->x /= (T)ln;
+			this->y /= (T)ln;
+			this->z /= (T)ln;
 		}
 
 		static const Point3 ZERO;

@@ -312,7 +312,7 @@ namespace GCL
 	{
 	public:
 		static unsigned long long Minimum()		{ return 0;						}
-		static unsigned long long Maximum()		{ return 0xFFFFFFFFFFFFFFFFLL;	}
+		static unsigned long long Maximum()		{ return 0xFFFFFFFFFFFFFFFFULL;	}
 		static unsigned long long Zero()		{ return 0;						}
 		static unsigned long long Identity()	{ return 1;						}
 

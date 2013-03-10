@@ -52,7 +52,7 @@ WorldPoint3 Curve::BezierCurvev(const std::vector<WorldPoint3 >& p, Real t)
 
 	for(size_t k=0;k<count;k++)
 	{
-		int kn,nn,nkn;
+		size_t kn,nn,nkn;
 		nn = count;
 		kn = k;
 		nkn = count - k;

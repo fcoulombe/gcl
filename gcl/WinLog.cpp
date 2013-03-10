@@ -83,7 +83,7 @@ namespace GCL
             std::cout << "GCLLOG" << std::endl;
             mBackCout = std::cout.rdbuf();
             mBackCerr = std::cerr.rdbuf();
-            bool is = ::IsDebuggerPresent();
+            BOOL is = ::IsDebuggerPresent();
             if (is)
             {
                 std::cout.rdbuf(mRedirectStream.rdbuf());
@@ -91,7 +91,8 @@ namespace GCL
             }
             else
             {
-                BOOL ret = AttachConsole(ATTACH_PARENT_PROCESS);
+                //BOOL ret =
+                 AttachConsole(ATTACH_PARENT_PROCESS);
                 //assert(ret != 0);
                 //ULONG_PTR p = GetParentProcessId(); 
             }

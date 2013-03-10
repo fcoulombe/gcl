@@ -42,7 +42,7 @@ void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y)
 		memcpy(currPos, line, buffer.mWidth*mBytesPerPixel);
 		currPos += mWidth*mBytesPerPixel;
 	}
-    GCLAssert(intptr_t(currPos-mWidth*mBytesPerPixel)-intptr_t(mPixels) < GetBufferSize() && "writing past the buffer bounds"); 
+    GCLAssert(size_t(intptr_t(currPos-mWidth*mBytesPerPixel)-intptr_t(mPixels)) < GetBufferSize() && "writing past the buffer bounds"); 
 }
 
 void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y, const Rect<int> &clip)

@@ -35,31 +35,31 @@ void Test()
 	{
 		PixelMono p;
 		std::stringstream s;
-		s<< p.GetComponentType() << "==eMONO";
-		AssertMsg_Test(p.GetComponentType()==eMONO, s.str().c_str());
+		s<< PixelMono::GetComponentType() << "==eMONO";
+		AssertMsg_Test(PixelMono::GetComponentType()==eMONO, s.str().c_str());
 
 		s.str("");
-		s<< p.OffsetToNext() <<"==1";
-		AssertMsg_Test(p.OffsetToNext() == 1,s.str().c_str());
+		s<< PixelMono::OffsetToNext() <<"==1";
+		AssertMsg_Test(PixelMono::OffsetToNext() == 1,s.str().c_str());
 	}
 
 	{
 		PixelRGB pt;
 		std::stringstream s;
-		s<< pt.GetComponentType() << "==eRGB";
-		AssertMsg_Test(pt.GetComponentType()==(eRGB), s.str().c_str());
+		s<< PixelRGB::GetComponentType() << "==eRGB";
+		AssertMsg_Test(PixelRGB::GetComponentType()==(eRGB), s.str().c_str());
 		s.str("");
-		s<< pt.OffsetToNext() <<"==3";
-		AssertMsg_Test(pt.OffsetToNext() == 3,s.str().c_str());
+		s<< PixelRGB::OffsetToNext() <<"==3";
+		AssertMsg_Test(PixelRGB::OffsetToNext() == 3,s.str().c_str());
 	}
 	{
 		PixelRGBA pt;
 		std::stringstream s;
-		s<< pt.GetComponentType() << "==eRGBA";
-		AssertMsg_Test(pt.GetComponentType()==(eRGBA), s.str().c_str());
+		s<< PixelRGBA::GetComponentType() << "==eRGBA";
+		AssertMsg_Test(PixelRGBA::GetComponentType()==(eRGBA), s.str().c_str());
 		s.str("");
-		s<< pt.OffsetToNext() <<"==4";
-		AssertMsg_Test(pt.OffsetToNext() == 4,s.str().c_str());
+		s<< PixelRGBA::OffsetToNext() <<"==4";
+		AssertMsg_Test(PixelRGBA::OffsetToNext() == 4,s.str().c_str());
 	}
 }
 }

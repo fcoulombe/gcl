@@ -73,9 +73,9 @@ public:
         mPixels = new uint8_t[width*height*bytesPerPixel];
         mWidth = width;
         mHeight = height;
-        mBytesPerPixel = bytesPerPixel;
+        mBytesPerPixel = (uint8_t)bytesPerPixel;
         mBitDepth = 8;
-        mBitsPerPixel = bytesPerPixel*mBitDepth;
+        mBitsPerPixel = (uint8_t)bytesPerPixel*mBitDepth;
     }
 	template<typename PixelType>
 	PixelBuffer(PixelType *pixelArray, size_t width, size_t height)
@@ -88,9 +88,9 @@ public:
 		mPixels = (uint8_t*)pixelArray;
 		mWidth = width;
 		mHeight = height;
-		mBytesPerPixel = PixelType::OffsetToNext();
+		mBytesPerPixel = (uint8_t)PixelType::OffsetToNext();
 		mBitDepth = 8;
-        mBitsPerPixel = PixelType::OffsetToNext()*mBitDepth;
+        mBitsPerPixel = (uint8_t)(PixelType::OffsetToNext()*mBitDepth);
         
 	}
 	~PixelBuffer() {}

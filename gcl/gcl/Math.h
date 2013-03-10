@@ -44,7 +44,9 @@ GCLINLINE Real Randf(Real vmin, Real vmax)
 
 GCLINLINE size_t UpgradeToNextPowerOf2(size_t value)
 {
-	return pow(2, ceil(log(value)/log(2)));
+    Real c = ceil(log(value)/log(2));
+
+	return (size_t)pow(2, c);
 }
 
 }
