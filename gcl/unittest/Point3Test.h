@@ -83,5 +83,17 @@ void Test()
 	Assert_Test(t4 == WorldPoint3(0, 0.7071067812, 0.7071067812));
 	Assert_Test(abseq(t3.Length(),1.732050808, DBL_PRECISION_TOLERANCE));
 	Assert_Test(t3.LengthSqr() == 3);
+
+    //precision conversion test
+    {
+    WorldPoint3 lhs;
+    Point3<float> rhs(1.0, 2.0, 3.0);
+    lhs = rhs;
+    Assert_Test(lhs == WorldPoint3(1.0, 2.0, 3.0));
+
+    WorldPoint3 copyConstructor(rhs);
+
+    Assert_Test(copyConstructor == WorldPoint3(1.0, 2.0, 3.0));
+    }
 }
 }

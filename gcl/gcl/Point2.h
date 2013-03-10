@@ -104,6 +104,14 @@ namespace GCL
 
 		GCLINLINE friend Point2 Abs(const Point2& a) throw()			{ return Point2(Abs(a.x), Abs(a.y)); }
 
+        template<typename A>
+        GCLINLINE Point2 &operator=(const Point2<A> &a) throw()
+        {
+            this->x = a.x;
+            this->y = a.y;
+            return *this;
+        }
+
 		static const Point2<T> ZERO;
 		static const Point2<T> X_AXIS;
 		static const Point2<T> Y_AXIS;

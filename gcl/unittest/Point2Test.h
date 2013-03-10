@@ -87,5 +87,18 @@ void Test()
 	std::stringstream s2;
 	s2<<t3.LengthSqr()<<"==2.0";
 	AssertMsg_Test(abseq(t3.LengthSqr(),2.0, DBL_PRECISION_TOLERANCE), s2.str().c_str());
+
+
+    //precision conversion test
+    {
+        WorldPoint2 lhs;
+        Point2<float> rhs(1.0, 2.0);
+        lhs = rhs;
+        Assert_Test(lhs == WorldPoint2(1.0, 2.0));
+
+        WorldPoint2 copyConstructor(rhs);
+
+        Assert_Test(copyConstructor == WorldPoint2(1.0, 2.0));
+    }
 }
 }

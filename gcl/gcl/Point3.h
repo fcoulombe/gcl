@@ -45,7 +45,8 @@ namespace GCL
 		GCLINLINE Point3(const T& aX, const T& aY, const T& aZ) throw() : x(aX), y(aY), z(aZ)	{ }
 		GCLINLINE Point3(const T a[3]) throw() : x(a[0]),y(a[1]), z(a[2]) 			{ }
 		template<typename A>
-			GCLINLINE explicit Point3(const Point3<A>& a) : x(a.x), y(a.x), z(a.z)	{ }
+		GCLINLINE explicit Point3(const Point3<A>& a) 
+    	{ x=a.x; y=a.y; z=a.z;}
 
 		GCLINLINE void Set(const T& aX, const T& aY, const T& aZ) throw()			{ this->x = aX; this->y = aY; this->z = aZ; }
 		GCLINLINE void Set(const T a[3])				throw()						{ this->x = a[0]; this->y = a[1]; this->z = a[2]; }
@@ -102,6 +103,14 @@ namespace GCL
 		
 		/*friend GCLINLINE std::istream& operator>>( std::istream&, Point3&);
 		friend GCLINLINE std::ostream& operator<<( std::ostream&, const Point3 &);*/
+        template<typename A>
+        GCLINLINE Point3 &operator=(const Point3<A> &a) throw()
+        {
+            this->x = a.x;
+            this->y = a.y;
+            this->z = a.z;
+            return *this;
+        }
 
 
 		GCLINLINE Real Length() const{  return sqrt(this->x*this->x + this->y*this->y + this->z*this->z); }
@@ -199,6 +208,8 @@ namespace GCL
 	{
 		return *this *= (1.0 / a);
 	}
+
+
 	
 	template<> GCLINLINE bool Point3<Real>::operator==(const Point3& a) const throw()		
     { return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) && abseq(this->z, a.z, DBL_PRECISION_TOLERANCE); }
