@@ -88,10 +88,11 @@ public:
 	void SetRotationY(Real rotation);
 	void SetRotationZ(Real rotation);
 
+    void SetPosition(Real x, Real y, Real z) { m3 = WorldPoint4(x,y,z,1.0); }
 	void SetPosition(const WorldPoint3 &position) { m3 = position; }
 
 	void SetPosition(const WorldPoint4 &position) { m3 = position; }
-
+    
 	GCLINLINE const Matrix44& operator+() const 		{ return *this;		}
 	GCLEXPORT Matrix44  operator-() const ;
 
@@ -134,6 +135,17 @@ public:
 		m2=WorldPoint4(0.0, 0, z1, -1);
 		m3=WorldPoint4(0.0, 0.0,  z2,  0.0);
 	}
+
+    GCLINLINE void SetOrtho( Real left, Real right, Real bottom, Real top, Real zNear, Real zFar)
+    {
+        m0 = WorldPoint4(2.0/(right-left), 0.0,0.0,0.0);
+        m1 = WorldPoint4(0.0, 2.0/(top-bottom), 0.0, 0.0);
+        m2 = WorldPoint4(0.0,0.0, -2.0/(zFar-zNear), 0.0);
+        m3 = WorldPoint4(-((right+left)/(right-left)), 
+            -((top+bottom)/(top-bottom)),
+            -((zFar+zNear)/(zFar-zNear)), 
+            1.0);                
+    }
 
 	GCLINLINE WorldPoint4 Project(const WorldPoint4& v, Real width, Real height)
 	{

@@ -90,6 +90,21 @@ void Test()
 				myMat[3].w == 16.0, s.str().c_str());
 
 	}
+    //translation combien test
+    {
+        s.str("");
+        Matrix44 trans1(true);
+        Matrix44 trans2(true);
+        trans1.SetPosition(10.0, 0.0, 0.0);
+        trans2.SetPosition(20.0, 0.0, 0.0);
+        Matrix44 transResult = trans2*trans1;
+        const Matrix44 expectedResult(WorldPoint4(1.0, 0.0, 0.0, 0.0),
+                                    WorldPoint4(0.0, 1.0, 0.0, 0.0),
+                                    WorldPoint4(0.0, 0.0, 1.0, 0.0),
+                                    WorldPoint4(30.0, 0.0, 0.0, 1.0));
+        s << std::endl << transResult << std::endl << " == " << std::endl << expectedResult << std::endl;
+        AssertMsg_Test(transResult == expectedResult, s.str().c_str());
+    }
 	//rot x test
 	{
 		s.str("");
@@ -99,6 +114,17 @@ void Test()
 		s<<out << " == WorldPoint3(0.0,0.0,-1.0)";
 		AssertMsg_Test(out == WorldPoint3(0.0,0.0,-1.0), s.str().c_str());
 	}
+    //vector multiplication test
+    {
+        s.str("");
+        myMat.SetRotationX(DegreeToRadian(90.0));
+        WorldPoint4 myVec = WorldPoint4(0.0,1.0,0.0);
+        WorldPoint4 out = myVec * myMat;
+        s<<out << " == WorldPoint4(0.0,0.0,-1.0, 1.0)";
+        AssertMsg_Test(out == WorldPoint4(0.0,0.0,-1.0, 1.0), s.str().c_str());
+    }
+
+    //vector matrix combien test by vector mult
 	{
 		s.str("");
 		myMat.SetRotationX(DegreeToRadian(90.0));
@@ -111,14 +137,9 @@ void Test()
 		s<<out << " == WorldPoint3(0.0,-1.0,0.0)";
 		AssertMsg_Test(out == WorldPoint3(0.0,-1.0,0.0), s.str().c_str());
 	}
-	{
-		s.str("");
-		myMat.SetRotationX(DegreeToRadian(90.0));
-		WorldPoint4 myVec = WorldPoint4(0.0,1.0,0.0);
-		WorldPoint4 out = myVec * myMat;
-		s<<out << " == WorldPoint4(0.0,0.0,-1.0, 1.0)";
-		AssertMsg_Test(out == WorldPoint4(0.0,0.0,-1.0, 1.0), s.str().c_str());
-	}
+
+
+    //rot X test
 	{
 		s.str("");
 		myMat.SetRotationX(DegreeToRadian(90.0));
@@ -250,6 +271,22 @@ void Test()
 		AssertMsg_Test(perspective==testPerspective, s.str().c_str());
 
 	}
+    {
+        //ortho test
+        Matrix44 ortho;
+        ortho.SetOrtho(0, 600, 800, 0, -1.0f, 1.0f);
+
+        Matrix44 testOrtho;
+        testOrtho[0] = WorldPoint4(0.003333333333333334,  0.0, 0.0, 0.0);
+        testOrtho[1] = WorldPoint4(0.0, -0.0025, 0.0, 0.0);
+        testOrtho[2] = WorldPoint4(0.0, 0.0, -1.0, 0.0);
+        testOrtho[3] = WorldPoint4(-1.0, 1.0, -0.0, 1.0);
+        s.str("");
+        s <<std::setprecision(16)<< std::endl<<ortho<< std::endl << "==" << std::endl << testOrtho;
+        AssertMsg_Test(ortho==testOrtho, s.str().c_str());
+
+    }
+    //float constructor
 	{
 
 		const float fidentity[16] = {1.0f,0.f,0.f,0.f,

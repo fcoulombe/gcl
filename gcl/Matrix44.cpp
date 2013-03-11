@@ -400,43 +400,28 @@ WorldPoint4 GCL::operator*(const WorldPoint4& a, const Matrix44& b)
 
 Matrix44  Matrix44::operator*(const Matrix44& a) const
 {
-	//return Matrix44(m0*a, m1*a, m2*a, m3*a);
     Matrix44 result;
 
-    result[0].x = m0.x*a[0].x + m0.y*a[0].x + m0.z*a[2].x +m0.w*a[3].x;
-    result[0].y = m0.x*a[0].y + m0.y*a[1].y + m0.z*a[2].y +m0.w*a[3].y;
-    result[0].z = m0.x*a[0].z + m0.y*a[1].z + m0.z*a[2].z +m0.w*a[3].z;
-    result[0].w = m0.x*a[0].w + m0.y*a[1].w + m0.z*a[2].w +m0.w*a[3].w;
-
-    result[1].x = m1.x*a[1].x + m1.y*a[1].x + m1.z*a[2].x +m1.w*a[3].x;
-    result[1].y = m1.x*a[1].y + m1.y*a[1].y + m1.z*a[2].y +m1.w*a[3].y;
-    result[1].z = m1.x*a[1].z + m1.y*a[1].z + m1.z*a[2].z +m1.w*a[3].z;
-    result[1].w = m1.x*a[1].w + m1.y*a[1].w + m1.z*a[2].w +m1.w*a[3].w;
-
-    result[2].x = m2.x*a[2].x + m2.y*a[1].x + m2.z*a[2].x +m2.w*a[3].x;
-    result[2].y = m2.x*a[2].y + m2.y*a[1].y + m2.z*a[2].y +m2.w*a[3].y;
-    result[2].z = m2.x*a[2].z + m2.y*a[1].z + m2.z*a[2].z +m2.w*a[3].z;
-    result[2].w = m2.x*a[2].w + m2.y*a[1].w + m2.z*a[2].w +m2.w*a[3].w;
-
-    result[3].x = m3.x*a[3].x + m3.y*a[1].x + m3.z*a[2].x +m3.w*a[3].x;
-    result[3].y = m3.x*a[3].y + m3.y*a[1].y + m3.z*a[2].y +m3.w*a[3].y;
-    result[3].z = m3.x*a[3].z + m3.y*a[1].z + m3.z*a[2].z +m3.w*a[3].z;
-    result[3].w = m3.x*a[3].w + m3.y*a[1].w + m3.z*a[2].w +m3.w*a[3].w;
-
+    const Matrix44 &src1 = *this;
+    const Matrix44 &src2 = a;
+    result[0][0] = src1[0][0] * src2[0][0] + src1[0][1] * src2[1][0] + src1[0][2] * src2[2][0] + src1[0][3] * src2[3][0]; 
+    result[0][1] = src1[0][0] * src2[0][1] + src1[0][1] * src2[1][1] + src1[0][2] * src2[2][1] + src1[0][3] * src2[3][1]; 
+    result[0][2] = src1[0][0] * src2[0][2] + src1[0][1] * src2[1][2] + src1[0][2] * src2[2][2] + src1[0][3] * src2[3][2]; 
+    result[0][3] = src1[0][0] * src2[0][3] + src1[0][1] * src2[1][3] + src1[0][2] * src2[2][3] + src1[0][3] * src2[3][3]; 
+    result[1][0] = src1[1][0] * src2[0][0] + src1[1][1] * src2[1][0] + src1[1][2] * src2[2][0] + src1[1][3] * src2[3][0]; 
+    result[1][1] = src1[1][0] * src2[0][1] + src1[1][1] * src2[1][1] + src1[1][2] * src2[2][1] + src1[1][3] * src2[3][1]; 
+    result[1][2] = src1[1][0] * src2[0][2] + src1[1][1] * src2[1][2] + src1[1][2] * src2[2][2] + src1[1][3] * src2[3][2]; 
+    result[1][3] = src1[1][0] * src2[0][3] + src1[1][1] * src2[1][3] + src1[1][2] * src2[2][3] + src1[1][3] * src2[3][3]; 
+    result[2][0] = src1[2][0] * src2[0][0] + src1[2][1] * src2[1][0] + src1[2][2] * src2[2][0] + src1[2][3] * src2[3][0]; 
+    result[2][1] = src1[2][0] * src2[0][1] + src1[2][1] * src2[1][1] + src1[2][2] * src2[2][1] + src1[2][3] * src2[3][1]; 
+    result[2][2] = src1[2][0] * src2[0][2] + src1[2][1] * src2[1][2] + src1[2][2] * src2[2][2] + src1[2][3] * src2[3][2]; 
+    result[2][3] = src1[2][0] * src2[0][3] + src1[2][1] * src2[1][3] + src1[2][2] * src2[2][3] + src1[2][3] * src2[3][3]; 
+    result[3][0] = src1[3][0] * src2[0][0] + src1[3][1] * src2[1][0] + src1[3][2] * src2[2][0] + src1[3][3] * src2[3][0]; 
+    result[3][1] = src1[3][0] * src2[0][1] + src1[3][1] * src2[1][1] + src1[3][2] * src2[2][1] + src1[3][3] * src2[3][1]; 
+    result[3][2] = src1[3][0] * src2[0][2] + src1[3][1] * src2[1][2] + src1[3][2] * src2[2][2] + src1[3][3] * src2[3][2]; 
+    result[3][3] = src1[3][0] * src2[0][3] + src1[3][1] * src2[1][3] + src1[3][2] * src2[2][3] + src1[3][3] * src2[3][3]; 
 
     return result;
-    /*
-    for(size_t i=0; i<4; ++i)
-    {
-      for(size_t j=0; j<4; ++j)
-      {
-		for(size_t k=0; k<4; ++k)
-		{
-			result[i][j] += (*this)[i][k]*a[k][j];
-		}
-      }
-    }
-    return result;*/
 }
 
 WorldPoint3  GCL::operator*(const WorldPoint3& a, const Matrix44& b)
