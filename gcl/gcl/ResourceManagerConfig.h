@@ -33,3 +33,4 @@
 #define MUSIC_PATH DATA_PATH"Music/"
 #define MESH_PATH DATA_PATH"Mesh/"
 #define FONT_PATH DATA_PATH"Font/"
+#define SCRIPT_PATH DATA_PATH"Script/"
