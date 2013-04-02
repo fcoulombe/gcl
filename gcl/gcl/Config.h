@@ -41,6 +41,7 @@ namespace GCL
 
     int GetInt(const std::string &key) 
     {
+        GCLAssertMsg(mIntConfig.find(key) != mIntConfig.end(), key.c_str());
         return mIntConfig[key];
     }
   private:
