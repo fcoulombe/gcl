@@ -26,6 +26,7 @@
 #include <gcl/Assert.h>
 #include <gcl/Circle.h>
 #include <gcl/Complex.h>
+#include <gcl/Config.h>
 #include <gcl/Curve.h>
 #include <gcl/Exception.h>
 #include <gcl/FixedPoint.h>
@@ -52,6 +53,7 @@
 #include <gcl/WorldUnit.h>
 
 #include "AssertTest.h"
+#include "ConfigTest.h"
 #include "CurveTest.h"
 #include "ExceptionTest.h"
 #include "FileLoadingTest.h"
@@ -104,6 +106,7 @@ int main(int argc, char **argv)
 		RawLoadingTest::Test();
 		TgaLoadingTest::Test();
 		PngLoadingTest::Test();
+        ConfigTest::Test();
 		SUITE_TERMINATE
 
 

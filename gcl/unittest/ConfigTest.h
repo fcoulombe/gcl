@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 by Francois Coulombe
+ * Copyright (C) 2013 by Francois Coulombe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,17 @@
  */
 #pragma once
 
+#include <gcl/UnitTest.h>
+#include <gcl/Config.h>
 
-//this is a define to ease string concatenation at compile time.
-//the compiler should be able to figure this out at compile time
-//with char pointers but who knows... maybe they didn't feel like it
-#define DATA_PATH  "data/"
-#define TEXTURE_PATH  DATA_PATH"Texture/"
-#define MATERIAL_PATH DATA_PATH"Material/"
-#define SPRITE_PATH DATA_PATH"Sprite/"
-#define SOUND_PATH DATA_PATH"Sound/"
-#define MUSIC_PATH DATA_PATH"Music/"
-#define MESH_PATH DATA_PATH"Mesh/"
-#define FONT_PATH DATA_PATH"Font/"
-#define SCRIPT_PATH DATA_PATH"Script/"
-#define CONFIG_PATH DATA_PATH"Conf/"
+using namespace GCL;
+namespace ConfigTest
+{
+void Test();
+void Test()
+{
+	TEST_START
+    Assert_Test(Config::Instance().GetInt("DEFAULT_VIEWPORT_HEIGHT")==480);
+    Assert_Test(Config::Instance().GetInt("DEFAULT_VIEWPORT_WIDTH")==640);
+}
+}
