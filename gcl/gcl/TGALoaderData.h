@@ -24,21 +24,36 @@
 
 namespace GCL
 {
-struct TGAHeader
-{
-	uint8_t Header[12];
-};
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(push, 1)
+#pragma pack(1)               // Dont pad the following struct.
+#endif
+    union TGAHeader
+    {
+        struct TGAHeaderU
+        {
+            uint8_t idlength;
+            uint8_t colourmaptype;
+            uint8_t datatypecode;
 
-struct TGA
-{
-	uint8_t header[6];
-	uint8_t bytesPerPixel;
-    uint8_t bpp;
-	uint32_t imageSize;
-	uint32_t type;
-	uint32_t height;
-	uint32_t width;
-};
+            int16_t colourmaporigin;
+            int16_t colourmaplength;
+            uint8_t colourmapdepth;
+            
+            int16_t x_origin;
+            int16_t y_origin;
+            int16_t width;
+            int16_t height;
+            uint8_t bitsperpixel;
+            uint8_t imagedescriptor;
+        }TGAHEADER;
+        uint8_t Header[18];
+    };
+#if defined(_MSC_VER) || defined(__GNUC__)
+#pragma pack(pop)
+#endif
+
+
 
 // Uncompressed TGA Header
 const uint8_t TGAUncompressedHeader[12] = {0,0, 2,0,0,0,0,0,0,0,0,0};

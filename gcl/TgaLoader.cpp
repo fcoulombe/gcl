@@ -40,16 +40,13 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 	fp.read((char*)&header, sizeof(TGAHeader));
 	GCLAssert(fp.good());
 
-	if(memcmp(TGAUncompressedHeader, &header, sizeof(TGAHeader)) == 0)
+	if(memcmp(TGAUncompressedHeader, &header, sizeof(TGAUncompressedHeader)) == 0)
 	{
-		TGA tga;
-		fp.read((char*)&tga.header, sizeof(tga.header));
-
-		data.mWidth       = tga.width         = tga.header[1] * 256 + tga.header[0];
-		data.mHeight      = tga.height        = tga.header[3] * 256 + tga.header[2];
-		data.mBitsPerPixel = tga.bpp           = tga.header[4];
+		data.mWidth       = header.TGAHEADER.width; //tga.header[1] * 256 + tga.header[0];
+		data.mHeight      = header.TGAHEADER.height; //tga.header[3] * 256 + tga.header[2];
+		data.mBitsPerPixel = header.TGAHEADER.bitsperpixel; //tga.header[4];
 		data.mBitDepth = 8;
-		data.mBytesPerPixel = tga.bytesPerPixel = data.mBitsPerPixel/data.mBitDepth;
+		data.mBytesPerPixel = data.mBitsPerPixel/data.mBitDepth;
 
 		//test that we have power rof 2 textture
 		if ( (data.mWidth & (data.mWidth - 1))  != 0  &&
@@ -62,12 +59,12 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 		else if (data.mBytePerPixel == 4)
 			data.mTextureFormat      = GL_RGBA;
 */
-		tga.imageSize = (tga.bytesPerPixel * tga.width * tga.height);
-		data.mPixels =  new uint8_t[tga.imageSize];
-		fp.read((char*)data.mPixels, tga.imageSize);
+		size_t imageSize = (data.mBytesPerPixel * data.mWidth * data.mHeight);
+		data.mPixels =  new uint8_t[imageSize];
+		fp.read((char*)data.mPixels, imageSize);
 
 		//swap the R and the B
-		for(uint32_t cswap = 0; cswap < tga.imageSize; cswap += tga.bytesPerPixel)
+		for(uint32_t cswap = 0; cswap < imageSize; cswap += data.mBytesPerPixel)
 		{
 			uint8_t temp = data.mPixels[cswap];
 			data.mPixels[cswap] = data.mPixels[cswap+2];
@@ -75,16 +72,13 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 		}
 	}
 	//check if header is compressed
-	else if(memcmp(TGACompressedHeader, &header, sizeof(TGAHeader)) == 0)
+	else if(memcmp(TGACompressedHeader, &header, sizeof(TGACompressedHeader)) == 0)
 	{
-		TGA tga;
-		fp.read((char*)&tga.header, sizeof(tga.header));
-
-		data.mWidth  = tga.width = tga.header[1] * 256 + tga.header[0];
-		data.mHeight = tga.height = tga.header[3] * 256 + tga.header[2];
-		data.mBitsPerPixel  = tga.bpp = tga.header[4];
+        data.mWidth       = header.TGAHEADER.width; //tga.header[1] * 256 + tga.header[0];
+        data.mHeight      = header.TGAHEADER.height; //tga.header[3] * 256 + tga.header[2];
+        data.mBitsPerPixel = header.TGAHEADER.bitsperpixel; //tga.header[4];
 		data.mBitDepth = 8;
-		data.mBytesPerPixel = tga.bytesPerPixel = data.mBitsPerPixel/data.mBitDepth;
+		data.mBytesPerPixel = data.mBitsPerPixel/data.mBitDepth;
 
 		GCLAssert(data.mWidth &&
 				data.mHeight &&
@@ -95,17 +89,16 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 		else                    // If It's Not 24, It Must Be 32
 			data.mTextureFormat    = GL_RGBA;  // So Set The Type To GL_RGBA
 */
-		tga.bytesPerPixel   = (tga.bpp / 8);
-		tga.imageSize       = (tga.bytesPerPixel * tga.width * tga.height);
+		size_t imageSize       = (data.mBytesPerPixel * data.mWidth * data.mHeight);
 
 		// Allocate Memory To Store Image Data
-		data.mPixels   = new uint8_t[tga.imageSize];
+		data.mPixels   = new uint8_t[imageSize];
 
-		size_t pixelcount = tga.height * tga.width; // Number Of Pixels In The Image
+		size_t pixelcount = data.mHeight * data.mWidth ; // Number Of Pixels In The Image
 		size_t currentpixel = 0;            // Current Pixel We Are Reading From Data
 		size_t currentbyte  = 0;            // Current Byte We Are Writing Into Imagedata
 		// Storage For 1 Pixel
-		uint8_t * colorbuffer = new uint8_t[tga.bytesPerPixel];
+		uint8_t * colorbuffer = new uint8_t[data.mBytesPerPixel];
 
 		do
 		{
@@ -119,7 +112,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 				for(size_t counter = 0; counter < chunkheader; counter++)
 				{
 					// Try To Read 1 Pixel
-					fp.read((char*)colorbuffer, tga.bytesPerPixel) ;
+					fp.read((char*)colorbuffer, data.mBytesPerPixel) ;
 					//GCLAssert(fp.good());
 					uint8_t &temp = data.mPixels[currentbyte];
 					uint8_t temp2 = colorbuffer[2];
@@ -127,12 +120,12 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 					data.mPixels[currentbyte] = colorbuffer[2];        // Write The 'R' Byte
 					data.mPixels[currentbyte + 1   ] = colorbuffer[1]; // Write The 'G' Byte
 					data.mPixels[currentbyte + 2   ] = colorbuffer[0]; // Write The 'B' Byte
-					if(tga.bytesPerPixel == 4)                  // If It's A 32bpp Image...
+					if(data.mBytesPerPixel == 4)                  // If It's A 32bpp Image...
 					{
 						data.mPixels[currentbyte + 3] = colorbuffer[3];    // Write The 'A' Byte
 					}
 					// Increment The Byte Counter By The Number Of Bytes In A Pixel
-					currentbyte += tga.bytesPerPixel;
+					currentbyte += data.mBytesPerPixel;
 					currentpixel++;                 // Increment The Number Of Pixels By 1
 				}
 			}
@@ -140,7 +133,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 			{
 				chunkheader -= 127;         // Subtract 127 To Get Rid Of The ID Bit
 				// Read The Next Pixel
-				fp.read((char*)colorbuffer, tga.bytesPerPixel) ;
+				fp.read((char*)colorbuffer, data.mBytesPerPixel) ;
 
 				// Start The Loop
 				for(size_t counter = 0; counter < chunkheader; counter++)
@@ -151,12 +144,12 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 					data.mPixels[currentbyte + 1   ] = colorbuffer[1];
 					// Copy The 'B' Byte
 					data.mPixels[currentbyte + 2   ] = colorbuffer[0];
-					if(tga.bytesPerPixel == 4)      // If It's A 32bpp Image
+					if(data.mBytesPerPixel== 4)      // If It's A 32bpp Image
 					{
 						// Copy The 'A' Byte
 						data.mPixels[currentbyte + 3] = colorbuffer[3];
 					}
-					currentbyte += tga.bytesPerPixel;   // Increment The Byte Counter
+					currentbyte += data.mBytesPerPixel;   // Increment The Byte Counter
 					currentpixel++;             // Increment The Pixel Counter
 				}
 			}
@@ -187,35 +180,21 @@ void PixelBuffer::SaveTga(const char *filename, size_t width, size_t height, siz
 		uint16_t y = (uint16_t)height;
 		// split x and y sizes into bytes
 
-		//assemble the header
-		uint8_t header[18]={
-				0, //1			1
-				0, //2 garbage	2
-				2, //1 type		3
-				0, //1			4
-				0, //2			5
-				0, //3			6
-				0, //4			7
-				0, //5 garbage	8
-				0, //1			9
-				0, //2 xstart	10
-				0, //1			11
-				0, //2 ystart	12
-				0, //1 			13
-				0, //2 width	14
-				0, //1			15
-				0, //2 height	16
-				0, //1 bpp		17
-				0, //1 desc		18
-		};
+	    TGAHeader header ;
+        memset(&header, 0, sizeof(header));
 		if (bytePerPixel == 1)
-			header[2] = 3; //setting mode to gray since we only have 1 byte per pixel
-
-		*(uint16_t*)&(header[8]) = 0;
-		*(uint16_t*)&(header[10]) = 0;
-		*(uint16_t*)&(header[12]) = x;
-		*(uint16_t*)&(header[14]) = y;
-		*(uint8_t*)&(header[16]) = (uint8_t)bytePerPixel*8;
+			header.TGAHEADER.datatypecode  = 3; //setting mode to gray since we only have 1 byte per pixel
+        else if (bytePerPixel>=3)
+            header.TGAHEADER.datatypecode = 2;
+        else
+        {
+            GCLAssert(false && "unsupported");
+        }
+        header.TGAHEADER.x_origin = 0;
+        header.TGAHEADER.y_origin = 0;
+        header.TGAHEADER.width = x;
+        header.TGAHEADER.height = y;
+        header.TGAHEADER.bitsperpixel = (uint8_t)(bytePerPixel*8);
 
 		size_t imageSize = sizeof (uint8_t)*width*height*bytePerPixel;
 		//swap the R and the B
@@ -232,7 +211,7 @@ void PixelBuffer::SaveTga(const char *filename, size_t width, size_t height, siz
 		}
 		// write header and data to file
 		std::fstream File(filename, std::ios::out | std::ios::binary);
-		File.write ((const char *)&header, sizeof (uint8_t)*18);
+		File.write ((const char *)&header, sizeof (header));
 		File.write ((const char *)tempData, imageSize);
 		File.close();
 
