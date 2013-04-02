@@ -24,6 +24,7 @@
 
 #include <map>
 #include <string>
+#include "gcl/Assert.h"
 #include "gcl/File.h"
 #include "gcl/ResourceManagerConfig.h"
 
