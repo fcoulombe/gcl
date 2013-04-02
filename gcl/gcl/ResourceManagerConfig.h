@@ -35,3 +35,4 @@
 #define FONT_PATH DATA_PATH"Font/"
 #define SCRIPT_PATH DATA_PATH"Script/"
 #define CONFIG_PATH DATA_PATH"Conf/"
+#define RLSL_PATH DATA_PATH"RLSL/"
