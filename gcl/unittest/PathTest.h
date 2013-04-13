@@ -68,9 +68,9 @@ void Test()
 	{
 		const std::string applicationPath = Path::GetApplicationPath();
 #ifdef OS_WIN32
-		const std::string applicationNAme = "gcl_test.exe";
+		const std::string applicationNAme = "test_gcl.exe";
 #else
-		const std::string applicationNAme = "gcl_test";
+		const std::string applicationNAme = "test_gcl";
 #endif
 		s.str("");
 		s<<Path::PathFromFirstSlash(applicationPath)<<std::endl<<" == "<<std::endl << applicationNAme ;
