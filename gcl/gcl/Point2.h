@@ -116,9 +116,11 @@ namespace GCL
 		static const Point2<T> X_AXIS;
 		static const Point2<T> Y_AXIS;
 	};
+	template<>
     GCLINLINE bool Point2<Real>::operator==(const Point2<Real>& a) const throw()
     { return abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) && abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ; }
-    GCLINLINE bool Point2<Real>::operator!=(const Point2<Real>& a) const throw()
+	template<>
+	GCLINLINE bool Point2<Real>::operator!=(const Point2<Real>& a) const throw()
     { return !abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) || !abseq(this->y, a.y, DBL_PRECISION_TOLERANCE) ; }
 
 	template<typename T> const Point2<T> Point2<T>::ZERO( TypeData<T>::Zero(), TypeData<T>::Zero());

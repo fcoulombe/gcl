@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#if defined(OS_WIN32)
+#if defined(OS_WIN32) && !defined(__GNUC__)
 #include <iostream>
 #include <ostream>
 #include <sstream>

@@ -68,7 +68,11 @@ void Test()
 	{
 		const std::string applicationPath = Path::GetApplicationPath();
 #ifdef OS_WIN32
+#if defined(__GNUC__)
+        const std::string applicationNAme = std::string();
+#else
 		const std::string applicationNAme = "test_gcl.exe";
+#endif
 #else
 		const std::string applicationNAme = "test_gcl";
 #endif

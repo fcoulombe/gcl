@@ -23,9 +23,9 @@
 //============================================================================
 
 #include "gcl/Exception.h"
-#ifdef OS_WIN32
+#if defined(OS_WIN32) //&& !defined(__GNUC__)
 #   include <windows.h>
-#   include <dbghelp.h>
+//#   include <dbghelp.h>
 #else
 #   include <execinfo.h>
 #   include <cxxabi.h>
