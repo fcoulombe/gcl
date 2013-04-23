@@ -155,6 +155,7 @@ namespace GCL
 		static const Point4 W_AXIS;
 	};
 
+	template<>
     GCLINLINE bool Point4<Real>::operator==(const Point4<Real>& a) const
     {
         return (abseq(this->x, a.x, DBL_PRECISION_TOLERANCE) &&
