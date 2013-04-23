@@ -53,7 +53,7 @@ void PixelBuffer::Blit(const PixelBuffer &buffer, size_t x, size_t y, const Rect
     uint8_t *currPos = &(mPixels[thisBufferOffset]);
 
     GCLAssert(thisBufferOffset+mWidth*mBytesPerPixel*(clip.height-1)+(clip.width-1)*mBytesPerPixel < GetBufferSize() && "writing past the buffer bounds"); 
-    for (size_t j=0; j<clip.height; ++j)
+    for (size_t j=0; j<(size_t)clip.height; ++j)
     {
         size_t offset = clip.y*buffer.mWidth*buffer.mBytesPerPixel+j*buffer.mWidth*buffer.mBytesPerPixel;
         offset+=clip.x*buffer.mBytesPerPixel;
