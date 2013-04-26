@@ -45,7 +45,7 @@ public:
 		const std::string ext = Path::GetFileNameExtension(filename);
 		if (ext == "tga")
 		{
-			std::fstream fp(filename, std::fstream::binary|std::fstream::in);
+			std::fstream fp(filename.c_str(), std::ios::binary|std::ios::in);
 			GCLAssertMsg( fp.good(), filename);
 			PixelBuffer::LoadTga(fp, *this);
 			fp.close();
@@ -59,7 +59,7 @@ public:
 		}
 		else if (ext == "raw")
 		{
-			std::fstream fp(filename, std::fstream::binary|std::fstream::in);
+			std::fstream fp(filename.c_str(), std::fstream::binary|std::fstream::in);
 			GCLAssertMsg( fp.good(), filename);
 			PixelBuffer::LoadRaw(fp, *this);
 			fp.close();
