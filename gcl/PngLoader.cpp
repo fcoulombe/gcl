@@ -21,7 +21,7 @@
  */
 
 #include <gcl/PixelBuffer.h>
-#ifdef OS_WIN32
+#if	defined(OS_WIN32) && !defined(__GNUC__)
 #pragma warning( disable : 4611 ) //setjmp needed by lib png
 #endif
 
