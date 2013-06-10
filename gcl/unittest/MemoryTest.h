@@ -36,7 +36,6 @@ void Test()
 	TEST_START
 	std::stringstream s;
 
-	//path to first slash test
 	{
 		Assert_Test(Memory::Align32(1) == 4);
 		Assert_Test(Memory::Align32(4) == 4);
