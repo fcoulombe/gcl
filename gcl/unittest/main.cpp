@@ -48,6 +48,7 @@
 #include <gcl/ResourceManagerConfig.h>
 #include <gcl/Sphere.h>
 #include <gcl/Time.h>
+#include <gcl/Thread.h>
 #include <gcl/TypeData.h>
 #include <gcl/UnitTest.h>
 #include <gcl/WorldUnit.h>
@@ -73,6 +74,7 @@
 #include "SafeCastTest.h"
 #include "StringUtilTest.h"
 #include "TgaLoadingTest.h"
+#include "ThreadTest.h"
 #include "TimeTest.h"
 #include "WarningTest.h"
 
@@ -107,8 +109,8 @@ int main(int argc, char **argv)
 		TgaLoadingTest::Test();
 		PngLoadingTest::Test();
         ConfigTest::Test();
+        ThreadTest::Test();
+
 		SUITE_TERMINATE
-
-
 	return 0;
 }
