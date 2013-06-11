@@ -97,7 +97,7 @@ const std::string GCLException::Demangle(const char *i_symbol)
 }
 
 
-void GCLException::Initialize(const std::string &message, const std::string &file, int line )
+void GCLException::Initialize(const std::string &message, const std::string &file, int line, std::thread::id threadId  )
 {
 	char **strings;
 	size_t i;
@@ -116,6 +116,7 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 		trace << file;
 		trace << ":";
 		trace << line << ": ";
+		trace << threadId << " ";
 		mFileInfo = trace.str();
 	}
 	std::stringstream messageStream;
@@ -140,7 +141,7 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 }
 
 #else
-void GCLException::Initialize(const std::string &message, const std::string &file, int line )
+void GCLException::Initialize(const std::string &message, const std::string &file, int line, std::thread::id threadId   )
 {
     if (file.length())
     {
@@ -150,11 +151,12 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 #ifdef OS_WIN32
         trace << "(";
         trace << line << "): ";
-
+		trace << threadId << " ";
         mFileInfo = trace.str();
 #else
         trace << ":";
-        trace << line << ": ";
+		trace << line << ": ";
+		trace << threadId << " ";
         mFileInfo = trace.str();
 #endif
     }
