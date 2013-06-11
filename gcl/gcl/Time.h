@@ -22,12 +22,9 @@
 //============================================================================
 
 #pragma once
-#include <string>
-#if defined(OS_WIN32)
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
+#include <chrono>
+#include <thread>
+#include <iostream>
 //============================================================================
 
 namespace GCL
@@ -40,14 +37,16 @@ public:
 
 	static void SleepMs(size_t milisec)
     {
-#if defined(OS_WIN32)
-        ::Sleep((DWORD)milisec);
-#else
-        usleep(milisec*1000);
-#endif
-
-
+		std::chrono::milliseconds dura( milisec );
+		std::this_thread::sleep_for( dura );
     }
+	//gets time in milisecond
+	static size_t GetTickMs()
+	{
+		return 
+			std::chrono::duration_cast<std::chrono::milliseconds>
+			(std::chrono::system_clock::now().time_since_epoch()).count();		
+	}
 };
 
 //============================================================================

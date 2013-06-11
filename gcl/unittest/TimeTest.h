@@ -32,11 +32,12 @@ void Test()
 {
 	TEST_START
 
-	//path to first slash test
 	{
-	Time::SleepMs(1);
+		size_t currentTick = Time::GetTickMs();
+		Time::SleepMs(1);
+		size_t currentTick2 = Time::GetTickMs();
+		Assert_Test(currentTick2 != currentTick);
 	}
-
-
+	
 }
 }
