@@ -19,61 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#pragma once
+//============================================================================
 
-#include <sstream>
+#include "gcl/Thread.h"
 
-#include <gcl/UnitTest.h>
-
-#include <gcl/Thread.h>
+//============================================================================
 
 using namespace GCL;
-namespace ThreadTest
-{
-class TestThread : public Thread
-{
-	void Run()
-	{
 
-	}
-};
-//test if we can catch an exception
-class ExceptionThread : public Thread
-{
-	void Run()
-	{
-		GCLAssert(false);
-	}
-};
-void Test();
-void Test()
-{
-	TEST_START
-	std::stringstream s;
+//============================================================================
 
-	{
-		TestThread thread;
-		thread.Start();
+std::exception_ptr Thread::FatalExceptionTransfer;
 
-		thread.Join();
-	}
-	{
-		//try
-		{
-			ExceptionThread thread;
-			thread.Start();
-			//thread.Join();
-
-			while (true)
-			{
-				Thread::ReThrowException();
-				Thread::YieldThread();
-			}
-		}
-		//catch(...)
-		{
-
-		}
-	}
-}
-}
+//============================================================================

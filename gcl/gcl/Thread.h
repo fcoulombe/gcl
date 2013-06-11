@@ -22,47 +22,101 @@
 
 #pragma once
 
-
+#include <thread>
+#include <gcl/Exception.h>
 namespace GCL
 {
+	class GCLException;
+/*	class ThreadManager
+	{
 
+		ThreadManager()
+		{
+
+		}
+		static ThreadManager &Instance() 
+		{
+			static ThreadManager instance;
+			return instance;
+		}
+		void RegisterThread(Thread *t)
+		{
+			mThreadMap.insert(std::pair(t->GetThreadId(), t));
+		}
+		void UnRegisterThread(Thread *t)
+		{
+			mThreadMap.erase(t->GetThreadId());
+		}
+		void Join(std::thread::id threadId)
+		{
+			mThreadMap[threadId]->Join();
+		}
+	private:
+		std::map<std::thread::id, Thread *> mThreadMap;
+	};*/
 	class Thread
 	{
 	public:
 		Thread()
+			: mIsRunning(false)
 		{
-
-		}
-		void Start()
-		{
-			mThreadHandle = CreateThread(
-				NULL,                   // default security attributes
-				0,                      // use default stack size
-				ThreadHelper,       // thread function name
-				this,          // argument to thread function
-				0,                      // use default creation flags
-				&mThreadId);   // returns the thread identifier
-		}
-
-		void Join()
-		{
-			WaitForSingleObject(mThreadHandle,INFINITE);
+			//ThreadManager::Instance().RegisterThread(this);
 		}
 		virtual ~Thread()
 		{
-			 CloseHandle(mThreadHandle);
+			if (mThread.joinable())
+				mThread.join();
+			//ThreadManager::Instance().UnRegisterThread(this);
 		}
-		virtual void Run()=0;
-	private:
-		static DWORD WINAPI ThreadHelper( LPVOID lpParam )
+		void Start()
 		{
-			Thread *myThreadObject = (Thread *)lpParam;
-			myThreadObject->Run();
-			return 0;
+			mThread = std::thread(ThreadHelper, std::ref(*this));
+		}
+		std::thread::id GetThreadId() const { return mThread.get_id(); }
+		void Join()
+		{
+			mThread.join();
 		}
 
-		DWORD   mThreadId;
-		HANDLE mThreadHandle;
+		virtual void Run()=0;
+
+		static void YieldThread()
+		{
+			std::this_thread::yield();
+		}
+		static void ReThrowException()
+		{
+			if( FatalExceptionTransfer!=nullptr )
+			{
+				std::rethrow_exception(FatalExceptionTransfer);
+			}
+		}
+
+	private:
+		std::thread mThread;
+		volatile bool mIsRunning;
+		static std::exception_ptr FatalExceptionTransfer; //used to catch exception
+		static void ThreadHelper( Thread &myThread)
+		{
+			myThread.mIsRunning = true;
+			try
+			{
+				myThread.Run();
+			}
+			catch (GCLException& )
+			{
+				FatalExceptionTransfer = std::current_exception();
+			}
+			catch (std::exception& )
+			{
+				FatalExceptionTransfer = std::current_exception();
+			}
+			catch (...)
+			{
+				FatalExceptionTransfer = std::current_exception();
+			}
+			myThread.mIsRunning = false;
+		}
 	};
 
 
