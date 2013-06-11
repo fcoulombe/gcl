@@ -22,6 +22,7 @@
 //============================================================================
 
 #include "gcl/Thread.h"
+#include "gcl/ThreadManager.h"
 
 //============================================================================
 
@@ -29,6 +30,55 @@ using namespace GCL;
 
 //============================================================================
 
-std::exception_ptr Thread::FatalExceptionTransfer;
+GCL::Thread::Thread() : mIsRunning(true)
+{
+	ThreadManager::RegisterThread(this);
+}
 
-//============================================================================
+GCL::Thread::~Thread()
+{
+	if (mThread.joinable())
+		mThread.join();
+	ThreadManager::UnRegisterThread(this);
+}
+
+void GCL::Thread::Start()
+{
+	mThread = std::thread(ThreadHelper, std::ref(*this));
+}
+
+void GCL::Thread::Join()
+{
+	mThread.join();
+}
+
+void GCL::Thread::Kill()
+{
+	mIsRunning = false;
+}
+
+void GCL::Thread::YieldThread()
+{
+	std::this_thread::yield();
+}
+
+void GCL::Thread::ThreadHelper( Thread &myThread )
+{
+	try
+	{
+		myThread.Run();
+	}
+	catch (GCLException& )
+	{
+		ThreadManager::Throw(std::current_exception());
+	}
+	catch (std::exception& )
+	{
+		ThreadManager::Throw(std::current_exception());
+	}
+	catch (...)
+	{
+		ThreadManager::Throw(std::current_exception());
+	}
+	myThread.mIsRunning = false;
+}

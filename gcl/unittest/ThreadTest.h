@@ -26,6 +26,7 @@
 #include <gcl/UnitTest.h>
 
 #include <gcl/Thread.h>
+#include <gcl/ThreadManager.h>
 
 using namespace GCL;
 namespace ThreadTest
@@ -45,6 +46,18 @@ class ExceptionThread : public Thread
 		GCLAssert(false);
 	}
 };
+
+class ExpectionPropagateThread : public Thread
+{
+	void Run()
+	{
+		while (rand() % 1000 != 59) //randomly assert
+		{
+		}
+
+		GCLAssert(false);
+	}
+};
 void Test();
 void Test()
 {
@@ -58,15 +71,32 @@ void Test()
 		thread.Join();
 	}
 	{
-		//try
+		try
 		{
 			ExceptionThread thread;
 			thread.Start();
-			//thread.Join();
 
 			while (true)
 			{
-				Thread::ReThrowException();
+				ThreadManager::ReThrowException();
+				Thread::YieldThread();
+			}
+		}
+		catch(...)
+		{
+
+		}
+	}
+	{
+		//try
+		{
+			ExpectionPropagateThread threads[50];
+			for (size_t i=0; i<50; ++i)
+				threads[i].Start();
+
+			while (true)
+			{
+				ThreadManager::ReThrowException();
 				Thread::YieldThread();
 			}
 		}

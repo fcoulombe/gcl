@@ -82,7 +82,7 @@ using namespace GCL;
 int main(int argc, char **argv)
 {
 	SUITE_INIT(argc, argv)
-		WarningTest::Test();
+	/*	WarningTest::Test();
 		ExceptionTest::Test();
 		AssertTest::Test();
 		SafeCastTest::Test();
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 		RawLoadingTest::Test();
 		TgaLoadingTest::Test();
 		PngLoadingTest::Test();
-        ConfigTest::Test();
+        ConfigTest::Test();*/
         ThreadTest::Test();
 
 		SUITE_TERMINATE

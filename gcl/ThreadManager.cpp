@@ -19,32 +19,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+//============================================================================
 
-#pragma once
+#include "gcl/ThreadManager.h"
+#include "gcl/Thread.h"
 
-#include <thread>
-#include <atomic>
-#include <gcl/Exception.h>
-#include <map>
-namespace GCL
+//============================================================================
+
+using namespace GCL;
+
+//============================================================================
+
+std::exception_ptr ThreadManager::FatalExceptionTransfer;
+ThreadManager::ThreadList ThreadManager::mThreadMap;
+
+//============================================================================
+
+void GCL::ThreadManager::RegisterThread( Thread *t )
 {
-	class Thread
+	mThreadMap[t->GetThreadId()] = t;
+}
+
+void GCL::ThreadManager::UnRegisterThread( Thread *t )
+{
+	mThreadMap.erase(t->GetThreadId());
+}
+
+void GCL::ThreadManager::KillAllThreads()
+{
+	for (ThreadList::iterator it = mThreadMap.begin(); it != mThreadMap.end(); ++it)
 	{
-	public:
-		Thread();
-		virtual ~Thread();
-		void Start();
-		std::thread::id GetThreadId() const { return mThread.get_id(); }
-		void Join();
-		void Kill();
-		virtual void Run()=0;
+		it->second->Kill();
+		it->second->Join();
+	}
+}
 
-		static void YieldThread();
-	private:
-		std::thread mThread;
-		std::atomic<bool> mIsRunning;
-		static void ThreadHelper( Thread &myThread);
-	};
-
-
+void GCL::ThreadManager::Join( std::thread::id threadId )
+{
+	mThreadMap[threadId]->Join();
 }
