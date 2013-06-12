@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <mutex>
 
 namespace GCL
 {
@@ -29,7 +30,7 @@ namespace GCL
 	class Mutex
 	{
 	public:
-		Thread.h()
+		Mutex()
 		{
 
 		}
@@ -38,14 +39,15 @@ namespace GCL
 		}
 		void Lock()
 		{
-
+			mMutex.lock();
 		}
 		void Unlock()
 		{
+			mMutex.unlock();
 		}
 
 	private:
-
+		std::mutex mMutex;
 	};
 
 
