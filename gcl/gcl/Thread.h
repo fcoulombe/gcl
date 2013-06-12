@@ -40,9 +40,11 @@ namespace GCL
 		virtual void Run()=0;
 
 		static void YieldThread();
+	protected:
+		std::atomic<bool> mIsRunning;
 	private:
 		std::thread mThread;
-		std::atomic<bool> mIsRunning;
+
 		static void ThreadHelper( Thread &myThread);
 	};
 
