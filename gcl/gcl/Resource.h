@@ -22,7 +22,6 @@
 
 #pragma once
 #include <string>
-#include "gcl/ResourceManagerConfig.h"
 namespace GCL
 {
 

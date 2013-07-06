@@ -24,7 +24,6 @@
 #include <stdint.h>
 #include <map>
 
-#include "gcl/ResourceManagerConfig.h"
 
 namespace GCL
 {
