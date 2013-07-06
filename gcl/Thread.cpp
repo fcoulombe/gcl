@@ -60,6 +60,7 @@ void GCL::Thread::Kill()
 void GCL::Thread::YieldThread()
 {
 	std::this_thread::yield();
+	ThreadManager::ReThrowException();
 }
 
 void GCL::Thread::ThreadHelper( Thread &myThread )
@@ -68,8 +69,9 @@ void GCL::Thread::ThreadHelper( Thread &myThread )
 	{
 		myThread.Run();
 	}
-	catch (GCLException& )
+	catch (GCLException& e)
 	{
+		(void)e;
 		ThreadManager::Throw(std::current_exception());
 	}
 	catch (std::exception& )
