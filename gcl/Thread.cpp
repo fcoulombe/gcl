@@ -37,8 +37,8 @@ GCL::Thread::Thread() : mIsRunning(true)
 
 GCL::Thread::~Thread()
 {
-	if (mThread.joinable())
-		mThread.join();
+	if (IsJoinable())
+		Join();
 	ThreadManager::UnRegisterThread(this);
 }
 

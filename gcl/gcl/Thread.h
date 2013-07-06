@@ -36,6 +36,7 @@ namespace GCL
 		void Start();
 		std::thread::id GetThreadId() const { return mThread.get_id(); }
 		void Join();
+		bool IsJoinable() const { return mThread.joinable(); }
 		void Kill();
 		virtual void Run()=0;
 
