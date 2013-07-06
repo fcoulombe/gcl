@@ -45,7 +45,6 @@
 #include <gcl/PixelBuffer.h>
 #include <gcl/Resource.h>
 #include <gcl/ResourceManager.h>
-#include <gcl/ResourceManagerConfig.h>
 #include <gcl/Sphere.h>
 #include <gcl/Time.h>
 #include <gcl/Thread.h>

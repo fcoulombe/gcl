@@ -27,7 +27,6 @@
 #include <cstdlib>
 #include "gcl/Assert.h"
 #include "gcl/File.h"
-#include "gcl/ResourceManagerConfig.h"
 
 namespace GCL
 {
