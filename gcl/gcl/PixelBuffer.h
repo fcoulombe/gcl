@@ -40,6 +40,24 @@ public:
 	{
 		mPixels = NULL;
 	}
+	//deep copy
+	PixelBuffer(const PixelBuffer &buffer)
+	{
+		if (buffer.mPixels)
+		{
+		mPixels = new uint8_t[buffer.mWidth *buffer.mHeight *buffer.mBytesPerPixel];
+		memcpy(mPixels, buffer.mPixels, buffer.mWidth *buffer.mHeight *buffer.mBytesPerPixel);
+		}
+		else
+		{
+			mPixels = buffer.mPixels;
+		}
+		mWidth = buffer.mWidth;
+		mHeight = buffer.mHeight;
+		mBytesPerPixel = buffer.mBytesPerPixel;
+		mBitDepth = buffer.mBitDepth;
+		mBitsPerPixel = buffer.mBitsPerPixel;
+	}
 	PixelBuffer(const std::string &filename)
 	{
 		const std::string ext = Path::GetFileNameExtension(filename);
@@ -70,30 +88,49 @@ public:
 	}
     PixelBuffer( size_t width, size_t height, size_t bytesPerPixel)
     {
-        mPixels = new uint8_t[width*height*bytesPerPixel];
-        mWidth = width;
-        mHeight = height;
-        mBytesPerPixel = (uint8_t)bytesPerPixel;
-        mBitDepth = 8;
-        mBitsPerPixel = (uint8_t)bytesPerPixel*mBitDepth;
+		mPixels = NULL;
+		Initialize(width, height, bytesPerPixel);
     }
 	template<typename PixelType>
-	PixelBuffer(PixelType *pixelArray, size_t width, size_t height)
+	PixelBuffer( size_t width, size_t height)
 	{
-		Initialize(pixelArray, width, height);
+		mPixels = NULL;
+		Initialize(width, height, sizeof(PixelType));
 	}
 	template<typename PixelType>
-	void Initialize(PixelType *pixelArray, size_t width, size_t height)
+	PixelBuffer(PixelType* data, size_t width, size_t height)
 	{
-		mPixels = (uint8_t*)pixelArray;
+		if (data)
+		{
+		mPixels = new uint8_t[sizeof(PixelType)*width*height];
+		memcpy(mPixels, data, sizeof(PixelType)*width*height);
+		}
+		else
+		{
+			mPixels = (uint8_t*)data;
+		}
 		mWidth = width;
 		mHeight = height;
 		mBytesPerPixel = (uint8_t)PixelType::OffsetToNext();
 		mBitDepth = 8;
-        mBitsPerPixel = (uint8_t)(PixelType::OffsetToNext()*mBitDepth);
-        
+		mBitsPerPixel = (uint8_t)(PixelType::OffsetToNext()*mBitDepth);
 	}
-	~PixelBuffer() {}
+
+	~PixelBuffer() 
+	{
+		delete [] mPixels;
+	}
+	void Initialize(size_t width, size_t height, size_t bytesPerPixel)
+	{
+		if (mPixels)
+			delete [] mPixels;
+		mPixels = new uint8_t[width*height*bytesPerPixel];
+		mWidth = width;
+		mHeight = height;
+		mBytesPerPixel = (uint8_t)bytesPerPixel;
+		mBitDepth = 8;
+		mBitsPerPixel = (uint8_t)bytesPerPixel*mBitDepth;
+	}
 	uint8_t mBitDepth;
 	uint8_t  mBitsPerPixel;
 	uint8_t  mBytesPerPixel;
