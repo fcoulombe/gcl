@@ -48,7 +48,6 @@ void Test()
 		Assert_Test(data.mBytesPerPixel==3);
 		Assert_Test(data.mWidth==256);
 		Assert_Test(data.mHeight==256);
-		PixelBuffer::Unload(data);
 	}
 
 }

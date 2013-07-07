@@ -29,10 +29,10 @@ using namespace GCL;
 
 //============================================================================
 
-std::vector<std::string> StringUtil::Explode(const std::string& str, const char ch)
+void StringUtil::Explode(const std::string& str, std::vector<std::string> &ret, const char ch)
 {
 	std::string next = "";
-	std::vector<std::string> result;
+	std::vector<std::string> &result = ret;
 	GCLAssertMsg(str.length(), "you are trying to explode an empty string");
 
 	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
@@ -53,6 +53,5 @@ std::vector<std::string> StringUtil::Explode(const std::string& str, const char 
 	}
 	result.push_back(next);
 
-	return result;
 }
 //============================================================================

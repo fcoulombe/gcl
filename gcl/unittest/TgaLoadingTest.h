@@ -46,7 +46,6 @@ void Test()
 		Assert_Test(data.mBytesPerPixel==4);
 		Assert_Test(data.mWidth==512);
 		Assert_Test(data.mHeight==512);
-		PixelBuffer::Unload(data);
 	}
 
 	//tga saving
@@ -56,7 +55,6 @@ void Test()
 		PixelBuffer data(fullFileName);
 		PixelBuffer::SaveTga("tgasavingtest.tga", data.mWidth,
 				data.mHeight, data.mBytesPerPixel,data.mPixels);
-		PixelBuffer::Unload(data);
 		AssertMsg_Test(UnitTest::ImageComp("tgasavingtest.tga"), "tgasavingtest.tga");
 	}
 
@@ -70,7 +68,6 @@ void Test()
 		Assert_Test(data.mBytesPerPixel==4);
 		Assert_Test(data.mWidth==512);
 		Assert_Test(data.mHeight==512);
-		PixelBuffer::Unload(data);
 	}
 }
 }

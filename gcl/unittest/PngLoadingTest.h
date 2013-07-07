@@ -46,7 +46,6 @@ void Test()
 	Assert_Test(data.mHeight==512);
 #endif
 	PixelBuffer::SaveTga("mushroompng.tga", data.mWidth, data.mHeight, data.mBytesPerPixel, data.mPixels);
-	PixelBuffer::Unload(data);
 	AssertMsg_Test(UnitTest::ImageComp("mushroompng.tga"), "mushroompng.tga");
 }
 }

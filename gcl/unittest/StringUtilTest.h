@@ -38,7 +38,8 @@ void Test()
 										std::string("string"),
 										std::string("to"),
 										std::string("explode")};
-	std::vector<std::string> res = StringUtil::Explode(explodeTest, ' ');
+	std::vector<std::string> res;
+	StringUtil::Explode(explodeTest, res, ' ');
 
 	std::stringstream s;
 	s<<res.size()<<" == 4";
