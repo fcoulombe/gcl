@@ -88,6 +88,7 @@ public:
 	void SetRotationY(Real rotation);
 	void SetRotationZ(Real rotation);
 
+	const WorldPoint4 &GetPosition() const { return m3; }
     void SetPosition(Real x, Real y, Real z) { m3 = WorldPoint4(x,y,z,1.0); }
 	void SetPosition(const WorldPoint3 &position) { m3 = position; }
 
