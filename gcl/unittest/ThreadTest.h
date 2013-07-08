@@ -88,7 +88,7 @@ void Test()
 		}
 	}
 	{
-		//try
+		try
 		{
 			ExpectionPropagateThread threads[50];
 			for (size_t i=0; i<50; ++i)
@@ -100,7 +100,7 @@ void Test()
 				Thread::YieldThread();
 			}
 		}
-		//catch(...)
+		catch(...)
 		{
 
 		}
