@@ -285,6 +285,11 @@ void Test()
         s <<std::setprecision(16)<< std::endl<<ortho<< std::endl << "==" << std::endl << testOrtho;
         AssertMsg_Test(ortho==testOrtho, s.str().c_str());
 
+		//test set identity
+		testOrtho.SetIdentity();
+		s.str("");
+		s <<std::setprecision(16)<< std::endl<<Matrix44::IDENTITY<< std::endl << "==" << std::endl << testOrtho;
+		AssertMsg_Test(Matrix44::IDENTITY==testOrtho, s.str().c_str());
     }
     //float constructor
 	{

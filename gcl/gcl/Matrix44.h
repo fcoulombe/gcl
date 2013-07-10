@@ -83,6 +83,13 @@ public:
 		m3 = a[3];
 	}
 
+	void SetIdentity()
+	{
+		m0 = WorldPoint4(1.0, 0.0, 0.0, 0.0);
+		m1 = WorldPoint4(0.0, 1.0, 0.0, 0.0);
+		m2 = WorldPoint4(0.0, 0.0, 1.0, 0.0);
+		m3 = WorldPoint4(0.0, 0.0, 0.0, 1.0);
+	}
 
 	void SetRotationX(Real rotation);
 	void SetRotationY(Real rotation);
