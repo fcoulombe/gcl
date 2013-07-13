@@ -1,1 +1,1 @@
-SET(DEPENDENCIES libpng)
+SET(DEPENDENCIES gcllibpng)
