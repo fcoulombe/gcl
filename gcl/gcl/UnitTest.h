@@ -79,6 +79,7 @@ public:
 				std::cerr << std::endl;
 				sNumTestFailures++;
 			}
+			std::cout << "[FAILED] " << mFileName  << std::endl;
 		}
 		else
 		{
