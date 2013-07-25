@@ -42,4 +42,10 @@ GCLINLINE bool abseq(T lhs, T2 rhs, T epsilon = std::numeric_limits<T>::epsilon(
   return fabs(lhs - rhs) < epsilon;
 }
 
+template <typename T>
+GCLINLINE const T clamp(const T val, const T mininum, const T maximum)
+{
+	return val < mininum ? mininum : (val > maximum ? maximum : val);
+}
+
 }

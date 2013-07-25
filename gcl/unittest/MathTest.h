@@ -35,6 +35,11 @@ void Test()
 	TEST_START
 	std::stringstream s;
 
+	Assert_Test(clamp(0.5, 0.0, 1.0) == 0.5);
+	Assert_Test(clamp(1.5, 0.0, 1.0) == 1.0);
+	Assert_Test(clamp(-0.5, 0.0, 1.0) == 0.0);
+
+
 	Real radTest = DegreeToRadian(90.0) ;
 	s.str("");
 	s<< radTest << " == " << PI/2.0<<std::endl;
