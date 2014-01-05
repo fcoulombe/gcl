@@ -30,7 +30,7 @@ using namespace GCL;
 
 //============================================================================
 
-std::exception_ptr ThreadManager::FatalExceptionTransfer;
+std::exception_ptr ThreadManager::FatalExceptionTransfer=nullptr;
 ThreadManager::ThreadList ThreadManager::mThreadMap;
 
 //============================================================================
@@ -57,4 +57,9 @@ void GCL::ThreadManager::KillAllThreads()
 void GCL::ThreadManager::Join( std::thread::id threadId )
 {
 	mThreadMap[threadId]->Join();
+}
+
+void GCL::ThreadManager::ClearException()
+{
+	FatalExceptionTransfer = nullptr;
 }

@@ -98,6 +98,7 @@ namespace GCL
 				std::rethrow_exception(FatalExceptionTransfer);
 			}
 		}
+		static void ClearException();
 		static void KillAllThreads();
 	private:
 		typedef std::map<std::thread::id, Thread *> ThreadList;

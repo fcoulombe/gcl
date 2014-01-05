@@ -84,7 +84,7 @@ void Test()
 		}
 		catch(...)
 		{
-
+			ThreadManager::ClearException();
 		}
 	}
 	{
@@ -102,7 +102,7 @@ void Test()
 		}
 		catch(...)
 		{
-
+			ThreadManager::ClearException();
 		}
 	}
 }
