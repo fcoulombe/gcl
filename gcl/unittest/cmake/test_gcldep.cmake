@@ -1,1 +1,1 @@
-SET(DEPENDENCIES gcl)
+SET(DEPENDENCIES gcl gclvld)
