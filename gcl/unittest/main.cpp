@@ -53,6 +53,7 @@
 #include <gcl/TypeData.h>
 #include <gcl/UnitTest.h>
 #include <gcl/WorldUnit.h>
+#include <gcl/WorkerThread.h>
 
 #include "AssertTest.h"
 #include "ConfigTest.h"
@@ -78,6 +79,7 @@
 #include "ThreadTest.h"
 #include "TimeTest.h"
 #include "WarningTest.h"
+#include "WorkerThreadTest.h"
 
 using namespace GCL;
 int main(int argc, char **argv)
@@ -111,6 +113,7 @@ int main(int argc, char **argv)
 		PngLoadingTest::Test();
         ConfigTest::Test();
         ThreadTest::Test();
+		WorkerThreadTest::Test();
 
 		SUITE_TERMINATE
 	return 0;
