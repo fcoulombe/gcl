@@ -35,6 +35,7 @@ void Test()
     {
         //equal test
         Point2<uint8_t> eqTest1(10,11);
+        Assert_Test(eqTest1.x == 10 && eqTest1.y==11);
         Point2<uint8_t> eqTest2;
         eqTest2 = eqTest1;
         Assert_Test(eqTest2 == eqTest1);

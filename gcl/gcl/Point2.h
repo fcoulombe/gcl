@@ -165,6 +165,11 @@ namespace GCL
 		output << "(" << P.x << ", " << P.y  << ")";
 		return output;
 	}
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point2<long> &P)
+	{
+		output << "(" << P.x << ", " << P.y  << ")";
+		return output;
+	}
 
 //============================================================================
 	
