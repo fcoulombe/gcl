@@ -73,6 +73,7 @@
 #include "Point4Test.h"
 #include "RawLoadingTest.h"
 #include "ResourceTest.h"
+#include "ResourceCacheTest.h"
 #include "SafeCastTest.h"
 #include "StringUtilTest.h"
 #include "TgaLoadingTest.h"
@@ -106,6 +107,7 @@ int main(int argc, char **argv)
 
 		FileLoadingTest::Test();
 		ResourceTest::Test();
+		ResourceCacheTest::Test();
 		PixelTest::Test();
 		PixelBufferTest::Test();
 		RawLoadingTest::Test();

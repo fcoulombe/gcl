@@ -24,11 +24,8 @@
 #include <stdint.h>
 #include <map>
 
-
 namespace GCL
 {
-
-
 class Resource;
 class ResourceManager
 {
