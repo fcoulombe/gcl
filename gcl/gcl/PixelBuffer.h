@@ -37,6 +37,8 @@ class PixelBuffer
 {
 public:
 	PixelBuffer()
+		: mWidth(0), 
+		mHeight(0)
 	{
 		mPixels = NULL;
 	}
