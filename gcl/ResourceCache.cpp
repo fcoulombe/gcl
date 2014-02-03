@@ -92,6 +92,6 @@ void ResourceCache::ReleaseResource( const Resource *resource )
 			return;
 		}
 	}
-	GCLAssertMsg(false, "we released a texture that didnt exist.");
+	GCLAssertMsg(false, "we released a resource that didnt exist.");
 }
 
