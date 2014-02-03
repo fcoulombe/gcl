@@ -24,13 +24,38 @@
 #include <cstring>
 
 #include "gcl/Assert.h"
+#include "gcl/Config.h"
 #include "gcl/Hash.h"
 #include "gcl/Resource.h"
+#include "gcl/StringUtil.h"
 #include "gcl/TypeData.h"
 
 using namespace GCL;
-
-
+class ResourcePaths
+{
+public:
+	ResourcePaths()
+	{
+		if (Config::Instance().HasString("RESOURCE_PATH"))
+		{
+			const std::string &resourcePaths = Config::Instance().GetString("RESOURCE_PATH");
+			StringUtil::Explode(resourcePaths, mResourcePaths, ';');
+		}
+	}
+	const std::string GetFullPath(const char *filename) const
+	{
+		for (size_t i=0; i<mResourcePaths.size(); ++i)
+		{
+			std::string fullPath = mResourcePaths[i] + "/" + filename;
+			if (GCLFile::Exists(fullPath.c_str()))
+				return fullPath;
+		}
+		return filename;
+	}
+private:
+	std::vector<std::string> mResourcePaths;
+};
+ResourcePaths PATH;
 ResourceManager::~ResourceManager()
 {
 	mResourceCache.clear();
@@ -48,9 +73,10 @@ const Resource * ResourceManager::LoadResource( const char *fileName )
 		++it->second->mRefCount;
 		return it->second;
 	}
-
+	
 	//if we don't then load the resource
-	Resource *newResource = Allocate(fileName);
+	std::string fullpath = PATH.GetFullPath(fileName);
+	Resource *newResource = Allocate(fullpath.c_str());
 	mResourceCache[fileNameHash] = newResource;
 	return newResource;
 }
