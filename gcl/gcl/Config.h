@@ -44,6 +44,11 @@ namespace GCL
         GCLAssertMsg(mIntConfig.find(key) != mIntConfig.end(), key.c_str());
         return mIntConfig[key];
     }
+    const std::string &GetString(const std::string &key) 
+    {
+        GCLAssertMsg(mStringConfig.find(key) != mStringConfig.end(), key.c_str());
+        return mStringConfig[key];
+    }
   private:
       Config()
       {
@@ -61,24 +66,32 @@ namespace GCL
       void Parse(const char *configFile)
       {
           const std::string kIntType("int");
+          const std::string kStringType("string");
           std::fstream fp(configFile, std::ios_base::in);
           GCLAssert(fp.good());
           const size_t BUFFER_SIZE = 1024;
           char buffer[BUFFER_SIZE];
-          char dataType[BUFFER_SIZE];
-          char key[BUFFER_SIZE];
-          char val[BUFFER_SIZE];
           while (fp.good() && !fp.eof())
           {
               fp.getline(buffer, BUFFER_SIZE);
-              sscanf(buffer, "%s %s %s", dataType, key, val);
-              if (std::string(dataType) == kIntType)
+			  std::string line(buffer);
+			  size_t firstSpace = line.find(' ');
+			  std::string sdataType = line.substr(0, firstSpace);
+			  size_t secondSpace = line.find(' ', firstSpace+1);
+			  std::string skey = line.substr(firstSpace+1, secondSpace-(firstSpace+1));
+			  std::string sval = line.substr( secondSpace+1, line.length()-secondSpace);
+              if (sdataType == kIntType)
               {
-                  mIntConfig[std::string(key)] = atoi(val);
+                  mIntConfig[skey] = atoi(sval.c_str());
               }
+              else if (sdataType == kStringType)
+			  {
+				  mStringConfig[skey]  = sval;
+			  }
           }
           fp.close();
       }
       std::map<std::string, int> mIntConfig;
+      std::map<std::string, std::string> mStringConfig;
   };
 }
