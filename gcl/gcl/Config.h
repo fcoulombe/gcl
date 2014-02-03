@@ -38,12 +38,13 @@ namespace GCL
         static Config conf;
         return conf;
     }
-
+	bool HasInt(const std::string &key) const { return mIntConfig.find(key) != mIntConfig.end(); }
     int GetInt(const std::string &key) 
     {
         GCLAssertMsg(mIntConfig.find(key) != mIntConfig.end(), key.c_str());
         return mIntConfig[key];
     }
+	bool HasString(const std::string &key) const { return mStringConfig.find(key) != mStringConfig.end(); }
     const std::string &GetString(const std::string &key) 
     {
         GCLAssertMsg(mStringConfig.find(key) != mStringConfig.end(), key.c_str());

@@ -32,11 +32,15 @@ void Test()
 {
 	TEST_START
 	Config &tempConfig = Config::Instance();
-    Assert_Test(tempConfig.GetInt("DEFAULT_VIEWPORT_HEIGHT")==480);
+	Assert_Test(tempConfig.HasInt("DEFAULT_VIEWPORT_HEIGHT"));
+	Assert_Test(tempConfig.GetInt("DEFAULT_VIEWPORT_HEIGHT")==480);
+	Assert_Test(tempConfig.HasInt("DEFAULT_VIEWPORT_WIDTH"));
     Assert_Test(tempConfig.GetInt("DEFAULT_VIEWPORT_WIDTH")==640);
 
+	Assert_Test(tempConfig.HasString("TEST_STRING"));
 	const std::string &tempString =tempConfig.GetString("TEST_STRING"); 
 	Assert_Test(tempString=="TestString");
+	Assert_Test(tempConfig.HasString("TEST_BROKEN_STRING"));
 	const std::string &tempString2 =tempConfig.GetString("TEST_BROKEN_STRING"); 
 	Assert_Test(tempString2=="Test String");
 }
