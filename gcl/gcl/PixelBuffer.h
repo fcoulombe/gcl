@@ -133,6 +133,19 @@ public:
 		mBitDepth = 8;
 		mBitsPerPixel = (uint8_t)bytesPerPixel*mBitDepth;
 	}
+	void Initialize(const PixelBuffer &buffer)
+	{
+		if (mPixels)
+			delete [] mPixels;
+		size_t bufferSize = buffer.GetBufferSize();
+		mPixels = new uint8_t[bufferSize];
+		memcpy(mPixels, buffer.mPixels, bufferSize);
+		mWidth = buffer.mWidth;
+		mHeight = buffer.mHeight;
+		mBytesPerPixel = buffer.mBytesPerPixel;
+		mBitDepth = buffer.mBitDepth;
+		mBitsPerPixel = buffer.mBitsPerPixel;
+	}
 	uint8_t mBitDepth;
 	uint8_t  mBitsPerPixel;
 	uint8_t  mBytesPerPixel;
