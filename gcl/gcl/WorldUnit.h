@@ -36,7 +36,7 @@ namespace GCL
 #endif
 
 
-static const Real DBL_PRECISION_TOLERANCE = 1.794896737e-06;
+static const Real DBL_PRECISION_TOLERANCE = 1.794896737e-05;
 
 
 //============================================================================
