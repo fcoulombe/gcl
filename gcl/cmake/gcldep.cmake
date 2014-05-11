@@ -1,1 +1,1 @@
-SET(DEPENDENCIES gcllibpng)
+SET(DEPENDENCIES gcllibpng gclreaderwriterqueue)

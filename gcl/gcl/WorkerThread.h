@@ -23,14 +23,23 @@
 
 #include <string>
 #include <thread>
+#ifdef OS_WIN32
 #include <concurrent_queue.h>
+#else
+#include <readerwriterqueue.h>
+#endif
 #include <mutex>
 #include <condition_variable>
 
 namespace GCL
 {
 typedef std::function<void(void)> Command;
+#ifdef OS_WIN32
 typedef Concurrency::concurrent_queue<Command> CommandQueue;
+#else
+typedef moodycamel::ReaderWriterQueue<Command> CommandQueue;
+
+#endif
 	class WorkerThread
 	{
 	public:
@@ -42,13 +51,16 @@ typedef Concurrency::concurrent_queue<Command> CommandQueue;
 		void SendCommandSync(const Command& cmd);
 
 		void Flush();
-		bool IsEmpty() const { return mCommanQueue.empty(); }
-
+#ifdef OS_WIN32
+		bool IsEmpty() const { return mCommandQueue.empty(); }
+#else
+		bool IsEmpty() const { return mCommandQueue.peek() == nullptr; }
+#endif
 	private:
 		void Update();
 
 		std::string mName;
-		CommandQueue mCommanQueue;
+		CommandQueue mCommandQueue;
 
 		bool mKeepProcessing;
 		bool mWorkFinished;
