@@ -24,6 +24,11 @@
 #include <string>
 #include <thread>
 #ifdef OS_WIN32
+#define USE_WINDOWS_QUEUE 1
+#else
+#define USE_WINDOWS_QUEUE 0
+#endif
+#if USE_WINDOWS_QUEUE
 #include <concurrent_queue.h>
 #else
 #include <readerwriterqueue.h>
@@ -34,7 +39,7 @@
 namespace GCL
 {
 typedef std::function<void(void)> Command;
-#ifdef OS_WIN32
+#if USE_WINDOWS_QUEUE
 typedef Concurrency::concurrent_queue<Command> CommandQueue;
 #else
 typedef moodycamel::ReaderWriterQueue<Command> CommandQueue;
@@ -51,7 +56,7 @@ typedef moodycamel::ReaderWriterQueue<Command> CommandQueue;
 		void SendCommandSync(const Command& cmd);
 
 		void Flush();
-#ifdef OS_WIN32
+#if USE_WINDOWS_QUEUE
 		bool IsEmpty() const { return mCommandQueue.empty(); }
 #else
 		bool IsEmpty() const { return mCommandQueue.peek() == nullptr; }

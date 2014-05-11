@@ -64,11 +64,11 @@ void WorkerThread::Update()
 		while(mKeepProcessing)
 		{
 			Command cmd;
-#ifdef OS_WIN32
-			if(mKeepProcessing && !mCommanQueue.try_pop(cmd) )
+#if USE_WINDOWS_QUEUE
+			if(mKeepProcessing && !mCommandQueue.try_pop(cmd) )
 			{
 				std::unique_lock<std::mutex> lock(mMutex);
-				while(mKeepProcessing &&  !mCommanQueue.try_pop(cmd) )
+				while(mKeepProcessing &&  !mCommandQueue.try_pop(cmd) )
 					mRunMutex.wait(lock);
 			}
 #else
@@ -107,7 +107,7 @@ void WorkerThread::Update()
 
 void WorkerThread::SendCommandAsync(Command& cmd)
 {
-#ifdef OS_WIN32
+#if USE_WINDOWS_QUEUE
 	mCommandQueue.push(cmd);
 #else
 	mCommandQueue.enqueue(cmd);
@@ -120,7 +120,7 @@ void WorkerThread::SendCommandAsync(Command& cmd)
 
 void WorkerThread::SendCommandAsync(const Command& cmd)
 {
-#ifdef OS_WIN32
+#if USE_WINDOWS_QUEUE
 	mCommandQueue.push(cmd);
 #else
 	mCommandQueue.enqueue(cmd);
@@ -136,7 +136,7 @@ void WorkerThread::SendCommandSync(const Command& cmd)
 {
 	std::promise<void> completionPromise;
 	std::future<void> completionFuture = completionPromise.get_future();
-#ifdef OS_WIN32
+#if USE_WINDOWS_QUEUE
 	mCommandQueue.push([&](){
 		cmd(); 
 		completionPromise.set_value();});
