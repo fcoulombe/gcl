@@ -142,8 +142,11 @@ void WorkerThread::SendCommandSync(const Command& cmd)
 		completionPromise.set_value();});
 #else
 	mCommandQueue.enqueue([&](){
+		//We need to pass the ownership of promise to this scope since there's a chance
+		//for the promise to run out of scope before the end of set_value which causes a deadlock
+		std::promise<void> localCompletionPromise = std::move(completionPromise);
 		cmd();
-		completionPromise.set_value();});
+		localCompletionPromise.set_value();});
 #endif
 		{
 			std::lock_guard<std::mutex> lock(mMutex);

@@ -71,5 +71,21 @@ void Test()
 		thread.Flush();
 		Assert_Test(count == 100);
 	}
+	{
+		WorkerThread thread("TestWorkerThread");
+		size_t count =0;
+		for (size_t i=0; i<100; ++i)
+			thread.SendCommandAsync([&]() { count++; });
+		thread.SendCommandSync([&]() { });
+		Assert_Test(count == 100);
+	}
+	{
+		WorkerThread thread("TestWorkerThread");
+		size_t count =0;
+		for (size_t i=0; i<100; ++i)
+			thread.SendCommandSync([&]() { count++; });
+		thread.SendCommandSync([&]() { });
+		Assert_Test(count == 100);
+	}
 }
 }
