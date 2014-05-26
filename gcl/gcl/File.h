@@ -34,6 +34,10 @@ namespace GCL
 class GCLFile
 {
 public:
+	GCLFile(const std::string &file )
+	{
+		Open(file.c_str());
+	}
 	GCLFile(const char *file )
 	{
 		Open(file);
@@ -46,6 +50,7 @@ public:
 	void Close();
 	void Open(const char *file );
 	static bool Exists(const char *filename);
+	static bool Exists(const std::string &filename) { return Exists(filename.c_str()); }
 private:
 	std::fstream mFp;
 };
