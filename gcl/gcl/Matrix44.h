@@ -252,6 +252,9 @@ public:
 		m3.z = float(m[3].z);
 		m3.w = float(m[3].w);
 	}
+
+	GCLINLINE		Point4<float>& operator[](size_t i)				{ return (&m0)[i]; }
+	GCLINLINE const Point4<float>& operator[](size_t i) const		{ return (&m0)[i]; }
 	Point4<float> m0;
 	Point4<float> m1;
 	Point4<float> m2;
