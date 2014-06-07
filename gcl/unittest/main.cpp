@@ -25,6 +25,7 @@
 #include <vld.h>
 #endif
 
+#include <gcl/AABox.h>
 #include <gcl/Assert.h>
 #include <gcl/Circle.h>
 #include <gcl/Complex.h>
@@ -55,6 +56,7 @@
 #include <gcl/WorldUnit.h>
 #include <gcl/WorkerThread.h>
 
+#include "AABoxTest.h"
 #include "AssertTest.h"
 #include "ConfigTest.h"
 #include "CurveTest.h"
@@ -103,6 +105,7 @@ int main(int argc, char **argv)
 
 		Matrix44Test::Test();
 
+		AABoxTest::Test();
 		CurveTest::Test();
 
 		FileLoadingTest::Test();
