@@ -77,6 +77,7 @@
 #include "ResourceTest.h"
 #include "ResourceCacheTest.h"
 #include "SafeCastTest.h"
+#include "SphereTest.h"
 #include "StringUtilTest.h"
 #include "TgaLoadingTest.h"
 #include "ThreadTest.h"
@@ -106,6 +107,7 @@ int main(int argc, char **argv)
 		Matrix44Test::Test();
 
 		AABoxTest::Test();
+		SphereTest::Test();
 		CurveTest::Test();
 
 		FileLoadingTest::Test();

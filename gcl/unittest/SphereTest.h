@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2011 by Jeffrey Lim
- * Copyright (C) 2011 by Francois Coulombe
+ * Copyright (C) 2014 by Francois Coulombe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-//============================================================================
+#pragma once
 
-#include "gcl/Sphere.h"
+#include <sstream>
 
-//============================================================================
+#include <gcl/UnitTest.h>
+
+#include <gcl/Sphere.h>
 
 using namespace GCL;
-
-//============================================================================
-
-bool Sphere::Contains(const WorldPoint3& p) const
+namespace SphereTest
 {
-	return LengthSquared(p - mCenter) <= mRadius*mRadius;
-}
+void Test();
+void Test()
+{
+	TEST_START
+	std::stringstream s;
+	Sphere sphere(WorldPoint3(1.,2.,3.), 10.0);
+	Assert_Test(sphere.GetRadius() == 10.0);
+	Assert_Test(sphere.GetCenter() == WorldPoint3(1.,2.,3.));
 
-//============================================================================
+	sphere.SetRadius(11.0);
+	Assert_Test(sphere.GetRadius() == 11.0);
+	sphere.SetCenter(WorldPoint3(10.,20.,30.));
+	Assert_Test(sphere.GetCenter() == WorldPoint3(10.,20.,30.));
+
+	Assert_Test(sphere.Contains(WorldPoint3(10.,20.,30.)));
+	Assert_Test(!sphere.Contains(WorldPoint3(30.,20.,30.)));
+}
+}
