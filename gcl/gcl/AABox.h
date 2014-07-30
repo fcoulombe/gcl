@@ -84,6 +84,10 @@ namespace GCL
 		{
 			return a.GetMin() == mMin && a.GetMax() == mMax; 
 		}
+		bool operator!=(const AABox& a) const
+		{
+			return a.GetMin() != mMin || a.GetMax() != mMax; 
+		}
 	private:
 		WorldPoint3 mMin;
 		WorldPoint3 mMax;

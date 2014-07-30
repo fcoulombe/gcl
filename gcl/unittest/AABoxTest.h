@@ -54,5 +54,6 @@ void Test()
 
 
 	Assert_Test(AABox(1.,2.,3.) == AABox(1.,2.,3.));
+	Assert_Test(AABox(1.,2.,3.) != AABox(10.,20.,30.));
 }
 }
