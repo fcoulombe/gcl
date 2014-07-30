@@ -52,5 +52,7 @@ void Test()
 	box2.SetOrigin(10.0, 0.0, 0.0);
 	Assert_Test(box.IsIntersecting(box2) == false);
 
+
+	Assert_Test(AABox(1.,2.,3.) == AABox(1.,2.,3.));
 }
 }
