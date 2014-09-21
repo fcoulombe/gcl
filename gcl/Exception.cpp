@@ -26,6 +26,10 @@
 #if defined(OS_WIN32) //&& !defined(__GNUC__)
 #   include <windows.h>
 //#   include <dbghelp.h>
+#elif defined(OS_ANDROID)
+#   include <cxxabi.h>
+#	include <cstdio>
+#	include <malloc.h>
 #else
 #   include <execinfo.h>
 #   include <cxxabi.h>
@@ -99,14 +103,17 @@ const std::string GCLException::Demangle(const char *i_symbol)
 
 void GCLException::Initialize(const std::string &message, const std::string &file, int line, std::thread::id threadId  )
 {
-	char **strings;
+
+#ifndef OS_ANDROID
 	size_t i;
 	static const size_t STACK_SIZE = 100;
 	void *array[STACK_SIZE];
+	char **strings;
 	size_t size;
 
 	size = backtrace (array, STACK_SIZE);
 	strings = backtrace_symbols (array, size);
+#endif
 
 
 	if (file.length())
@@ -128,7 +135,7 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 	}
 
 	mMessage = messageStream.str();
-
+#ifndef OS_ANDROID
 	std::stringstream stackStream;
 	stackStream << std::endl;
 	for (i = 0; i < size; i++)
@@ -138,6 +145,7 @@ void GCLException::Initialize(const std::string &message, const std::string &fil
 	}
 	mStackTrace = stackStream.str();
 	free(strings);
+#endif
 }
 
 #else
