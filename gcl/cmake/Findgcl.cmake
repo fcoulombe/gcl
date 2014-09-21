@@ -2,7 +2,7 @@ SET(DepName "gcl")
 ProcessDependencies(${DepName})
 
 
-SET(GCL_ROOT ${CMAKE_CURRENT_LIST_DIR}/../)
+get_filename_component(GCL_ROOT ${CMAKE_CURRENT_LIST_DIR}/../ REALPATH)
 SET(GCL_INCLUDE_DIR ${GCL_ROOT})
 
 
