@@ -52,7 +52,7 @@ const std::string Path::PathToFirstSlash(const std::string  &dir)
 }
 const std::string Path::PathFromFirstSlash(const std::string  &dir)
 {
-	register int i;
+	int i;
 	size_t size = dir.length();
 
     const char DIR_SEPARATOR = '/';
@@ -81,7 +81,9 @@ const std::string Path::Cwd()
 #endif
 }
 
+#ifndef PATH_MAX
 #define PATH_MAX 255
+#endif
 const std::string Path::GetApplicationPath()
 {
 #if defined(OS_WIN32) 
