@@ -217,7 +217,6 @@ void PixelBuffer::SaveTga(const char *filename, size_t width, size_t height, siz
 
 		delete[] tempData;
 		tempData=NULL;
-		//SaveTga(filename);
 	}
 	else
 	{
