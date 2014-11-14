@@ -25,8 +25,10 @@
 #include <map>
 #include <string>
 #include <cstdlib>
+#include <vector>
 #include "gcl/Assert.h"
 #include "gcl/File.h"
+#include "gcl/StringUtil.h"
 
 namespace GCL
 {
@@ -68,19 +70,19 @@ namespace GCL
       {
           const std::string kIntType("int");
           const std::string kStringType("string");
-          std::fstream fp(configFile, std::ios_base::in);
-          GCLAssert(fp.good());
-          const size_t BUFFER_SIZE = 1024;
-          char buffer[BUFFER_SIZE];
-          while (fp.good() && !fp.eof())
+          GCLFile fp(configFile);
+          auto buffer = fp.ReadAll();
+          std::string fileContent((const char *)buffer.get());
+          std::vector<std::string> lines;
+          StringUtil::Explode(fileContent, lines, '\n');
+          for (std::string line : lines)
           {
-              fp.getline(buffer, BUFFER_SIZE);
-			  std::string line(buffer);
-			  size_t firstSpace = line.find(' ');
-			  std::string sdataType = line.substr(0, firstSpace);
-			  size_t secondSpace = line.find(' ', firstSpace+1);
-			  std::string skey = line.substr(firstSpace+1, secondSpace-(firstSpace+1));
-			  std::string sval = line.substr( secondSpace+1, line.length()-secondSpace);
+        	  size_t firstSpace = line.find(' ');
+        	  std::string sdataType = line.substr(0, firstSpace);
+
+        	  size_t secondSpace = line.find(' ', firstSpace+1);
+        	  std::string skey = line.substr(firstSpace+1, secondSpace-(firstSpace+1));
+        	  std::string sval = line.substr( secondSpace+1, line.length()-secondSpace);
               if (sdataType == kIntType)
               {
                   mIntConfig[skey] = atoi(sval.c_str());
@@ -90,7 +92,6 @@ namespace GCL
 				  mStringConfig[skey]  = sval;
 			  }
           }
-          fp.close();
       }
       std::map<std::string, int> mIntConfig;
       std::map<std::string, std::string> mStringConfig;
