@@ -33,6 +33,7 @@
 #include <gcl/Curve.h>
 #include <gcl/Exception.h>
 #include <gcl/FixedPoint.h>
+#include <gcl/Log.h>
 #include <gcl/Macro.h>
 #include <gcl/Math.h>
 #include <gcl/Matrix33.h>
@@ -63,6 +64,7 @@
 #include "ExceptionTest.h"
 #include "FileLoadingTest.h"
 #include "HashTest.h"
+#include "LogTest.h"
 #include "MathTest.h"
 #include "Matrix44Test.h"
 #include "MemoryTest.h"
@@ -93,6 +95,7 @@ int main(int argc, char **argv)
 		ExceptionTest::Test();
 		AssertTest::Test();
 		SafeCastTest::Test();
+		LogTest::Test();
 		HashTest::Test();
 		MathTest::Test();
 		StringUtilTest::Test();
