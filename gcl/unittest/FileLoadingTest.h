@@ -35,6 +35,7 @@ void Test()
 
 	Assert_Test(GCLFile::Exists(TEXTURE_PATH"mushroomtga.tga"));
 
+	{
 	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
 	Assert_Test(fp.GetCurrentReadPos() == 0);
@@ -43,5 +44,13 @@ void Test()
 
 	delete [] buffer;
 	fp.Close();
+	}
+	{
+	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
+	Assert_Test(fp.GetFileSize()==1048620);
+	Assert_Test(fp.GetCurrentReadPos() == 0);
+	std::unique_ptr<uint8_t[]> buffer = fp.ReadAll();
+	fp.Close();
+	}
 }
 }

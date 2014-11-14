@@ -46,6 +46,13 @@ void GCLFile::Read(void *buffer, size_t count)
 {
 	mFp.read((char*)buffer, count);
 }
+std::unique_ptr<uint8_t[]> GCLFile::ReadAll()
+{
+	size_t bufferSize = GetFileSize();
+	std::unique_ptr<uint8_t[]> buffer(new uint8_t[bufferSize]);
+	mFp.read((char*)buffer.get(), bufferSize);
+	return buffer;
+}
 void GCLFile::Close()
 {
 	mFp.close();

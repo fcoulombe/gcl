@@ -46,6 +46,7 @@ public:
 	~GCLFile() {}
 	size_t GetFileSize() const;
 	size_t GetCurrentReadPos() const;
+	std::unique_ptr<uint8_t[]> ReadAll();
 	void Read(void *buffer, size_t count);
 	void Close();
 	void Open(const char *file );
