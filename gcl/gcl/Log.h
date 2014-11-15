@@ -27,6 +27,10 @@
 	((void)__android_log_print(ANDROID_LOG_INFO, "kinevox", __VA_ARGS__))
 #else
 #	define KLog(...)\
-	printf(__VA_ARGS__)
+	do{\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
 #endif
 
