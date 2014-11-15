@@ -21,61 +21,73 @@
  * THE SOFTWARE.
  */
 //============================================================================
-#ifndef OS_ANDROID
+#ifdef OS_ANDROID
 #include "gcl/Assert.h"
 #include "gcl/File.h"
+#include "gcl/Log.h"
+#include <android/asset_manager.h>
 
 //============================================================================
 
 using namespace GCL;
 
+AAssetManager* GCLFile::mAssetManager = nullptr;
+
 size_t GCLFile::GetCurrentReadPos() const
 {
-	std::streampos pos = ((std::istream&)mFp).tellg() ;
-	return (size_t)pos;
+	GCLAssert("TBD");
+	return -1;
 }
 
 size_t GCLFile::GetFileSize() const
 {
-	((std::istream&)mFp).seekg(0, std::ios::end);
-	std::streampos pos = ((std::istream&)mFp).tellg() ;
-    ((std::istream&)mFp).seekg(0, std::ios::beg);
-	return (size_t)pos;
+	return AAsset_getLength(mFp);
 }
 void GCLFile::Read(void *buffer, size_t count)
 {
-	mFp.read((char*)buffer, count);
+	int ret = AAsset_read(mFp,buffer,count);
+	GCLAssert(ret>0);
 }
 std::unique_ptr<uint8_t[]> GCLFile::ReadAll()
 {
 	size_t bufferSize = GetFileSize();
 	std::unique_ptr<uint8_t[]> buffer(new uint8_t[bufferSize]);
-	mFp.read((char*)buffer.get(), bufferSize);
+	int ret = AAsset_read(mFp,(char*)buffer.get(),bufferSize);
+	GCLAssert(ret>0);
 	return buffer;
 }
 void GCLFile::Close()
 {
-	mFp.close();
+	AAsset_close(mFp);
 }
 void GCLFile::Open(const char *file )
 {
-	mFp.open(file, std::ios::in|std::ios::binary);
+	mFp = AAssetManager_open(mAssetManager, file, AASSET_MODE_RANDOM);
 	std::string msg("trying to loads " );
 	msg += file;
 	msg += "\n";
-	GCLAssertMsg(mFp.is_open() && mFp.good(), msg.c_str());
+	GCLAssertMsg(mFp != nullptr, msg.c_str());
 }
 
 
 bool GCLFile::Exists(const char *filename)
 {
-	std::fstream fp(filename);
-	if (fp.good())
+	KLog("1 %s %p", filename, (void*)mAssetManager);
+	AAsset* fp = AAssetManager_open(mAssetManager, filename, AASSET_MODE_RANDOM);
+
+	KLog("2");
+	if (fp != nullptr)
 	{
-		fp.close();
+		AAsset_close(fp);
 		return true;
 	}
 	return false;
 }
+#ifdef OS_ANDROID
+	void GCLFile::RegisterAssetManager(AAssetManager* mgr)
+	{
+		mAssetManager = mgr;
+	}
+#endif
 //============================================================================
 #endif

@@ -24,9 +24,11 @@
 #pragma once
 
 #include <fstream>
+#include <memory>
 
 //============================================================================
-
+struct AAsset;
+struct AAssetManager;
 namespace GCL
 {
 //============================================================================
@@ -52,8 +54,16 @@ public:
 	void Open(const char *file );
 	static bool Exists(const char *filename);
 	static bool Exists(const std::string &filename) { return Exists(filename.c_str()); }
+#ifdef OS_ANDROID
+	static void RegisterAssetManager(AAssetManager* mgr);
+#endif
 private:
+#ifdef OS_ANDROID
+	AAsset* mFp;
+	static AAssetManager* mAssetManager;
+#else
 	std::fstream mFp;
+#endif
 };
 
 //============================================================================
