@@ -25,6 +25,7 @@
 #include <cstring>
 #include <stdint.h>
 #include <fstream>
+#include "gcl/File.h"
 #include "gcl/Math.h"
 #include "gcl/Pixel.h"
 #include "gcl/Path.h"
@@ -32,7 +33,6 @@
 
 namespace GCL
 {
-
 class PixelBuffer
 {
 public:
@@ -72,10 +72,8 @@ public:
 		}
 		else if (ext == "png")
 		{
-			FILE *fp = fopen(filename.c_str(), "rb");
-			GCLAssertMsg(fp, filename);
+			GCLFile fp(filename.c_str());
 			PixelBuffer::LoadPng(fp, *this);
-			fclose(fp);
 		}
 		else if (ext == "raw")
 		{
@@ -187,7 +185,7 @@ public:
 			size_t width, size_t height,
 			size_t bytePerPixel,
 			const uint8_t *data );
-	static void LoadPng(FILE *is, PixelBuffer &data);
+	static void LoadPng(GCLFile &is, PixelBuffer &data);
 	static void LoadTga(std::istream &is, PixelBuffer &data);
 	static void LoadRaw(std::istream &is, PixelBuffer &data);
 
