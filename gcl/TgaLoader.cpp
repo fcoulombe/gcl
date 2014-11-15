@@ -24,6 +24,7 @@
 
 
 #include "gcl/Assert.h"
+#include "gcl/Log.h"
 #include "gcl/TGALoaderData.h"
 
 #include <cstring>
@@ -32,13 +33,11 @@
 
 using namespace GCL;
 
-void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
+void PixelBuffer::LoadTga(GCLFile &fp, PixelBuffer &data)
 {
 	TGAHeader header ;
 	memset(&header, 0, sizeof(header));
-	fp.seekg (0, std::ios::beg);
-	fp.read((char*)&header, sizeof(TGAHeader));
-	GCLAssert(fp.good());
+	fp.Read((char*)&header, sizeof(TGAHeader));
 
 	if(memcmp(TGAUncompressedHeader, &header, sizeof(TGAUncompressedHeader)) == 0)
 	{
@@ -52,7 +51,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 		if ( (data.mWidth & (data.mWidth - 1))  != 0  &&
 				(data.mHeight & (data.mHeight - 1)) != 0 )
 		{
-			std::cout << "Warning: " <<  "the texture is not a power of 2" << std::endl;
+			KLog("Warning: the texture is not a power of 2");
 		}
 		/*if(data.mBytePerPixel == 3)
 			data.mTextureFormat      = GL_RGB;
@@ -61,7 +60,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 */
 		size_t imageSize = (data.mBytesPerPixel * data.mWidth * data.mHeight);
 		data.mPixels =  new uint8_t[imageSize];
-		fp.read((char*)data.mPixels, imageSize);
+		fp.Read(data.mPixels, imageSize);
 
 		//swap the R and the B
 		for(uint32_t cswap = 0; cswap < imageSize; cswap += data.mBytesPerPixel)
@@ -103,7 +102,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 		do
 		{
 			uint8_t chunkheader = 0;            // Variable To Store The Value Of The Id Chunk
-			fp.read((char*)&chunkheader, sizeof(uint8_t));
+			fp.Read(&chunkheader, sizeof(uint8_t));
 
 			if(chunkheader < 128)                // If The Chunk Is A 'RAW' Chunk
 			{
@@ -112,7 +111,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 				for(size_t counter = 0; counter < chunkheader; counter++)
 				{
 					// Try To Read 1 Pixel
-					fp.read((char*)colorbuffer, data.mBytesPerPixel) ;
+					fp.Read(colorbuffer, data.mBytesPerPixel) ;
 					//GCLAssert(fp.good());
 					uint8_t &temp = data.mPixels[currentbyte];
 					uint8_t temp2 = colorbuffer[2];
@@ -133,7 +132,7 @@ void PixelBuffer::LoadTga(std::istream& fp, PixelBuffer &data)
 			{
 				chunkheader -= 127;         // Subtract 127 To Get Rid Of The ID Bit
 				// Read The Next Pixel
-				fp.read((char*)colorbuffer, data.mBytesPerPixel) ;
+				fp.Read(colorbuffer, data.mBytesPerPixel) ;
 
 				// Start The Loop
 				for(size_t counter = 0; counter < chunkheader; counter++)
