@@ -55,7 +55,7 @@ public:
 private:
 	std::vector<std::string> mResourcePaths;
 };
-ResourcePaths PATH;
+
 ResourceManager::~ResourceManager()
 {
 	mResourceCache.clear();
@@ -63,6 +63,7 @@ ResourceManager::~ResourceManager()
 
 const Resource * ResourceManager::LoadResource( const char *fileName )
 {
+	static ResourcePaths PATH;
 	//hash the name for faster search in the tree
 	uint32_t fileNameHash = Hash::DJB(fileName, strlen(fileName));
 
