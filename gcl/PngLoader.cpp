@@ -25,83 +25,78 @@
 #pragma warning( disable : 4611 ) //setjmp needed by lib png
 #endif
 
-#ifndef OS_IPHONE
 #include <png.h>
-#endif
 
 
 using namespace GCL;
 
-#ifndef OS_IPHONE
-
-#define PNGSIGSIZE 8
-
-static void validate(FILE* source)
+struct DataHandle
 {
-	png_byte pngsig[PNGSIGSIZE];
-	size_t len = fread(pngsig,1, PNGSIGSIZE,source);
-	GCLAssert(len == PNGSIGSIZE);
-	int is_png = png_sig_cmp(pngsig, 0, PNGSIGSIZE);
-	if (is_png != 0)
-		throw GCLException("ERROR: Data is not valid PNG-data");
-}
+	DataHandle(const png_byte* in_data, const png_size_t in_size)
+	:data(in_data), size(in_size){}
+    const png_byte* data;
+    const png_size_t size;
+};
 
-void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
+struct ReadDataHandle
 {
-	validate(source);
+	ReadDataHandle(const DataHandle in_data, png_size_t in_offset)
+	: data(in_data), offset(in_offset){}
+    const DataHandle data;
+    png_size_t offset;
+};
 
-	png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (!pngPtr)
-		throw GCLException("ERROR: Couldn't initialize png read struct" );
+struct PngInfo
+{
+	PngInfo(const png_uint_32 in_width, const png_uint_32 in_height, const int in_color_type)
+	: width(in_width), height(in_height), color_type(in_color_type){}
+    const png_uint_32 width;
+    const png_uint_32 height;
+    const int color_type;
+};
 
-	png_infop infoPtr = png_create_info_struct(pngPtr);
-	if (!infoPtr)
-	{
-		png_destroy_read_struct(&pngPtr, (png_infopp)0, (png_infopp)0);
-		throw GCLException("ERROR: Couldn't initialize png info struct" );
-	}
+static void read_png_data_callback(
+    png_structp png_ptr, png_byte* png_data, png_size_t read_length);
+static PngInfo read_and_update_info(const png_structp png_ptr, const png_infop info_ptr);
+static DataHandle read_entire_png_image(
+    const png_structp png_ptr, const png_infop info_ptr, const png_uint_32 height);
 
 
-	png_bytep* rowPtrs = NULL;
-	char* data = NULL;
+void get_raw_image_data_from_png(const void* png_data, const int png_data_size, PixelBuffer &textureData) {
+    GCLAssert(png_data != NULL && png_data_size > 8);
+    GCLAssert(png_check_sig((uint8_t*)png_data, 8));
 
-	if (setjmp(png_jmpbuf(pngPtr)))
-	{
-		png_destroy_read_struct(&pngPtr, &infoPtr,(png_infopp)0);
-		if (rowPtrs != NULL)
-			delete [] rowPtrs;
-		if (data != NULL)
-			delete [] data;
+    png_structp png_ptr = png_create_read_struct(
+        PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    GCLAssert(png_ptr != NULL);
+    png_infop info_ptr = png_create_info_struct(png_ptr);
+    GCLAssert(info_ptr != NULL);
 
-		throw GCLException("ERROR: An error occured while reading the PNG file");
-	}
+    ReadDataHandle png_data_handle(DataHandle((png_byte*)png_data, (png_size_t)png_data_size), 0);
+    png_set_read_fn(png_ptr, &png_data_handle, read_png_data_callback);
 
-	png_init_io(pngPtr, source);
+    if (setjmp(png_jmpbuf(png_ptr))) {
+        GCLAssert(false && "Error reading PNG file!");
+    }
 
-	png_set_sig_bytes(pngPtr, PNGSIGSIZE);
+    const PngInfo png_info = read_and_update_info(png_ptr, info_ptr);
+    const DataHandle raw_image = read_entire_png_image(
+        png_ptr, info_ptr, png_info.height);
 
-	png_read_info(pngPtr, infoPtr);
+    png_read_end(png_ptr, info_ptr);
+    png_uint_32 bitdepth   = png_get_bit_depth(png_ptr, info_ptr);
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 
-	png_uint_32 imgWidth =  png_get_image_width(pngPtr, infoPtr);
-	textureData.mWidth = imgWidth;
-	png_uint_32 imgHeight = png_get_image_height(pngPtr, infoPtr);
-	textureData.mHeight = imgHeight;
+    textureData.mPixels = (uint8_t*)raw_image.data;
+    textureData.mWidth = png_info.width;
+    textureData.mHeight = png_info.height;
 
-	png_uint_32 bitdepth   = png_get_bit_depth(pngPtr, infoPtr);
-
-	png_uint_32 channels   = png_get_channels(pngPtr, infoPtr);
-	png_uint_32 color_type = png_get_color_type(pngPtr, infoPtr);
-
-	switch (color_type)
+	switch (png_info.color_type)
 	{
 	case PNG_COLOR_TYPE_PALETTE:
-		png_set_palette_to_rgb(pngPtr);
-		channels = 3;
+		textureData.mBytesPerPixel = 3;
 		break;
 	case PNG_COLOR_TYPE_GRAY:
-		/*  if (bitdepth < 8)
-      png_set_gray_1_2_4_to_8(pngPtr);*/
-		bitdepth = 8;
 		textureData.mBytesPerPixel = 1;
 		break;
 	case PNG_COLOR_TYPE_RGB_ALPHA:
@@ -113,36 +108,95 @@ void PixelBuffer::LoadPng(FILE *source, PixelBuffer &textureData)
 	default:
 		GCLAssert(false);
 	}
+
 	textureData.mBitDepth = (uint8_t)bitdepth;
 	textureData.mBitsPerPixel = textureData.mBitDepth*textureData.mBytesPerPixel;
+}
 
-	if (png_get_valid(pngPtr, infoPtr, PNG_INFO_tRNS))
-	{
-		png_set_tRNS_to_alpha(pngPtr);
-		channels+=1;
-	}
+static void read_png_data_callback(
+    png_structp png_ptr, png_byte* raw_data, png_size_t read_length) {
+    ReadDataHandle* handle = (ReadDataHandle*)png_get_io_ptr(png_ptr);
+    const png_byte* png_src = handle->data.data + handle->offset;
 
-	//loading the data
-	rowPtrs = new png_bytep[imgHeight];
-	data = new char[imgWidth * imgHeight * bitdepth * channels / 8];
-	const unsigned int stride = imgWidth * bitdepth * channels / 8;
+    memcpy(raw_data, png_src, read_length);
+    handle->offset += read_length;
+}
 
+static PngInfo read_and_update_info(const png_structp png_ptr, const png_infop info_ptr)
+{
+    png_uint_32 width, height;
+    int bit_depth, color_type;
+
+    png_read_info(png_ptr, info_ptr);
+    png_get_IHDR(
+        png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
+
+    // Convert transparency to full alpha
+    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+        png_set_tRNS_to_alpha(png_ptr);
+
+    // Convert grayscale, if needed.
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+        png_set_expand_gray_1_2_4_to_8(png_ptr);
+
+    // Convert paletted images, if needed.
+    if (color_type == PNG_COLOR_TYPE_PALETTE)
+        png_set_palette_to_rgb(png_ptr);
+
+    // Add alpha channel, if there is none.
+    // Rationale: GL_RGBA is faster than GL_RGB on many GPUs)
+    if (color_type == PNG_COLOR_TYPE_PALETTE || color_type == PNG_COLOR_TYPE_RGB)
+       png_set_add_alpha(png_ptr, 0xFF, PNG_FILLER_AFTER);
+
+    // Ensure 8-bit packing
+    if (bit_depth < 8)
+       png_set_packing(png_ptr);
+    else if (bit_depth == 16)
+        png_set_scale_16(png_ptr);
+
+    png_read_update_info(png_ptr, info_ptr);
+
+    // Read the new color type after updates have been made.
+    color_type = png_get_color_type(png_ptr, info_ptr);
+
+    return PngInfo(width, height, color_type);
+}
+
+static DataHandle read_entire_png_image(
+    const png_structp png_ptr,
+    const png_infop info_ptr,
+    const png_uint_32 height)
+{
+    const png_size_t row_size = png_get_rowbytes(png_ptr, info_ptr);
+    const int data_length = row_size * height;
+    GCLAssert(row_size > 0);
+
+    png_byte* raw_image = new png_byte[data_length];
+    GCLAssert(raw_image != NULL);
+
+    GCLAssert(height < 4096)
+    png_byte* row_ptrs[4096];
 
 	//A little for-loop here to set all the row pointers to the starting
 	//Adresses for every row in the buffer
-	for (size_t i = 0; i < imgHeight; i++)
-	{
-		size_t q = (imgHeight - i - 1) * stride;
-		rowPtrs[i] = (png_bytep)data + q;
-	}
+    png_uint_32 i;
+    for (i = 0; i < height; i++) {
+        row_ptrs[i] = raw_image + (height - i -1) * row_size;
+    }
 
-	png_read_image(pngPtr, rowPtrs);
+    png_read_image(png_ptr, &row_ptrs[0]);
 
-	textureData.mPixels = (uint8_t *)data;
-
-	delete [] rowPtrs;
-	//And don't forget to clean up the read and info structs !
-	png_destroy_read_struct(&pngPtr, &infoPtr,(png_infopp)0);
+    return DataHandle(raw_image, data_length);
 }
-#endif
+
+
+
+void PixelBuffer::LoadPng(GCLFile &source, PixelBuffer &textureData)
+{
+	size_t fileSize = source.GetFileSize();
+	uint8_t *data = new uint8_t[fileSize];
+	source.Read(data, fileSize);
+	get_raw_image_data_from_png(data, fileSize, textureData);
+}
+
 
