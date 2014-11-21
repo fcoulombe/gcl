@@ -153,7 +153,8 @@ namespace GCL
 	}
 
 	// Write output Vector3 in format: "(%f)", "(%f, %f)", or "(%f, %f, %f)"
-	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point3<Real> &P)
+	template<typename T>
+	GCLINLINE std::ostream& operator<<( std::ostream& output, const Point3<T> &P)
 	{
 		output << "(" << P.x << ", " << P.y << ", " << P.z << ")";
 		return output;
