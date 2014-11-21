@@ -30,6 +30,11 @@
 #include "gcl/File.h"
 #include "gcl/StringUtil.h"
 
+#ifdef OS_ANDROID
+#	define CONFIG_FILE_NAME "AndroidConf.txt"
+#else
+#	define CONFIG_FILE_NAME "Default.txt"
+#endif
 namespace GCL
 {
   class Config
@@ -56,9 +61,9 @@ namespace GCL
       Config()
       {
           
-          if (GCLFile::Exists(CONFIG_PATH"Default.txt"))
+          if (GCLFile::Exists(CONFIG_PATH CONFIG_FILE_NAME))
          {
-             Parse(CONFIG_PATH"Default.txt");
+             Parse(CONFIG_PATH CONFIG_FILE_NAME);
          }
           else
           {
