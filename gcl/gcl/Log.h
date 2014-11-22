@@ -23,11 +23,71 @@
 
 #ifdef OS_ANDROID
 #	include <android/log.h>
-#	define KLog(...)\
-	((void)__android_log_print(ANDROID_LOG_INFO, "kinevox", __VA_ARGS__))
+#	define KLog(...) KLogI(__VA_ARGS__)
+
+#	define KLogW(...)\
+	((void)__android_log_print(ANDROID_LOG_WARN, "kinevox", "Warning: " __VA_ARGS__))
+
+#	define KLogV(...)\
+	((void)__android_log_print(ANDROID_LOG_VERBOSE, "kinevox","Verbose: "  __VA_ARGS__))
+
+#	define KLogD(...)\
+	((void)__android_log_print(ANDROID_LOG_DEBUG, "kinevox", "Debug: " __VA_ARGS__))
+
+#	define KLogE(...)\
+	((void)__android_log_print(ANDROID_LOG_ERROR, "kinevox", "Error: " __VA_ARGS__))
+
+#	define KLogF(...)\
+	((void)__android_log_print(ANDROID_LOG_FATAL, "kinevox", "Fatal: " __VA_ARGS__))
+
+#	define KLogI(...)\
+	((void)__android_log_print(ANDROID_LOG_INFO, "kinevox", "Info: " __VA_ARGS__))
+
+
 #else
 #	define KLog(...)\
 	do{\
+	KLogI(__VA_ARGS__);\
+	}while(false)\
+
+#	define KLogW(...)\
+	do{\
+	printf("Warning: ");\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
+#	define KLogV(...)\
+	do{\
+	printf("Verbose: ");\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
+#	define KLogD(...)\
+	do{\
+	printf("Debug: ");\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
+#	define KLogE(...)\
+	do{\
+	printf("Error: ");\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
+#	define KLogF(...)\
+	do{\
+	printf("Fatal: ");\
+	printf(__VA_ARGS__);\
+	printf("\n");\
+	}while(false)\
+
+#	define KLogI(...)\
+	do{\
+	printf("Info: ");\
 	printf(__VA_ARGS__);\
 	printf("\n");\
 	}while(false)\

@@ -35,5 +35,11 @@ void Test()
 	KLog("Some stuff");
 	int var = 2;
 	KLog("Some stuff %d", var);
+	KLogI("info log");
+	KLogV("Verbose log");
+	KLogD("Debug log");
+	KLogW("Warning log");
+	KLogE("error log");
+	KLogF("fatal log");
 }
 }
