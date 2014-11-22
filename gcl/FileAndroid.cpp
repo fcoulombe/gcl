@@ -72,10 +72,8 @@ void GCLFile::Open(const char *file )
 
 bool GCLFile::Exists(const char *filename)
 {
-	KLog("1 %s %p", filename, (void*)mAssetManager);
 	AAsset* fp = AAssetManager_open(mAssetManager, filename, AASSET_MODE_RANDOM);
 
-	KLog("2");
 	if (fp != nullptr)
 	{
 		AAsset_close(fp);
