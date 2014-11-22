@@ -22,12 +22,18 @@
 
 #include "gcl/WorkerThread.h"
 #include "gcl/Exception.h"
+#include "gcl/Log.h"
 #include "gcl/ThreadManager.h"
 
 #include <future>
 
 using namespace GCL;
-
+#define ENABLE_THREAD_LOGGING 0
+#if ENABLE_THREAD_LOGGING
+#define WTLog(...) KLogD(__VA_ARGS__)
+#else
+#define WTLog(...)
+#endif
 WorkerThread::WorkerThread(const std::string& name)
 	: mName(name)
 	, mKeepProcessing(true)
@@ -74,30 +80,44 @@ void WorkerThread::Update()
 #else
 			if(mKeepProcessing && !mCommandQueue.try_dequeue(cmd) )
 			{
+
+				WTLog("Couldn't dequeue");
 				std::unique_lock<std::mutex> lock(mMutex);
 				while(mKeepProcessing &&  !mCommandQueue.try_dequeue(cmd) )
+				{
+					WTLog("still waiting");
 					mRunMutex.wait(lock);
+				}
 			}
 
 #endif
 			if(cmd)
+			{
+				static size_t k = 0;
+				k++;
+				WTLog("Executing command: %d", (int)k);
 				cmd();
+				WTLog("Finished Executing command");
+			}
 		}
 		mWorkFinished = true;
 	}
 	catch (GCLException& e)
 	{
+		KLogE("The worker thread: %s has hit an exception: %s", mName.c_str(), e.what());
 		(void)e;
 		mWorkFinished = true;
 		ThreadManager::Throw(std::current_exception());
 	}
 	catch (std::exception& )
 	{
+		KLogE("The worker thread: %s has hit an exception", mName.c_str());
 		mWorkFinished = true;
 		ThreadManager::Throw(std::current_exception());
 	}
 	catch (...)
 	{
+		KLogE("The worker thread: %s has hit an exception", mName.c_str());
 		mWorkFinished = true;
 		ThreadManager::Throw(std::current_exception());
 	}
