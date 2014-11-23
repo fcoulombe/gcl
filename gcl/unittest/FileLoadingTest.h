@@ -49,7 +49,7 @@ void Test()
 	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
 	Assert_Test(fp.GetCurrentReadPos() == 0);
-	std::unique_ptr<uint8_t[]> buffer = fp.ReadAll();
+	auto buffer = fp.ReadAll();
 	fp.Close();
 	}
 }

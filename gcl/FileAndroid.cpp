@@ -48,13 +48,13 @@ void GCLFile::Read(void *buffer, size_t count)
 	int ret = AAsset_read(mFp,buffer,count);
 	GCLAssert(ret>0);
 }
-std::unique_ptr<uint8_t[]> GCLFile::ReadAll()
+std::tuple<std::unique_ptr<uint8_t[]>, size_t> GCLFile::ReadAll()
 {
 	size_t bufferSize = GetFileSize();
 	std::unique_ptr<uint8_t[]> buffer(new uint8_t[bufferSize]);
 	int ret = AAsset_read(mFp,(char*)buffer.get(),bufferSize);
 	GCLAssert(ret>0);
-	return buffer;
+	return std::make_tuple(std::move(buffer), bufferSize);
 }
 void GCLFile::Close()
 {

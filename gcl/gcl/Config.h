@@ -77,9 +77,15 @@ namespace GCL
           const std::string kStringType("string");
           GCLFile fp(configFile);
           auto buffer = fp.ReadAll();
-          std::string fileContent((const char *)buffer.get());
+          std::string fileContent((const char *)std::get<0>(buffer).get(), std::get<1>(buffer));
           std::vector<std::string> lines;
           StringUtil::Explode(fileContent, lines, '\n');
+#ifdef OS_WIN32
+          for (std::string &line : lines)
+          {
+              StringUtil::TrimEnd(line);
+          }
+#endif
           for (std::string line : lines)
           {
         	  size_t firstSpace = line.find(' ');

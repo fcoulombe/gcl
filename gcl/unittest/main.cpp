@@ -114,6 +114,7 @@ int main(int argc, char **argv)
 		CurveTest::Test();
 
 		FileLoadingTest::Test();
+        ConfigTest::Test();
 		ResourceTest::Test();
 		ResourceCacheTest::Test();
 		PixelTest::Test();
@@ -121,7 +122,7 @@ int main(int argc, char **argv)
 		RawLoadingTest::Test();
 		TgaLoadingTest::Test();
 		PngLoadingTest::Test();
-        ConfigTest::Test();
+        
         ThreadTest::Test();
 		WorkerThreadTest::Test();
 
