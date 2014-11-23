@@ -33,6 +33,14 @@ void Test()
 {
 	TEST_START
 
+    // Trim Test
+    std::string testTrimFront("\t \n\rTestString\t");
+    Assert_Test(StringUtil::TrimFront(testTrimFront) == "TestString\t");
+    std::string testTrimEnd("\tTestString\r\t \n");
+    Assert_Test(StringUtil::TrimEnd(testTrimEnd) == "\tTestString");
+    std::string testTrim("\r\t \nTestString\r\t \n");
+    Assert_Test(StringUtil::Trim(testTrim) == "TestString");
+    // Explode Test
 	std::string explodeTest = "some string to explode";
 	const std::string explodedTest[] = { std::string("some"),
 										std::string("string"),
