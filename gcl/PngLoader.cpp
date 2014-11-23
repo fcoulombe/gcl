@@ -36,6 +36,8 @@ struct DataHandle
 	:data(in_data), size(in_size){}
     const png_byte* data;
     const png_size_t size;
+private:
+    DataHandle &operator=(const DataHandle &tmp);
 };
 
 struct ReadDataHandle
@@ -44,6 +46,8 @@ struct ReadDataHandle
 	: data(in_data), offset(in_offset){}
     const DataHandle data;
     png_size_t offset;
+private:
+    ReadDataHandle &operator=(const ReadDataHandle &tmp);
 };
 
 struct PngInfo
@@ -53,16 +57,17 @@ struct PngInfo
     const png_uint_32 width;
     const png_uint_32 height;
     const int color_type;
+private:
+    PngInfo &operator=(const PngInfo &tmp);
 };
 
-static void read_png_data_callback(
-    png_structp png_ptr, png_byte* png_data, png_size_t read_length);
+static void read_png_data_callback(png_structp png_ptr, png_byte* png_data, png_size_t read_length);
 static PngInfo read_and_update_info(const png_structp png_ptr, const png_infop info_ptr);
-static DataHandle read_entire_png_image(
-    const png_structp png_ptr, const png_infop info_ptr, const png_uint_32 height);
+static DataHandle read_entire_png_image(const png_structp png_ptr, const png_infop info_ptr, const png_uint_32 height);
 
 
-void get_raw_image_data_from_png(const void* png_data, const int png_data_size, PixelBuffer &textureData) {
+void get_raw_image_data_from_png(const void* png_data, const int png_data_size, PixelBuffer &textureData)
+{
     GCLAssert(png_data != NULL && png_data_size > 8);
     GCLAssert(png_check_sig((uint8_t*)png_data, 8));
 
@@ -113,8 +118,10 @@ void get_raw_image_data_from_png(const void* png_data, const int png_data_size, 
 	textureData.mBitsPerPixel = textureData.mBitDepth*textureData.mBytesPerPixel;
 }
 
-static void read_png_data_callback(
-    png_structp png_ptr, png_byte* raw_data, png_size_t read_length) {
+static void read_png_data_callback(png_structp png_ptr,
+                                   png_byte* raw_data,
+                                   png_size_t read_length) 
+{
     ReadDataHandle* handle = (ReadDataHandle*)png_get_io_ptr(png_ptr);
     const png_byte* png_src = handle->data.data + handle->offset;
 
@@ -168,7 +175,7 @@ static DataHandle read_entire_png_image(
     const png_uint_32 height)
 {
     const png_size_t row_size = png_get_rowbytes(png_ptr, info_ptr);
-    const int data_length = row_size * height;
+    const png_size_t data_length = row_size * height;
     GCLAssert(row_size > 0);
 
     png_byte* raw_image = new png_byte[data_length];
@@ -178,9 +185,10 @@ static DataHandle read_entire_png_image(
     png_byte* row_ptrs[4096];
 
 	//A little for-loop here to set all the row pointers to the starting
-	//Adresses for every row in the buffer
+	//addresses for every row in the buffer
     png_uint_32 i;
-    for (i = 0; i < height; i++) {
+    for (i = 0; i < height; i++)
+    {
         row_ptrs[i] = raw_image + (height - i -1) * row_size;
     }
 
@@ -196,7 +204,7 @@ void PixelBuffer::LoadPng(GCLFile &source, PixelBuffer &textureData)
 	size_t fileSize = source.GetFileSize();
 	uint8_t *data = new uint8_t[fileSize];
 	source.Read(data, fileSize);
-	get_raw_image_data_from_png(data, fileSize, textureData);
+	get_raw_image_data_from_png(data, (int)fileSize, textureData);
 }
 
 
