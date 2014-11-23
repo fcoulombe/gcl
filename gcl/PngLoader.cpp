@@ -66,7 +66,7 @@ static PngInfo read_and_update_info(const png_structp png_ptr, const png_infop i
 static DataHandle read_entire_png_image(const png_structp png_ptr, const png_infop info_ptr, const png_uint_32 height);
 
 
-void get_raw_image_data_from_png(const void* png_data, const int png_data_size, PixelBuffer &textureData)
+void get_raw_image_data_from_png(const void* png_data, const size_t png_data_size, PixelBuffer &textureData)
 {
     GCLAssert(png_data != NULL && png_data_size > 8);
     GCLAssert(png_check_sig((uint8_t*)png_data, 8));
@@ -201,10 +201,8 @@ static DataHandle read_entire_png_image(
 
 void PixelBuffer::LoadPng(GCLFile &source, PixelBuffer &textureData)
 {
-	size_t fileSize = source.GetFileSize();
-	uint8_t *data = new uint8_t[fileSize];
-	source.Read(data, fileSize);
-	get_raw_image_data_from_png(data, (int)fileSize, textureData);
+	auto fileContent = source.ReadAll();
+	get_raw_image_data_from_png(std::get<0>(fileContent).get(), std::get<1>(fileContent), textureData);
 }
 
 
