@@ -28,10 +28,9 @@ namespace GCL
     class BufferReader
     {
     public:
-        BufferReader(const char *filename)
+        BufferReader(IFile &file)
             : mCurrentOffset(0)
         {
-            GCLFile file(filename);
             auto buffer = file.ReadAll();
             mBuffer = std::move(std::get<0>(buffer));
             mBufferSize = std::get<1>(buffer);

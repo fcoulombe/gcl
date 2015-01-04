@@ -31,24 +31,24 @@
 
 using namespace GCL;
 
-AAssetManager* GCLFile::mAssetManager = nullptr;
+AAssetManager* ResourceFile::mAssetManager = nullptr;
 
-size_t GCLFile::GetCurrentReadPos() const
+size_t ResourceFile::GetCurrentReadPos() const
 {
 	GCLAssert("TBD");
 	return -1;
 }
 
-size_t GCLFile::GetFileSize() const
+size_t ResourceFile::GetFileSize() const
 {
 	return AAsset_getLength(mFp);
 }
-void GCLFile::Read(void *buffer, size_t count)
+void ResourceFile::Read(void *buffer, size_t count)
 {
 	int ret = AAsset_read(mFp,buffer,count);
 	GCLAssert(ret>0);
 }
-std::tuple<std::unique_ptr<uint8_t[]>, size_t> GCLFile::ReadAll()
+std::tuple<std::unique_ptr<uint8_t[]>, size_t> ResourceFile::ReadAll()
 {
 	size_t bufferSize = GetFileSize();
 	std::unique_ptr<uint8_t[]> buffer(new uint8_t[bufferSize]);
@@ -56,11 +56,11 @@ std::tuple<std::unique_ptr<uint8_t[]>, size_t> GCLFile::ReadAll()
 	GCLAssert(ret>0);
 	return std::make_tuple(std::move(buffer), bufferSize);
 }
-void GCLFile::Close()
+void ResourceFile::Close()
 {
 	AAsset_close(mFp);
 }
-void GCLFile::Open(const char *file )
+void ResourceFile::Open(const char *file, const char * /*mode*/ )
 {
 	mFp = AAssetManager_open(mAssetManager, file, AASSET_MODE_RANDOM);
 	std::string msg("trying to loads " );
@@ -70,7 +70,7 @@ void GCLFile::Open(const char *file )
 }
 
 
-bool GCLFile::Exists(const char *filename)
+bool ResourceFile::Exists(const char *filename)
 {
 	AAsset* fp = AAssetManager_open(mAssetManager, filename, AASSET_MODE_RANDOM);
 
@@ -81,11 +81,9 @@ bool GCLFile::Exists(const char *filename)
 	}
 	return false;
 }
-#ifdef OS_ANDROID
-	void GCLFile::RegisterAssetManager(AAssetManager* mgr)
-	{
-		mAssetManager = mgr;
-	}
-#endif
+void ResourceFile::RegisterAssetManager(AAssetManager* mgr)
+{
+	mAssetManager = mgr;
+}
 //============================================================================
 #endif

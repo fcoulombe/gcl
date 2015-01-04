@@ -26,6 +26,7 @@
 #include <string>
 
 #include "gcl/Assert.h"
+#include "gcl/File.h"
 #include "gcl/Memory.h"
 #include "gcl/Point2.h"
 #include "gcl/Point3.h"
@@ -87,11 +88,8 @@ public:
 
 	void WriteToFile(const std::string &filename)
 	{
-		std::fstream fp(filename.c_str(), std::ios::out|std::ios::binary);
-		GCLAssert(fp.good());
-		//std::cout << "should write: " << mCurrentOffset << std::endl;
-		fp.write((const char *)buffer, mCurrentOffset);
-		fp.close();
+		GCLFile outFile(filename.c_str(), "wb+");
+		outFile.Write(buffer, mCurrentOffset);
 	}
 	size_t GetCurrentOffset() const { return mCurrentOffset; }
 	uint8_t *GetBuffer() { return buffer; }

@@ -47,7 +47,7 @@ public:
 		for (size_t i=0; i<mResourcePaths.size(); ++i)
 		{
 			std::string fullPath = mResourcePaths[i] + "/" + filename;
-			if (GCLFile::Exists(fullPath.c_str()))
+			if (ResourceFile::Exists(fullPath.c_str()))
 				return fullPath;
 		}
 		return filename;

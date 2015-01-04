@@ -61,7 +61,7 @@ namespace GCL
       Config()
       {
           
-          if (GCLFile::Exists(CONFIG_PATH CONFIG_FILE_NAME))
+          if (ResourceFile::Exists(CONFIG_PATH CONFIG_FILE_NAME))
          {
              Parse(CONFIG_PATH CONFIG_FILE_NAME);
          }
@@ -75,7 +75,7 @@ namespace GCL
       {
           const std::string kIntType("int");
           const std::string kStringType("string");
-          GCLFile fp(configFile);
+          ResourceFile fp(configFile);
           auto buffer = fp.ReadAll();
           std::string fileContent((const char *)std::get<0>(buffer).get(), std::get<1>(buffer));
           std::vector<std::string> lines;

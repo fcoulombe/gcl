@@ -25,6 +25,7 @@
 #include <thread>
 #include <atomic>
 #include <map>
+#include <exception>
 namespace GCL
 {
 	template <typename T>

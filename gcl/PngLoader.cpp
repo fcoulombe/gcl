@@ -199,7 +199,7 @@ static DataHandle read_entire_png_image(
 
 
 
-void PixelBuffer::LoadPng(GCLFile &source, PixelBuffer &textureData)
+void PixelBuffer::LoadPng(IFile &source, PixelBuffer &textureData)
 {
 	auto fileContent = source.ReadAll();
 	get_raw_image_data_from_png(std::get<0>(fileContent).get(), std::get<1>(fileContent), textureData);

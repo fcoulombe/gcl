@@ -23,7 +23,7 @@
 
 #pragma once
 
-#include <fstream>
+#include <cstdio>
 #include <memory>
 
 //============================================================================
@@ -32,37 +32,99 @@ struct AAssetManager;
 namespace GCL
 {
 //============================================================================
-
-class GCLFile
+class IFile
 {
 public:
-	GCLFile(const std::string &file )
+	virtual ~IFile()
 	{
-		Open(file.c_str());
 	}
-	GCLFile(const char *file )
+	virtual size_t GetFileSize() const = 0;
+	virtual size_t GetCurrentReadPos() const = 0;
+	virtual std::tuple<std::unique_ptr<uint8_t[]>, size_t> ReadAll() = 0;
+	virtual void Read(void *buffer, size_t count) = 0;
+	virtual void Close() = 0;
+	virtual void Open(const char *file, const char *mode) = 0;
+
+};
+class GCLFile : public IFile
+{
+public:
+	GCLFile(const std::string &file, const char *mode = "rb")
+		: mFp(nullptr)
 	{
-		Open(file);
+		Open(file.c_str(), mode);
+	}
+	GCLFile(const char *file, const char *mode = "rb")
+		: mFp(nullptr)
+	{
+		Open(file, mode);
 	}
 
-	~GCLFile() {}
+	~GCLFile()
+	{
+		Close();
+	}
+	size_t GetFileSize() const;
+	size_t GetCurrentReadPos() const;
+	std::tuple<std::unique_ptr<uint8_t[]>, size_t> ReadAll();
+	void Read(void *buffer, size_t count);
+	void Write(void *buffer, size_t count);
+	void Close();
+	void Open(const char *file, const char *mode);
+	static bool Exists(const char *filename);
+	static bool Exists(const std::string &filename) { return Exists(filename.c_str()); }
+
+	static void SetDataPath(const char *dataPath);
+private:
+	FILE* mFp;
+	static std::string mDataPath;
+};
+
+class ResourceFile
+#ifdef OS_ANDROID
+		: public IFile
+#else
+		: public GCLFile
+#endif
+{
+public:
+
+	void Write(void *buffer, size_t count) =delete;
+#ifdef OS_ANDROID
+
+	ResourceFile(const std::string &file, const char *mode = "rb")
+	{
+		Open(file.c_str(), mode);
+	}
+	ResourceFile(const char *file, const char *mode = "rb")
+	{
+		Open(file, mode);
+	}
+	~ResourceFile() {}
 	size_t GetFileSize() const;
 	size_t GetCurrentReadPos() const;
 	std::tuple<std::unique_ptr<uint8_t[]>, size_t> ReadAll();
 	void Read(void *buffer, size_t count);
 	void Close();
-	void Open(const char *file );
+	void Open(const char *file, const char *mode);
+
+	static void RegisterAssetManager(AAssetManager* mgr);
 	static bool Exists(const char *filename);
 	static bool Exists(const std::string &filename) { return Exists(filename.c_str()); }
-#ifdef OS_ANDROID
-	static void RegisterAssetManager(AAssetManager* mgr);
+#else
+	ResourceFile(const std::string &file, const char *mode = "rb")
+	: GCLFile(file, mode)
+	{
+	}
+	ResourceFile(const char *file, const char *mode = "rb")
+	: GCLFile(file, mode)
+	{
+	}
 #endif
 private:
 #ifdef OS_ANDROID
 	AAsset* mFp;
 	static AAssetManager* mAssetManager;
-#else
-	std::fstream mFp;
 #endif
 };
 

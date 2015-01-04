@@ -21,61 +21,78 @@
  * THE SOFTWARE.
  */
 //============================================================================
-#ifndef OS_ANDROID
 #include "gcl/Assert.h"
 #include "gcl/File.h"
 
 //============================================================================
 
 using namespace GCL;
+std::string GCLFile::mDataPath;
+void GCLFile::SetDataPath(const char *dataPath)
+{
+	mDataPath = dataPath;
+	mDataPath += "/";
+}
 
 size_t GCLFile::GetCurrentReadPos() const
 {
-	std::streampos pos = ((std::istream&)mFp).tellg() ;
-	return (size_t)pos;
+	return ftell(mFp);
 }
 
 size_t GCLFile::GetFileSize() const
 {
-	((std::istream&)mFp).seekg(0, std::ios::end);
-	std::streampos pos = ((std::istream&)mFp).tellg() ;
-    ((std::istream&)mFp).seekg(0, std::ios::beg);
-	return (size_t)pos;
+	fseek(mFp , 0 , SEEK_END);
+	size_t size = ftell(mFp);
+	rewind(mFp);
+	return size;
 }
 void GCLFile::Read(void *buffer, size_t count)
 {
-	mFp.read((char*)buffer, count);
+	size_t ret = fread((char*)buffer, 1, count, mFp);
+	GCLAssert(ret == count);
+}
+
+void GCLFile::Write(void *buffer, size_t count)
+{
+	size_t ret = fwrite((char*)buffer, 1, count, mFp);
+	GCLAssert(ret == count);
 }
 std::tuple<std::unique_ptr<uint8_t[]>, size_t> GCLFile::ReadAll()
 {
 	size_t bufferSize = GetFileSize();
 	std::unique_ptr<uint8_t[]> buffer(new uint8_t[bufferSize]);
-	mFp.read((char*)buffer.get(), bufferSize);
+	size_t ret = fread((char*)buffer.get(), 1, bufferSize, mFp);
+	GCLAssert(ret == bufferSize);
 	return std::make_tuple(std::move(buffer), bufferSize);
 }
 void GCLFile::Close()
 {
-	mFp.close();
+	if (mFp)
+	{
+		fclose(mFp);
+		mFp = nullptr;
+	}
 }
-void GCLFile::Open(const char *file )
+void GCLFile::Open(const char *file, const char *mode )
 {
-	mFp.open(file, std::ios::in|std::ios::binary);
+	std::string fullFileName = mDataPath + file;
+	mFp = fopen(fullFileName.c_str(), mode);
 	std::string msg("trying to loads " );
 	msg += file;
 	msg += "\n";
-	GCLAssertMsg(mFp.is_open() && mFp.good(), msg.c_str());
+	GCLAssertMsg(mFp != nullptr, msg.c_str());
 }
 
 
 bool GCLFile::Exists(const char *filename)
 {
-	std::fstream fp(filename);
-	if (fp.good())
+	std::string fullFileName = mDataPath + filename;
+	FILE* fp = fopen(fullFileName.c_str(), "r");
+	if (fp != nullptr)
 	{
-		fp.close();
+		fclose(fp);
 		return true;
 	}
 	return false;
 }
 //============================================================================
-#endif

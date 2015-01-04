@@ -33,7 +33,7 @@
 
 using namespace GCL;
 
-void PixelBuffer::LoadTga(GCLFile &fp, PixelBuffer &data)
+void PixelBuffer::LoadTga(IFile &fp, PixelBuffer &data)
 {
 	TGAHeader header ;
 	memset(&header, 0, sizeof(header));

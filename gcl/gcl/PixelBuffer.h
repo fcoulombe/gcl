@@ -65,12 +65,12 @@ public:
 		const std::string ext = Path::GetFileNameExtension(filename);
 		if (ext == "tga")
 		{
-			GCLFile fp(filename.c_str());
+			ResourceFile fp(filename.c_str());
 			PixelBuffer::LoadTga(fp, *this);
 		}
 		else if (ext == "png")
 		{
-			GCLFile fp(filename.c_str());
+			ResourceFile fp(filename.c_str());
 			PixelBuffer::LoadPng(fp, *this);
 		}
 		else if (ext == "raw")
@@ -183,8 +183,8 @@ public:
 			size_t width, size_t height,
 			size_t bytePerPixel,
 			const uint8_t *data );
-	static void LoadPng(GCLFile &is, PixelBuffer &data);
-	static void LoadTga(GCLFile &is, PixelBuffer &data);
+	static void LoadPng(IFile &is, PixelBuffer &data);
+	static void LoadTga(IFile &is, PixelBuffer &data);
 	static void LoadRaw(std::istream &is, PixelBuffer &data);
 
 	static void Unload(PixelBuffer &data);

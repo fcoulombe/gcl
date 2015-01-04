@@ -110,7 +110,7 @@ void Test()
 
 
 		buffer.WriteToFile("testData.dat");
-		GCLFile fp("testData.dat");
+		ResourceFile fp("testData.dat");
 		Assert_Test(fp.GetFileSize());
 	}
 	//test padding
@@ -175,7 +175,8 @@ void Test()
 
         outBuffer.WriteToFile("TestBuffer.buffer");
 
-        BufferReader inBuffer("TestBuffer.buffer");
+        GCLFile inFile("TestBuffer.buffer");
+        BufferReader inBuffer(inFile);
         size_t inSize;
         inBuffer.Read(inSize);
         Assert_Test(inSize == size);

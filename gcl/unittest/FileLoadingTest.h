@@ -33,10 +33,10 @@ void Test()
 {
 	TEST_START
 
-	Assert_Test(GCLFile::Exists(TEXTURE_PATH"mushroomtga.tga"));
+	Assert_Test(ResourceFile::Exists(TEXTURE_PATH"mushroomtga.tga"));
 
 	{
-	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
+		ResourceFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
 	Assert_Test(fp.GetCurrentReadPos() == 0);
 	uint8_t *buffer = new uint8_t[fp.GetFileSize()];
@@ -46,7 +46,7 @@ void Test()
 	fp.Close();
 	}
 	{
-	GCLFile fp(TEXTURE_PATH"mushroomtga.tga");
+		ResourceFile fp(TEXTURE_PATH"mushroomtga.tga");
 	Assert_Test(fp.GetFileSize()==1048620);
 	Assert_Test(fp.GetCurrentReadPos() == 0);
 	auto buffer = fp.ReadAll();
