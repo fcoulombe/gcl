@@ -28,6 +28,7 @@
 #include <gcl/AABox.h>
 #include <gcl/Assert.h>
 #include <gcl/Circle.h>
+#include <gcl/BufferWriter.h>
 #include <gcl/Complex.h>
 #include <gcl/Config.h>
 #include <gcl/Curve.h>
@@ -59,6 +60,7 @@
 
 #include "AABoxTest.h"
 #include "AssertTest.h"
+#include "BufferTest.h"
 #include "ConfigTest.h"
 #include "CurveTest.h"
 #include "ExceptionTest.h"
@@ -115,6 +117,7 @@ int main(int argc, char **argv)
 
 		FileLoadingTest::Test();
         ConfigTest::Test();
+        BufferTest::Test();
 		ResourceTest::Test();
 		ResourceCacheTest::Test();
 		PixelTest::Test();
@@ -125,6 +128,7 @@ int main(int argc, char **argv)
         
         ThreadTest::Test();
 		WorkerThreadTest::Test();
+		
 
 		SUITE_TERMINATE
 	return 0;
