@@ -43,5 +43,8 @@ void Test()
 	Assert_Test(tempConfig.HasString("TEST_BROKEN_STRING"));
 	const std::string &tempString2 =tempConfig.GetString("TEST_BROKEN_STRING"); 
 	Assert_Test(tempString2=="Test String");
+
+	Assert_Test(tempConfig.GetBool("TEST_TRUE_BOOL")==true);
+	Assert_Test(tempConfig.GetBool("TEST_FALSE_BOOL")==false);
 }
 }

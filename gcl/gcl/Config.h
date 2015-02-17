@@ -45,6 +45,12 @@ namespace GCL
         static Config conf;
         return conf;
     }
+	bool HasBool(const std::string &key) const { return mBoolConfig.find(key) != mBoolConfig.end(); }
+    int GetBool(const std::string &key)
+    {
+        GCLAssertMsg(HasBool(key), key.c_str());
+        return mBoolConfig[key];
+    }
 	bool HasInt(const std::string &key) const { return mIntConfig.find(key) != mIntConfig.end(); }
     int GetInt(const std::string &key) 
     {
@@ -75,6 +81,7 @@ namespace GCL
       {
           const std::string kIntType("int");
           const std::string kStringType("string");
+          const std::string kBoolType("bool");
           ResourceFile fp(configFile);
           auto buffer = fp.ReadAll();
           std::string fileContent((const char *)std::get<0>(buffer).get(), std::get<1>(buffer));
@@ -102,8 +109,14 @@ namespace GCL
 			  {
 				  mStringConfig[skey]  = sval;
 			  }
+              else if (sdataType == kBoolType)
+			  {
+				  mBoolConfig[skey]  = (sval == std::string("1")) ? true : false;
+				  GCLAssert(sval == std::string("1") || sval == std::string("0"));
+			  }
           }
       }
+      std::map<std::string, bool> mBoolConfig;
       std::map<std::string, int> mIntConfig;
       std::map<std::string, std::string> mStringConfig;
   };
