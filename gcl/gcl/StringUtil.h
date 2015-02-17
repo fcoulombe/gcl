@@ -58,6 +58,35 @@ public:
     {
         return TrimFront(TrimEnd(s));
     }
+
+
+	template<typename... Args>
+	static std::string FormatText(const std::string &fmt, Args&&... args)
+	{
+		return FormatText(fmt.c_str(), std::forward<Args>(args)...);
+	}
+	template<typename... Args>
+	static std::string FormatText(const char * const fmt, Args&&... args)
+	{
+		const int BUFFER_SIZE = 4096;
+		std::vector<char> buff(BUFFER_SIZE+1);
+		int l = snprintf(&buff[0], BUFFER_SIZE, fmt, std::forward<Args>(args)...);
+		int len = std::min(l, BUFFER_SIZE);
+		std::string buffer(buff.begin(), buff.begin()+len);
+		buffer[len] = '\0';
+		return buffer;
+	}
+
+	static std::string FormatText(const char * const fmt)
+	{
+		const int BUFFER_SIZE = 4096;
+		std::vector<char> buff(BUFFER_SIZE+1);
+		int l = snprintf(&buff[0], BUFFER_SIZE, "%s", fmt);
+		int len = std::min(l, BUFFER_SIZE);
+		std::string buffer(buff.begin(), buff.begin()+len);
+		buffer[len] = '\0';
+		return buffer;
+	}
 };
 
 //============================================================================

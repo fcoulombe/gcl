@@ -59,5 +59,23 @@ void Test()
 
 		AssertMsg_Test(res[i] ==  explodedTest[i], s2.str().c_str());
 	}
+
+	{
+	static const std::string kTestFormattedString("Some int: 10 SomeReal: 3.00");
+	const std::string formatedString = StringUtil::FormatText("Some int: %d SomeReal: %.2f", 10, 3.00);
+	s.str("");
+	s << kTestFormattedString.length() << "==" << formatedString.length();
+	AssertMsg_Test(kTestFormattedString.length() == formatedString.length(), s.str().c_str());
+	AssertMsg_Test(kTestFormattedString == formatedString, (kTestFormattedString + "==\n" + formatedString).c_str());
+	}
+	{
+	static const std::string kTestFormattedString("Some int: 10 SomeReal: 3.00");
+		const std::string formatedString = StringUtil::FormatText("Some int: 10 SomeReal: 3.00");
+		s.str("");
+		s << kTestFormattedString.length() << "==" << formatedString.length();
+		AssertMsg_Test(kTestFormattedString.length() == formatedString.length(), s.str().c_str());
+		AssertMsg_Test(kTestFormattedString == formatedString, (kTestFormattedString + "==\n" + formatedString).c_str());
+	}
+
 }
 }
