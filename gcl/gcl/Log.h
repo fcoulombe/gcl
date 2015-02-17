@@ -20,77 +20,61 @@
  * THE SOFTWARE.
  */
 #pragma once
+#include <3rdparty/spdlog.h>
+#include <gcl/StringUtil.h>
 
-#ifdef OS_ANDROID
-#	include <android/log.h>
-#	define KLog(...) KLogI(__VA_ARGS__)
+namespace GCL
+{
+class KLogger
+{
+public:
+    KLogger()
+{
+        mConsole = spdlog::stdout_logger_mt("kinevox");
+}
+    std::shared_ptr<spdlog::logger> operator()()
+    {
+        return mConsole;
+    }
+private:
+    std::shared_ptr<spdlog::logger> mConsole;
 
-#	define KLogW(...)\
-	((void)__android_log_print(ANDROID_LOG_WARN, "kinevox", "Warning: " __VA_ARGS__))
+};
+}
+extern GCL::KLogger g_Klogger;
+#define KLog(...)\
+        do{\
+            KLogI(__VA_ARGS__);\
+        }while(false)\
 
-#	define KLogV(...)\
-	((void)__android_log_print(ANDROID_LOG_VERBOSE, "kinevox","Verbose: "  __VA_ARGS__))
+#define KLogW(...)\
+        do{\
+            g_Klogger()->warn(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
-#	define KLogD(...)\
-	((void)__android_log_print(ANDROID_LOG_DEBUG, "kinevox", "Debug: " __VA_ARGS__))
+#define KLogV(...)\
+        do{\
+            g_Klogger()->trace(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
-#	define KLogE(...)\
-	((void)__android_log_print(ANDROID_LOG_ERROR, "kinevox", "Error: " __VA_ARGS__))
+#define KLogD(...)\
+        do{\
+            g_Klogger()->debug(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
-#	define KLogF(...)\
-	((void)__android_log_print(ANDROID_LOG_FATAL, "kinevox", "Fatal: " __VA_ARGS__))
+#define KLogE(...)\
+        do{\
+            g_Klogger()->error(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
-#	define KLogI(...)\
-	((void)__android_log_print(ANDROID_LOG_INFO, "kinevox", "Info: " __VA_ARGS__))
+#define KLogF(...)\
+        do{\
+            g_Klogger()->critical(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
+#define KLogI(...)\
+        do{\
+            g_Klogger()->info(StringUtil::FormatText(__VA_ARGS__));\
+        }while(false)\
 
-#else
-#	define KLog(...)\
-	do{\
-	KLogI(__VA_ARGS__);\
-	}while(false)\
-
-#	define KLogW(...)\
-	do{\
-	printf("Warning: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#	define KLogV(...)\
-	do{\
-	printf("Verbose: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#	define KLogD(...)\
-	do{\
-	printf("Debug: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#	define KLogE(...)\
-	do{\
-	printf("Error: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#	define KLogF(...)\
-	do{\
-	printf("Fatal: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#	define KLogI(...)\
-	do{\
-	printf("Info: ");\
-	printf(__VA_ARGS__);\
-	printf("\n");\
-	}while(false)\
-
-#endif
 

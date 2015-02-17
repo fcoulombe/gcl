@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 by Francois Coulombe
+ * Copyright (C) 2015 by Francois Coulombe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,26 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#pragma once
+//============================================================================
+#include "gcl/Log.h"
 
-#include <gcl/UnitTest.h>
-#include <gcl/Log.h>
+//============================================================================
 
 using namespace GCL;
-namespace LogTest
-{
-void Test();
-void Test()
-{
-	TEST_START
-	KLog("Some stuff");
-	int var = 2;
-	KLog("Some stuff %d", var);
-	KLogI("info log");
-	KLogV("Verbose log");
-	KLogD("Debug log");
-	KLogW("Warning log");
-	KLogE("error log");
-	KLogF("fatal log");
-}
-}
+
+KLogger g_Klogger;
