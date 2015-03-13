@@ -88,8 +88,6 @@ class ResourceFile
 #endif
 {
 public:
-
-	void Write(void *buffer, size_t count) =delete;
 #ifdef OS_ANDROID
 
 	ResourceFile(const std::string &file, const char *mode = "rb")
@@ -122,6 +120,7 @@ public:
 	}
 #endif
 private:
+    void Write(void *buffer, size_t count);
 #ifdef OS_ANDROID
 	AAsset* mFp;
 	static AAssetManager* mAssetManager;

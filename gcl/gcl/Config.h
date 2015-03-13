@@ -46,22 +46,22 @@ namespace GCL
         return conf;
     }
 	bool HasBool(const std::string &key) const { return mBoolConfig.find(key) != mBoolConfig.end(); }
-    int GetBool(const std::string &key)
+    bool GetBool(const std::string &key) const
     {
         GCLAssertMsg(HasBool(key), key.c_str());
-        return mBoolConfig[key];
+        return mBoolConfig.at(key);
     }
 	bool HasInt(const std::string &key) const { return mIntConfig.find(key) != mIntConfig.end(); }
-    int GetInt(const std::string &key) 
+	int GetInt(const std::string &key) const
     {
-        GCLAssertMsg(mIntConfig.find(key) != mIntConfig.end(), key.c_str());
-        return mIntConfig[key];
+        GCLAssertMsg(HasInt(key), key.c_str());
+        return mIntConfig.at(key);
     }
 	bool HasString(const std::string &key) const { return mStringConfig.find(key) != mStringConfig.end(); }
-    const std::string &GetString(const std::string &key) 
+	const std::string &GetString(const std::string &key) const
     {
-        GCLAssertMsg(mStringConfig.find(key) != mStringConfig.end(), key.c_str());
-        return mStringConfig[key];
+        GCLAssertMsg(HasString(key), key.c_str());
+        return mStringConfig.at(key);
     }
   private:
       Config()
